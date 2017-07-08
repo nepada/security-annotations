@@ -1,0 +1,10 @@
+services:
+    barValidator: NepadaTests\Bridges\SecurityAnnotationsDI\BarValidator
+
+securityAnnotations:
+    validators:
+        LoggedIn: false
+        Role: false
+        Allowed: false
+        Foo: NepadaTests\Bridges\SecurityAnnotationsDI\FooValidator
+        Bar: @barValidator

@@ -1,0 +1,5 @@
+extensions:
+    securityAnnotations: Nepada\Bridges\SecurityAnnotationsDI\SecurityAnnotationsExtension
+
+application:
+    scanDirs: false
