@@ -1,0 +1,64 @@
+{
+    "name": "nepada/security-annotations",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "description": "Security annotations for Nette presenters and components.",
+    "keywords": ["security", "annotations", "nette"],
+    "support": {
+        "email": "petr@pada.cz",
+        "issues": "https://github.com/nepada/security-annotations/issues"
+    },
+    "authors": [
+        {
+            "name": "Petr Morávek",
+            "email": "petr@pada.cz"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0",
+        "nette/utils": "^2.4@dev",
+        "nette/component-model": "^2.3@dev",
+        "nette/reflection": "^2.4@dev",
+        "nette/application": "^2.4@dev",
+        "nette/security": "^2.4@dev"
+    },
+    "require-dev": {
+        "nette/tester": "^1.7",
+        "jakub-onderka/php-parallel-lint": "^0.9",
+        "nepada/coding-standard": "^4.0.0",
+        "phpstan/phpstan": "^0.7",
+        "phpstan/phpstan-nette": "^0.7",
+        "mockery/mockery": "^1.0@alpha",
+        "nette/bootstrap": "^2.4@dev",
+        "nette/di": "^2.4@dev",
+
+        "nette/neon": "^2.4@dev",
+        "nette/php-generator": "^2.4@dev",
+        "nette/caching": "^2.5@dev",
+        "nette/finder": "^2.4@dev",
+        "nette/http": "^2.4@dev",
+        "tracy/tracy": "^2.4@dev"
+    },
+    "suggest": {
+        "nette/di": "for integration with Nette DI container"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nepada\\Bridges\\": "src/Bridges/",
+            "Nepada\\SecurityAnnotations\\": "src/SecurityAnnotations/"
+        },
+        "classmap": [
+            "src/SecurityAnnotations/exceptions.php"
+        ]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
