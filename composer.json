@@ -28,6 +28,7 @@
         "nepada/coding-standard": "^4.0.0",
         "phpstan/phpstan": "^0.7",
         "phpstan/phpstan-nette": "^0.7",
+        "nikic/php-parser": ">=3.0.0",
         "mockery/mockery": "^1.0@alpha",
         "nette/bootstrap": "^2.4@dev",
         "nette/di": "^2.4@dev",
