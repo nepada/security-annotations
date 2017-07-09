@@ -16,7 +16,7 @@
     ],
     "require": {
         "php": ">=7.1.0",
-        "nette/utils": "^2.4@dev",
+        "nette/utils": "^2.4.2@dev",
         "nette/component-model": "^2.3@dev",
         "nette/reflection": "^2.4@dev",
         "nette/application": "^2.4@dev",
