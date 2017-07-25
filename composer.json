@@ -26,8 +26,8 @@
         "nette/tester": "^1.7",
         "jakub-onderka/php-parallel-lint": "^0.9",
         "nepada/coding-standard": "^4.0.0",
-        "phpstan/phpstan": "^0.7",
-        "phpstan/phpstan-nette": "^0.7",
+        "phpstan/phpstan": "^0.8",
+        "phpstan/phpstan-nette": "^0.8",
         "mockery/mockery": "^1.0@alpha",
         "nette/bootstrap": "^2.4@dev || ^3.0@dev",
         "nette/di": "^2.4@dev || ^3.0@dev",
@@ -38,9 +38,6 @@
         "nette/finder": "^2.4@dev || ^3.0@dev",
         "nette/http": "^2.4@dev || ^3.0@dev",
         "tracy/tracy": "^2.4@dev || ^3.0@dev"
-    },
-    "conflict": {
-        "nikic/php-parser": "<3.0.0"
     },
     "suggest": {
         "nette/di": "for integration with Nette DI container"
