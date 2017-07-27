@@ -20,8 +20,15 @@ jobs:
                 - cd "$TRAVIS_BUILD_DIR"
             script:
                 - /tmp/coding-standard/vendor/bin/phpcs --standard=/tmp/coding-standard/vendor/nepada/coding-standard/src/Nepada/ruleset.xml --encoding=utf-8 -sp src tests
+        -   stage: Code Coverage
+            script:
+                - vendor/bin/tester -p phpdbg tests -s --coverage ./coverage.xml --coverage-src ./src
+            after_script:
+                - travis_retry wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar
+                - php coveralls.phar --verbose --config tests/coveralls.yml
     allow_failures:
-        - php: 7.2
+        -   php: 7.2
+        -   stage: Code Coverage
 
 install:
     - travis_retry composer create-project --no-interaction jakub-onderka/php-parallel-lint /tmp/php-parallel-lint ^0.9
