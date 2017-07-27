@@ -12,11 +12,8 @@ matrix:
     allow_failures:
         - php: 7.2
 
-before_install:
-    - composer self-update
-
 install:
-    - composer update --no-interaction --prefer-dist $COMPOSER_ARGS
+    - travis_retry composer update --no-interaction --prefer-dist $COMPOSER_ARGS
 
 script:
     - vendor/bin/parallel-lint -e php,phpt --exclude tests/temp src tests
