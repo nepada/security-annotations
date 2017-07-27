@@ -8,18 +8,30 @@ env:
     - COMPOSER_ARGS="--prefer-stable"
     - COMPOSER_ARGS="--prefer-stable --prefer-lowest"
 
-matrix:
+jobs:
+    include:
+        -   stage: Code Standard Checker
+            php: 7.1
+            install:
+                - mkdir -p /tmp/coding-standard
+                - cd /tmp/coding-standard
+                - composer init
+                - travis_retry composer require --no-interaction --prefer-dist --update-no-dev nepada/coding-standard ^4.0.0
+                - cd "$TRAVIS_BUILD_DIR"
+            script:
+                - /tmp/coding-standard/vendor/bin/phpcs --standard=/tmp/coding-standard/vendor/nepada/coding-standard/src/Nepada/ruleset.xml --encoding=utf-8 -sp src tests
     allow_failures:
         - php: 7.2
 
 install:
+    - travis_retry composer create-project --no-interaction jakub-onderka/php-parallel-lint /tmp/php-parallel-lint ^0.9
+    - travis_retry composer create-project --no-interaction phpstan/phpstan-shim /tmp/phpstan ^0.7
     - travis_retry composer update --no-interaction --prefer-dist $COMPOSER_ARGS
 
 script:
-    - vendor/bin/parallel-lint -e php,phpt --exclude tests/temp src tests
-    - vendor/bin/phpcs --standard=vendor/nepada/coding-standard/src/Nepada/ruleset.xml --encoding=utf-8 -sp src tests
-    - vendor/bin/phpstan analyse -c tests/phpstan.neon -l 7 src tests
+    - /tmp/php-parallel-lint/parallel-lint -e php,phpt --exclude tests/temp src tests
     - vendor/bin/tester -s -p php -c tests/php.ini tests
+    - /tmp/phpstan/phpstan.phar analyse -c tests/phpstan.neon -l 7 src tests
 
 after_failure:
     - for i in $(find tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done

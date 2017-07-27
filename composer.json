@@ -24,10 +24,6 @@
     },
     "require-dev": {
         "nette/tester": "^1.7",
-        "jakub-onderka/php-parallel-lint": "^0.9",
-        "nepada/coding-standard": "^4.0.0",
-        "phpstan/phpstan": "^0.8",
-        "phpstan/phpstan-nette": "^0.8",
         "mockery/mockery": "^1.0@alpha",
         "nette/bootstrap": "^2.4@dev || ^3.0@dev",
         "nette/di": "^2.4@dev || ^3.0@dev",
