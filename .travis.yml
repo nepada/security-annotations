@@ -4,14 +4,11 @@ php:
     - 7.2
 
 env:
-    matrix:
-        - dependencies=""
-        - dependencies="--prefer-stable"
+    - COMPOSER_ARGS=""
+    - COMPOSER_ARGS="--prefer-stable"
+    - COMPOSER_ARGS="--prefer-stable --prefer-lowest"
 
 matrix:
-    include:
-        - php: 7.1
-          env: dependencies="--prefer-lowest --prefer-stable"
     allow_failures:
         - php: 7.2
 
@@ -19,7 +16,7 @@ before_install:
     - composer self-update
 
 install:
-    - composer update --no-interaction --prefer-dist $dependencies
+    - composer update --no-interaction --prefer-dist $COMPOSER_ARGS
 
 script:
     - vendor/bin/parallel-lint -e php,phpt --exclude tests/temp src tests
