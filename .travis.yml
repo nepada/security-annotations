@@ -14,10 +14,8 @@ jobs:
             php: 7.1
             install:
                 - mkdir -p /tmp/coding-standard
-                - cd /tmp/coding-standard
-                - composer init
-                - travis_retry composer require --no-interaction --prefer-dist --update-no-dev nepada/coding-standard ^4.0.0
-                - cd "$TRAVIS_BUILD_DIR"
+                - composer --working-dir=/tmp/coding-standard init
+                - travis_retry composer --working-dir=/tmp/coding-standard require --no-interaction --prefer-dist --update-no-dev nepada/coding-standard ^4.0.0
             script:
                 - /tmp/coding-standard/vendor/bin/phpcs --standard=/tmp/coding-standard/vendor/nepada/coding-standard/src/Nepada/ruleset.xml --encoding=utf-8 -sp src tests
         -   stage: Code Coverage
