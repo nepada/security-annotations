@@ -36,7 +36,7 @@ trait TSecurityAnnotations
         }
 
         $presenter = $this->getPresenter();
-        \assert($presenter instanceof Nette\Application\UI\Presenter); // workaround for PHPStan false positive detection of possible null value
+        assert($presenter instanceof Nette\Application\UI\Presenter); // workaround for PHPStan false positive detection of possible null value
 
         return $presenter->getContext()->getByType(RequirementsChecker::class);
     }
