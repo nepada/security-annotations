@@ -25,6 +25,9 @@ use Tester\Assert;
 require_once __DIR__ . '/../../bootstrap.php';
 
 
+/**
+ * @testCase
+ */
 class RoleValidatorTest extends TestCase
 {
 
