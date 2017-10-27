@@ -185,4 +185,4 @@ class RoleValidatorTest extends TestCase
 }
 
 
-\run(new RoleValidatorTest());
+(new RoleValidatorTest())->run();

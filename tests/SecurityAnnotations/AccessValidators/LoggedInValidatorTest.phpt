@@ -128,4 +128,4 @@ class LoggedInValidatorTest extends TestCase
 }
 
 
-\run(new LoggedInValidatorTest());
+(new LoggedInValidatorTest())->run();

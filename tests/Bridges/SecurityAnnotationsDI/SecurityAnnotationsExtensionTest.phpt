@@ -101,4 +101,4 @@ class SecurityAnnotationsExtensionTest extends TestCase
 }
 
 
-\run(new SecurityAnnotationsExtensionTest());
+(new SecurityAnnotationsExtensionTest())->run();

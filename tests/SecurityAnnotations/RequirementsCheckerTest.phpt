@@ -82,4 +82,4 @@ class RequirementsCheckerTest extends TestCase
 }
 
 
-\run(new RequirementsCheckerTest());
+(new RequirementsCheckerTest())->run();

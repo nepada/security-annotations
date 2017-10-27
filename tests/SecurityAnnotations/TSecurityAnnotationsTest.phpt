@@ -58,4 +58,4 @@ class TSecurityAnnotationsTest extends TestCase
 }
 
 
-\run(new TSecurityAnnotationsTest());
+(new TSecurityAnnotationsTest())->run();

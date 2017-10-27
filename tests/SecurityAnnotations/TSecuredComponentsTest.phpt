@@ -50,4 +50,4 @@ class TSecuredComponentsTest extends TestCase
 }
 
 
-\run(new TSecuredComponentsTest());
+(new TSecuredComponentsTest())->run();

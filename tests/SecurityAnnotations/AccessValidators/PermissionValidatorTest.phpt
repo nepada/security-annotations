@@ -189,4 +189,4 @@ class PermissionValidatorTest extends TestCase
 }
 
 
-\run(new PermissionValidatorTest());
+(new PermissionValidatorTest())->run();
