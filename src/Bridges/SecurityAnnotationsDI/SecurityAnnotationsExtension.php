@@ -31,10 +31,7 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
     ];
 
 
-    /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
-     */
-    public function loadConfiguration()
+    public function loadConfiguration(): void
     {
         $container = $this->getContainerBuilder();
         $config = $this->validateConfig($this->defaults);
