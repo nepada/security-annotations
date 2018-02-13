@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace NepadaTests\SecurityAnnotations;
 
 use Mockery;
-use Nepada;
 use Nepada\SecurityAnnotations;
 use NepadaTests\TestCase;
 use Nette;

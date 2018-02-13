@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace NepadaTests\Bridges\SecurityAnnotationsDI;
 
-use Nepada;
 use Nepada\SecurityAnnotations;
 use NepadaTests\TestCase;
 use Nette;
@@ -25,7 +24,7 @@ class SecurityAnnotationsExtensionTest extends TestCase
 
     public function setUp(): void
     {
-        $this->configurator = new Nette\Configurator;
+        $this->configurator = new Nette\Configurator();
         $this->configurator->setTempDirectory(TEMP_DIR);
         $this->configurator->setDebugMode(true);
         $this->configurator->addConfig(__DIR__ . '/fixtures/config.neon');
