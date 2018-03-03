@@ -23,9 +23,27 @@ class RequirementsCheckerTest extends TestCase
         $requirementsChecker = new SecurityAnnotations\RequirementsChecker();
         $requirementsChecker->addAccessValidator('duplicate', Mockery::mock(IAccessValidator::class));
 
-        Assert::exception(function () use ($requirementsChecker): void {
-            $requirementsChecker->addAccessValidator('duplicate', Mockery::mock(IAccessValidator::class));
-        }, SecurityAnnotations\InvalidStateException::class, 'Access validator for annotation \'duplicate\' is already registered.');
+        Assert::exception(
+            function () use ($requirementsChecker): void {
+                $requirementsChecker->addAccessValidator('duplicate', Mockery::mock(IAccessValidator::class));
+            },
+            SecurityAnnotations\InvalidStateException::class,
+            'Access validator for annotation "duplicate" is already registered.'
+        );
+    }
+
+    public function testAddCaseInsensitiveDuplicateAccessValidator(): void
+    {
+        $requirementsChecker = new SecurityAnnotations\RequirementsChecker();
+        $requirementsChecker->addAccessValidator('duplicate', Mockery::mock(IAccessValidator::class));
+
+        Assert::exception(
+            function () use ($requirementsChecker): void {
+                $requirementsChecker->addAccessValidator('DUPLICATE', Mockery::mock(IAccessValidator::class));
+            },
+            SecurityAnnotations\InvalidStateException::class,
+            'Access validator for annotation "DUPLICATE" is case insensitive match for already registered access validator "duplicate".'
+        );
     }
 
     public function testProtectElement(): void
@@ -54,6 +72,30 @@ class RequirementsCheckerTest extends TestCase
         Assert::noError(function () use ($requirementsChecker): void {
             $requirementsChecker->protectElement(new \ReflectionClass(TestAnnotationsPresenter::class));
         });
+    }
+
+    public function testProtectElementWithCaseMismatch(): void
+    {
+        $expectArrayAnnotation = function (array $expected): callable {
+            return function ($annotation) use ($expected): bool {
+                return $this->matchArray($expected, $annotation);
+            };
+        };
+
+        $requirementsChecker = new SecurityAnnotations\RequirementsChecker();
+
+        $roleValidator = Mockery::mock(IAccessValidator::class);
+        $roleValidator->shouldReceive('validateAccess')->withArgs($expectArrayAnnotation(['a', 'b', 'c']))->once();
+        $roleValidator->shouldReceive('validateAccess')->withArgs(['d'])->once();
+        $requirementsChecker->addAccessValidator('ROLE', $roleValidator);
+
+        Assert::error(
+            function () use ($requirementsChecker): void {
+                $requirementsChecker->protectElement(new \ReflectionClass(TestAnnotationsPresenter::class));
+            },
+            E_USER_WARNING,
+            'Case mismatch in security annotation name "role", correct name is "ROLE".'
+        );
     }
 
     /**

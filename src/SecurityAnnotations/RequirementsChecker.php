@@ -6,7 +6,7 @@ namespace Nepada\SecurityAnnotations;
 use Nepada\SecurityAnnotations\AccessValidators\IAccessValidator;
 use Nette;
 use Nette\Reflection\AnnotationsParser;
-use Nette\Utils\Arrays;
+use Nette\Utils\Strings;
 
 class RequirementsChecker
 {
@@ -16,18 +16,32 @@ class RequirementsChecker
     /** @var IAccessValidator[] */
     private $accessValidators = [];
 
+    /** @var string[] */
+    private $annotationNames = [];
+
     /**
-     * @param string $annotation
+     * @param string $annotationName
      * @param IAccessValidator $accessValidator
      * @throws InvalidStateException
      */
-    public function addAccessValidator(string $annotation, IAccessValidator $accessValidator): void
+    public function addAccessValidator(string $annotationName, IAccessValidator $accessValidator): void
     {
-        if (isset($this->accessValidators[$annotation])) {
-            throw new InvalidStateException("Access validator for annotation '$annotation' is already registered.");
+        if (isset($this->accessValidators[$annotationName])) {
+            throw new InvalidStateException("Access validator for annotation \"$annotationName\" is already registered.");
         }
 
-        $this->accessValidators[$annotation] = $accessValidator;
+        $lowerCaseAnnotationName = Strings::lower($annotationName);
+        if (isset($this->annotationNames[$lowerCaseAnnotationName])) {
+            $errorMessage = sprintf(
+                'Access validator for annotation "%s" is case insensitive match for already registered access validator "%s".',
+                $annotationName,
+                $this->annotationNames[$lowerCaseAnnotationName]
+            );
+            throw new InvalidStateException($errorMessage);
+        }
+
+        $this->annotationNames[$lowerCaseAnnotationName] = $annotationName;
+        $this->accessValidators[$annotationName] = $accessValidator;
     }
 
     /**
@@ -36,11 +50,25 @@ class RequirementsChecker
      */
     public function protectElement(\Reflector $element): void
     {
-        $annotations = AnnotationsParser::getAll($element);
+        foreach (AnnotationsParser::getAll($element) as $annotationName => $annotations) {
+            if (!isset($this->accessValidators[$annotationName])) {
+                $lowerCaseAnnotationName = Strings::lower($annotationName);
+                if (!isset($this->annotationNames[$lowerCaseAnnotationName])) {
+                    continue;
+                }
 
-        foreach ($this->accessValidators as $annotation => $accessValidator) {
-            foreach (Arrays::get($annotations, $annotation, []) as $annotationValue) {
-                $accessValidator->validateAccess($annotationValue);
+                $errorMessage = sprintf(
+                    'Case mismatch in security annotation name "%s", correct name is "%s".',
+                    $annotationName,
+                    $this->annotationNames[$lowerCaseAnnotationName]
+                );
+                trigger_error($errorMessage, E_USER_WARNING);
+                $annotationName = $this->annotationNames[$lowerCaseAnnotationName];
+            }
+
+            $accessValidator = $this->accessValidators[$annotationName];
+            foreach ($annotations as $annotation) {
+                $accessValidator->validateAccess($annotation);
             }
         }
     }
