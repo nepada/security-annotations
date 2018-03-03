@@ -21,9 +21,6 @@ trait TSecurityAnnotations
      */
     abstract public function getPresenter($throw = true);
 
-    /**
-     * @return RequirementsChecker
-     */
     public function getRequirementsChecker(): RequirementsChecker
     {
         if ($this->requirementsChecker !== null) {
@@ -36,9 +33,6 @@ trait TSecurityAnnotations
         return $presenter->getContext()->getByType(RequirementsChecker::class);
     }
 
-    /**
-     * @param RequirementsChecker $requirementsChecker
-     */
     public function setRequirementsChecker(RequirementsChecker $requirementsChecker): void
     {
         $this->requirementsChecker = $requirementsChecker;

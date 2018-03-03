@@ -14,9 +14,6 @@ class SecuredComponentsPresenter extends Nette\Application\UI\Presenter
     use SecurityAnnotations\TSecurityAnnotations;
 
 
-    /**
-     * @return SecuredComponentsControl
-     */
     protected function createComponentFoo(): SecuredComponentsControl
     {
         return new SecuredComponentsControl();

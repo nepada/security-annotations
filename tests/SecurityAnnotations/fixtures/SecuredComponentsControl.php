@@ -14,9 +14,6 @@ class SecuredComponentsControl extends Nette\Application\UI\Control
     use SecurityAnnotations\TSecurityAnnotations;
 
 
-    /**
-     * @return SecuredComponentsControl
-     */
     protected function createComponentFoo(): SecuredComponentsControl
     {
         return new SecuredComponentsControl();

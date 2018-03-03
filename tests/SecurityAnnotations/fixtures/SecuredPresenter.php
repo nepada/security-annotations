@@ -25,9 +25,6 @@ class SecuredPresenter extends Nette\Application\UI\Presenter
         $this->sendResponse(new Nette\Application\Responses\TextResponse(''));
     }
 
-    /**
-     * @return SecuredControl
-     */
     protected function createComponentFoo(): SecuredControl
     {
         return new SecuredControl();

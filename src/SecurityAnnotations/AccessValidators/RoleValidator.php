@@ -22,10 +22,6 @@ class RoleValidator implements IAccessValidator
     private $permission;
 
 
-    /**
-     * @param User $user
-     * @param Permission|null $permission
-     */
     public function __construct(User $user, ?Permission $permission = null)
     {
         $this->user = $user;
@@ -63,10 +59,6 @@ class RoleValidator implements IAccessValidator
         }
     }
 
-    /**
-     * @param string $requiredRole
-     * @return bool
-     */
     private function isUserInRole(string $requiredRole): bool
     {
         $found = false;

@@ -44,11 +44,6 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
         }
     }
 
-    /**
-     * @param string $validator
-     * @param string $annotation
-     * @return string
-     */
     private function getValidatorService(string $validator, string $annotation): string
     {
         if (Strings::startsWith($validator, '@')) {
