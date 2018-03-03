@@ -7,7 +7,6 @@ use Nepada\SecurityAnnotations\UnexpectedValueException;
 use Nette;
 use Nette\Security\User;
 
-
 class LoggedInValidator implements IAccessValidator
 {
 
@@ -15,7 +14,6 @@ class LoggedInValidator implements IAccessValidator
 
     /** @var User */
     private $user;
-
 
     public function __construct(User $user)
     {

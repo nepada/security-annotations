@@ -6,7 +6,6 @@ namespace NepadaTests\SecurityAnnotations;
 use Nepada\SecurityAnnotations;
 use Nette;
 
-
 class SecuredPresenter extends Nette\Application\UI\Presenter
 {
 
@@ -14,7 +13,6 @@ class SecuredPresenter extends Nette\Application\UI\Presenter
 
     /** @var bool */
     public $autoCanonicalize = false;
-
 
     public function actionDefault(): void
     {

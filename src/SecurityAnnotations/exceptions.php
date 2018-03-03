@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace Nepada\SecurityAnnotations;
 
-
 /**
  * The exception that is thrown when a value (typically returned by function) does not match with the expected value.
  */

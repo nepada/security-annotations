@@ -5,7 +5,6 @@ namespace NepadaTests\SecurityAnnotations;
 
 use Nette;
 
-
 /**
  * @LoggedIn
  * @Role(a, b, c)

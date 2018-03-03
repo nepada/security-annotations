@@ -6,13 +6,11 @@ namespace NepadaTests\SecurityAnnotations;
 use Nepada\SecurityAnnotations;
 use Nette;
 
-
 class SecuredComponentsControl extends Nette\Application\UI\Control
 {
 
     use SecurityAnnotations\TSecuredComponents;
     use SecurityAnnotations\TSecurityAnnotations;
-
 
     protected function createComponentFoo(): SecuredComponentsControl
     {

@@ -8,7 +8,6 @@ use Nette;
 use Nette\Security\IAuthorizator;
 use Nette\Security\User;
 
-
 class PermissionValidator implements IAccessValidator
 {
 
@@ -20,7 +19,6 @@ class PermissionValidator implements IAccessValidator
 
     /** @var User */
     private $user;
-
 
     public function __construct(User $user)
     {

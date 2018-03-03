@@ -8,7 +8,6 @@ use NepadaTests\TestCase;
 use Nette;
 use Tester\Assert;
 
-
 require_once __DIR__ . '/../../bootstrap.php';
 
 
@@ -20,7 +19,6 @@ class SecurityAnnotationsExtensionTest extends TestCase
 
     /** @var Nette\Configurator */
     private $configurator;
-
 
     public function setUp(): void
     {

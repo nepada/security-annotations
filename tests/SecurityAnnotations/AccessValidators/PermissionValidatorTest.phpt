@@ -14,7 +14,6 @@ use Nette\Security\User;
 use Nette\Utils\ArrayHash;
 use Tester\Assert;
 
-
 require_once __DIR__ . '/../../bootstrap.php';
 
 
@@ -26,7 +25,6 @@ class PermissionValidatorTest extends TestCase
 
     /**
      * @dataProvider getDataForAccessAllowed
-     *
      * @param string|null $resource
      * @param string|null $privilege
      * @param ArrayHash $annotation
@@ -72,7 +70,6 @@ class PermissionValidatorTest extends TestCase
 
     /**
      * @dataProvider getDataForAccessDenied
-     *
      * @param string|null $resource
      * @param string|null $privilege
      * @param string $message
@@ -131,7 +128,6 @@ class PermissionValidatorTest extends TestCase
 
     /**
      * @dataProvider getDataForInvalidAnnotation
-     *
      * @param mixed $annotation
      */
     public function testInvalidAnnotation($annotation): void

@@ -9,7 +9,6 @@ use Nette\Security\Permission;
 use Nette\Security\User;
 use Nette\Utils\Validators;
 
-
 class RoleValidator implements IAccessValidator
 {
 
@@ -20,7 +19,6 @@ class RoleValidator implements IAccessValidator
 
     /** @var Permission|null */
     private $permission;
-
 
     public function __construct(User $user, ?Permission $permission = null)
     {

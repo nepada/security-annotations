@@ -12,7 +12,6 @@ use Nepada\SecurityAnnotations\RequirementsChecker;
 use Nette;
 use Nette\Utils\Strings;
 
-
 class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
 {
 
@@ -24,7 +23,6 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
             'Allowed' => PermissionValidator::class,
         ],
     ];
-
 
     public function loadConfiguration(): void
     {

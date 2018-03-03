@@ -14,7 +14,6 @@ use Nette\Utils\ArrayHash;
 use Nette\Utils\Arrays;
 use Tester\Assert;
 
-
 require_once __DIR__ . '/../../bootstrap.php';
 
 
@@ -26,7 +25,6 @@ class RoleValidatorTest extends TestCase
 
     /**
      * @dataProvider getDataForAccessAllowed
-     *
      * @param string[] $userRoles
      * @param string[]|null $rolesInheritance
      * @param string|string[] $annotation
@@ -68,7 +66,6 @@ class RoleValidatorTest extends TestCase
 
     /**
      * @dataProvider getDataForAccessDenied
-     *
      * @param string[] $userRoles
      * @param string[]|null $rolesInheritance
      * @param string|string[] $annotation
@@ -110,7 +107,6 @@ class RoleValidatorTest extends TestCase
 
     /**
      * @dataProvider getDataForInvalidAnnotation
-     *
      * @param mixed $annotation
      */
     public function testInvalidAnnotation($annotation): void

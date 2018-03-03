@@ -13,7 +13,6 @@ use Nette\Security\User;
 use Nette\Utils\ArrayHash;
 use Tester\Assert;
 
-
 require_once __DIR__ . '/../../bootstrap.php';
 
 
@@ -25,7 +24,6 @@ class LoggedInValidatorTest extends TestCase
 
     /**
      * @dataProvider getDataForAccessAllowed
-     *
      * @param bool $isLoggedIn
      * @param bool $annotation
      */
@@ -72,7 +70,6 @@ class LoggedInValidatorTest extends TestCase
 
     /**
      * @dataProvider getDataForInvalidAnnotation
-     *
      * @param mixed $annotation
      */
     public function testInvalidAnnotation($annotation): void

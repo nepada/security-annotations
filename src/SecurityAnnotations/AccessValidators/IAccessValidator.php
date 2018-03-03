@@ -5,7 +5,6 @@ namespace Nepada\SecurityAnnotations\AccessValidators;
 
 use Nette;
 
-
 interface IAccessValidator
 {
 

@@ -6,7 +6,6 @@ namespace NepadaTests\Bridges\SecurityAnnotationsDI;
 use Nepada\SecurityAnnotations\AccessValidators\IAccessValidator;
 use Nette;
 
-
 class FooValidator implements IAccessValidator
 {
 

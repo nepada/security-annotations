@@ -8,7 +8,6 @@ use Nette;
 use Nette\Reflection\AnnotationsParser;
 use Nette\Utils\Arrays;
 
-
 class RequirementsChecker
 {
 
@@ -16,7 +15,6 @@ class RequirementsChecker
 
     /** @var IAccessValidator[] */
     private $accessValidators = [];
-
 
     /**
      * @param string $annotation

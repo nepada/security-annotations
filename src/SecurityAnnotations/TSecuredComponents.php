@@ -5,7 +5,6 @@ namespace Nepada\SecurityAnnotations;
 
 use Nette\ComponentModel\IComponent;
 
-
 trait TSecuredComponents
 {
 

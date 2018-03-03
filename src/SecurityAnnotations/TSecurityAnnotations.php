@@ -5,13 +5,11 @@ namespace Nepada\SecurityAnnotations;
 
 use Nette;
 
-
 trait TSecurityAnnotations
 {
 
     /** @var RequirementsChecker|null */
     private $requirementsChecker;
-
 
     /**
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
