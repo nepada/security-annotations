@@ -22,7 +22,7 @@ class LoggedInValidator implements IAccessValidator
 
     /**
      * @param mixed $annotation parsed value of annotation
-     * @throws Nette\Application\BadRequestException
+     * @throws Nette\Application\ForbiddenRequestException
      */
     public function validateAccess($annotation): void
     {
