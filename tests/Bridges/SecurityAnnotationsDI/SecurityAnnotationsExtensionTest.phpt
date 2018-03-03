@@ -32,9 +32,9 @@ class SecurityAnnotationsExtensionTest extends TestCase
     {
         $container = $this->configurator->createContainer();
 
-        Assert::type(SecurityAnnotations\AccessValidators\LoggedInValidator::class, $container->getService('securityAnnotations.accessValidator.LoggedIn'));
-        Assert::type(SecurityAnnotations\AccessValidators\RoleValidator::class, $container->getService('securityAnnotations.accessValidator.Role'));
-        Assert::type(SecurityAnnotations\AccessValidators\PermissionValidator::class, $container->getService('securityAnnotations.accessValidator.Allowed'));
+        Assert::type(SecurityAnnotations\AccessValidators\LoggedInValidator::class, $container->getService('securityAnnotations.accessValidator.loggedIn'));
+        Assert::type(SecurityAnnotations\AccessValidators\RoleValidator::class, $container->getService('securityAnnotations.accessValidator.role'));
+        Assert::type(SecurityAnnotations\AccessValidators\PermissionValidator::class, $container->getService('securityAnnotations.accessValidator.allowed'));
 
         $requirementsChecker = $container->getService('securityAnnotations.requirementsChecker');
         Assert::type(SecurityAnnotations\RequirementsChecker::class, $requirementsChecker);
@@ -43,9 +43,9 @@ class SecurityAnnotationsExtensionTest extends TestCase
         $reflection->setAccessible(true);
         $accessValidators = $reflection->getValue($requirementsChecker);
         Assert::count(3, $accessValidators);
-        Assert::type(SecurityAnnotations\AccessValidators\LoggedInValidator::class, $accessValidators['LoggedIn']);
-        Assert::type(SecurityAnnotations\AccessValidators\RoleValidator::class, $accessValidators['Role']);
-        Assert::type(SecurityAnnotations\AccessValidators\PermissionValidator::class, $accessValidators['Allowed']);
+        Assert::type(SecurityAnnotations\AccessValidators\LoggedInValidator::class, $accessValidators['loggedIn']);
+        Assert::type(SecurityAnnotations\AccessValidators\RoleValidator::class, $accessValidators['role']);
+        Assert::type(SecurityAnnotations\AccessValidators\PermissionValidator::class, $accessValidators['allowed']);
     }
 
     public function testCustomValidators(): void
@@ -58,8 +58,8 @@ class SecurityAnnotationsExtensionTest extends TestCase
         $reflection->setAccessible(true);
         $accessValidators = $reflection->getValue($requirementsChecker);
         Assert::count(2, $accessValidators);
-        Assert::type(FooValidator::class, $accessValidators['Foo']);
-        Assert::type(BarValidator::class, $accessValidators['Bar']);
+        Assert::type(FooValidator::class, $accessValidators['foo']);
+        Assert::type(BarValidator::class, $accessValidators['bar']);
     }
 
     public function testInvalidValidator(): void

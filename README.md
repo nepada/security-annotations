@@ -36,7 +36,7 @@ To enable this feature simple use `TSecurityAnnotations` trait in any presenter 
 **Example:**
 ```php
 /**
- * @LoggedIn
+ * @loggedIn
  * To access this presenter the user must be logged in.
  */
 class SecuredPresenter extends Nette\Application\UI\Presenter
@@ -45,7 +45,7 @@ class SecuredPresenter extends Nette\Application\UI\Presenter
     use Nepada\SecurityAnnotations\TSecurityAnnotations;
 
     /**
-     * @Role(admin, superadmin)
+     * @role(admin, superadmin)
      */
     public function actionForAdmins(): void
     {
@@ -53,7 +53,7 @@ class SecuredPresenter extends Nette\Application\UI\Presenter
     }
 
     /**
-     * @Allowed(resource=world, privilege=destroy)
+     * @allowed(resource=world, privilege=destroy)
      */
     public function handleDestroyWorld(): void
     {
@@ -65,10 +65,10 @@ class SecuredPresenter extends Nette\Application\UI\Presenter
 
 The annotations and rules they enforce are completely customizable (see below), however the default setup comes with three predefined rules:
 
-- **@LoggedIn** - checks whether the user is logged in.
-- **@Role(admin, superadmin)** - checks whether the user has at least one of the specified roles.
+- **@loggedIn** - checks whether the user is logged in.
+- **@role(admin, superadmin)** - checks whether the user has at least one of the specified roles.
   If you use `Nette\Security\Permission` as your authorizator, then role inheritance is taken into account, i.e. users that have at least one role that inherits from at least one of the specified roles are allowed as well.
-- **@Allowed(resource=world, privilege=destroy)** - checks whether the user has at least one role that is granted the specified privilege on the specified resource.
+- **@allowed(resource=world, privilege=destroy)** - checks whether the user has at least one role that is granted the specified privilege on the specified resource.
 
 
 ### Securing components
@@ -82,7 +82,7 @@ class SecuredPresenter extends Nette\Application\UI\Presenter
     use Nepada\SecurityAnnotations\TSecurityAnnotations;
 
     /**
-     * @LoggedIn
+     * @loggedIn
      */
     public function actionDefault(): void
     {
@@ -116,9 +116,9 @@ All access validators are configured in `validators` section of the extension co
 ```yaml
 securityAnnotations:
     validators:
-        LoggedIn: false # disable predefined @LoggedIn annotation validator 
-        Role: MyRoleAccessValidator # redefine validator for @Role annotation
-        Foo: @fooAccessValidator # use named service as validator for @Foo annotation
+        loggedIn: false # disable predefined @loggedIn annotation validator
+        role: MyRoleAccessValidator # redefine validator for @role annotation
+        foo: @fooAccessValidator # use named service as validator for @foo annotation
         
 services:
     fooAccessValidator: FooAccessValidator(%fooParameter%)
@@ -127,5 +127,5 @@ services:
 #### How do access validators work?
 
 Annotations are parsed by `Nette\Reflection\AnnotationsParser` and their value is one by one passed for inspection to the specific validator.
-It's the responsibility of the validator to check whether or not the annotation value is of expected type, e.g. the default `@LoggedIn` validator can handle only boolean values.
+It's the responsibility of the validator to check whether or not the annotation value is of expected type, e.g. the default `@loggedIn` validator can handle only boolean values.
 Based on the annotation value the validator decides either to deny access (throws `Nette\Application\BadRequestException`), or grant access (no exception is thrown).

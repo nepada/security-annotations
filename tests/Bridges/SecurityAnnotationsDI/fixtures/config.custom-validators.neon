@@ -3,8 +3,8 @@ services:
 
 securityAnnotations:
     validators:
-        LoggedIn: false
-        Role: false
-        Allowed: false
-        Foo: NepadaTests\Bridges\SecurityAnnotationsDI\FooValidator
-        Bar: @barValidator
+        loggedIn: false
+        role: false
+        allowed: false
+        foo: NepadaTests\Bridges\SecurityAnnotationsDI\FooValidator
+        bar: @barValidator

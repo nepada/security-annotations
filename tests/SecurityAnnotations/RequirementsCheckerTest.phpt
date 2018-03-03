@@ -40,16 +40,16 @@ class RequirementsCheckerTest extends TestCase
 
         $loggedInValidator = Mockery::mock(IAccessValidator::class);
         $loggedInValidator->shouldReceive('validateAccess')->withArgs([true])->once();
-        $requirementsChecker->addAccessValidator('LoggedIn', $loggedInValidator);
+        $requirementsChecker->addAccessValidator('loggedIn', $loggedInValidator);
 
         $roleValidator = Mockery::mock(IAccessValidator::class);
         $roleValidator->shouldReceive('validateAccess')->withArgs($expectArrayAnnotation(['a', 'b', 'c']))->once();
         $roleValidator->shouldReceive('validateAccess')->withArgs(['d'])->once();
-        $requirementsChecker->addAccessValidator('Role', $roleValidator);
+        $requirementsChecker->addAccessValidator('role', $roleValidator);
 
         $allowedValidator = Mockery::mock(IAccessValidator::class);
         $allowedValidator->shouldReceive('validateAccess')->withArgs($expectArrayAnnotation(['resource' => 'foo', 'privilege' => 'bar']))->once();
-        $requirementsChecker->addAccessValidator('Allowed', $allowedValidator);
+        $requirementsChecker->addAccessValidator('allowed', $allowedValidator);
 
         Assert::noError(function () use ($requirementsChecker): void {
             $requirementsChecker->protectElement(new \ReflectionClass(TestAnnotationsPresenter::class));

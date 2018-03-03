@@ -18,9 +18,9 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
     /** @var mixed[] */
     public $defaults = [
         'validators' => [
-            'LoggedIn' => LoggedInValidator::class,
-            'Role' => RoleValidator::class,
-            'Allowed' => PermissionValidator::class,
+            'loggedIn' => LoggedInValidator::class,
+            'role' => RoleValidator::class,
+            'allowed' => PermissionValidator::class,
         ],
     ];
 

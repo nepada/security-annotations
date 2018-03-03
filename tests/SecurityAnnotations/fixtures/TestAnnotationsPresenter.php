@@ -6,11 +6,11 @@ namespace NepadaTests\SecurityAnnotations;
 use Nette;
 
 /**
- * @LoggedIn
- * @Role(a, b, c)
- * @Role(d)
- * @Allowed(resource=foo, privilege=bar)
- * @Foo
+ * @loggedIn
+ * @role(a, b, c)
+ * @role(d)
+ * @allowed(resource=foo, privilege=bar)
+ * @foo
  */
 class TestAnnotationsPresenter extends Nette\Application\UI\Presenter
 {
