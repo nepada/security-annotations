@@ -26,7 +26,6 @@ trait TSecurityAnnotations
         }
 
         $presenter = $this->getPresenter();
-        assert($presenter instanceof Nette\Application\UI\Presenter); // workaround for PHPStan false positive detection of possible null value
 
         return $presenter->getContext()->getByType(RequirementsChecker::class);
     }
@@ -39,6 +38,7 @@ trait TSecurityAnnotations
     /**
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
      * @param mixed $element
+     * @return void
      */
     public function checkRequirements($element)
     {

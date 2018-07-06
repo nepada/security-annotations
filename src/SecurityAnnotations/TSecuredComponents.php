@@ -11,6 +11,7 @@ trait TSecuredComponents
     /**
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
      * @param mixed $element
+     * @return void
      */
     abstract public function checkRequirements($element);
 

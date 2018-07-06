@@ -15,3 +15,9 @@ parameters:
     excludes_analyse:
         - %currentWorkingDirectory%/tests/bootstrap.php
         - %currentWorkingDirectory%/tests/temp/*
+
+    ignoreErrors:
+        - '#Method Nette\\Application\\UI\\(Component|Presenter)::getPresenter\(\) has parameter \$throw with no typehint specified#'
+        - '#Method NepadaTests\\SecurityAnnotations\\Secured(Components)?(Control|Presenter)::checkRequirements\(\) has no return typehint specified#'
+        - '#Method NepadaTests\\SecurityAnnotations\\Secured(Components)?(Control|Presenter)::checkRequirements\(\) has parameter \$element with no typehint specified#'
+        - '#Cannot call method getContext\(\) on Nette\\Application\\UI\\Presenter\|null#'
