@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace Nepada\SecurityAnnotations\AccessValidators;
 
-use Nepada\SecurityAnnotations\UnexpectedValueException;
 use Nette;
 use Nette\Security\User;
 
@@ -27,7 +26,7 @@ class LoggedInValidator implements IAccessValidator
     public function validateAccess($annotation): void
     {
         if (!is_bool($annotation)) {
-            throw new UnexpectedValueException('Unexpected annotation type, bool expected.');
+            throw new \InvalidArgumentException('Unexpected annotation type, bool expected.');
         }
 
         if ($annotation && !$this->user->isLoggedIn()) {

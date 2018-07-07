@@ -137,7 +137,7 @@ class PermissionValidatorTest extends TestCase
 
         Assert::exception(function () use ($validator, $annotation): void {
             $validator->validateAccess($annotation);
-        }, Nepada\SecurityAnnotations\UnexpectedValueException::class, 'Unexpected annotation type, array or Traversable expected.');
+        }, \InvalidArgumentException::class, 'Unexpected annotation type, array or Traversable expected.');
     }
 
     /**

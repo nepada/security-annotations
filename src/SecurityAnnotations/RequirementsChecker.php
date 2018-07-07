@@ -19,15 +19,10 @@ class RequirementsChecker
     /** @var string[] */
     private $annotationNames = [];
 
-    /**
-     * @param string $annotationName
-     * @param IAccessValidator $accessValidator
-     * @throws InvalidStateException
-     */
     public function addAccessValidator(string $annotationName, IAccessValidator $accessValidator): void
     {
         if (isset($this->accessValidators[$annotationName])) {
-            throw new InvalidStateException("Access validator for annotation \"$annotationName\" is already registered.");
+            throw new \LogicException("Access validator for annotation \"$annotationName\" is already registered.");
         }
 
         $lowerCaseAnnotationName = Strings::lower($annotationName);
@@ -37,7 +32,7 @@ class RequirementsChecker
                 $annotationName,
                 $this->annotationNames[$lowerCaseAnnotationName]
             );
-            throw new InvalidStateException($errorMessage);
+            throw new \LogicException($errorMessage);
         }
 
         $this->annotationNames[$lowerCaseAnnotationName] = $annotationName;

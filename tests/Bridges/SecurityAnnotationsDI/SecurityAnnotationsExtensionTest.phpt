@@ -70,7 +70,7 @@ class SecurityAnnotationsExtensionTest extends TestCase
             function (): void {
                 $this->configurator->createContainer();
             },
-            SecurityAnnotations\InvalidStateException::class,
+            \LogicException::class,
             'Access validator class \'NepadaTests\SecurityAnnotations\SecuredPresenter\' must implement IAccessValidator interface.'
         );
     }
@@ -83,7 +83,7 @@ class SecurityAnnotationsExtensionTest extends TestCase
             function (): void {
                 $this->configurator->createContainer();
             },
-            SecurityAnnotations\InvalidStateException::class,
+            \LogicException::class,
             'Access validator class \'NotFoundValidator\' not found.'
         );
     }

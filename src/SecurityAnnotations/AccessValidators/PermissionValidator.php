@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace Nepada\SecurityAnnotations\AccessValidators;
 
-use Nepada\SecurityAnnotations\UnexpectedValueException;
 use Nette;
 use Nette\Security\IAuthorizator;
 use Nette\Security\User;
@@ -34,7 +33,7 @@ class PermissionValidator implements IAccessValidator
         if ($annotation instanceof \Traversable) {
             $annotation = iterator_to_array($annotation);
         } elseif (!is_array($annotation)) {
-            throw new UnexpectedValueException('Unexpected annotation type, array or Traversable expected.');
+            throw new \InvalidArgumentException('Unexpected annotation type, array or Traversable expected.');
         }
 
         $resource = $annotation[self::RESOURCE] ?? IAuthorizator::ALL;

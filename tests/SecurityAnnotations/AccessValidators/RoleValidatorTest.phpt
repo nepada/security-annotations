@@ -116,7 +116,7 @@ class RoleValidatorTest extends TestCase
 
         Assert::exception(function () use ($validator, $annotation): void {
             $validator->validateAccess($annotation);
-        }, Nepada\SecurityAnnotations\UnexpectedValueException::class, 'Unexpected annotation type, string or a list of strings expected.');
+        }, \InvalidArgumentException::class, 'Unexpected annotation type, string or a list of strings expected.');
     }
 
     /**

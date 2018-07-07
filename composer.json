@@ -42,10 +42,7 @@
         "psr-4": {
             "Nepada\\Bridges\\": "src/Bridges/",
             "Nepada\\SecurityAnnotations\\": "src/SecurityAnnotations/"
-        },
-        "classmap": [
-            "src/SecurityAnnotations/exceptions.php"
-        ]
+        }
     },
     "autoload-dev": {
         "classmap": [

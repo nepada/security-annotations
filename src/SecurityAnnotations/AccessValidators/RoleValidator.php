@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace Nepada\SecurityAnnotations\AccessValidators;
 
-use Nepada\SecurityAnnotations\UnexpectedValueException;
 use Nette;
 use Nette\Security\Permission;
 use Nette\Security\User;
@@ -40,7 +39,7 @@ class RoleValidator implements IAccessValidator
         } elseif (Validators::isList($annotation) && Validators::everyIs($annotation, 'string') && count($annotation) > 0) {
             $roles = $annotation;
         } else {
-            throw new UnexpectedValueException('Unexpected annotation type, string or a list of strings expected.');
+            throw new \InvalidArgumentException('Unexpected annotation type, string or a list of strings expected.');
         }
 
         $success = false;

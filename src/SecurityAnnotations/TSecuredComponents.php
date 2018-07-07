@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Nepada\SecurityAnnotations;
 
+use Nette;
 use Nette\ComponentModel\IComponent;
 
 trait TSecuredComponents
@@ -12,6 +13,7 @@ trait TSecuredComponents
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
      * @param mixed $element
      * @return void
+     * @throws Nette\Application\ForbiddenRequestException;
      */
     abstract public function checkRequirements($element);
 

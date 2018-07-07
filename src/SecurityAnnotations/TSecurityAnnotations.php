@@ -39,6 +39,7 @@ trait TSecurityAnnotations
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
      * @param mixed $element
      * @return void
+     * @throws Nette\Application\ForbiddenRequestException
      */
     public function checkRequirements($element)
     {

@@ -27,7 +27,7 @@ class RequirementsCheckerTest extends TestCase
             function () use ($requirementsChecker): void {
                 $requirementsChecker->addAccessValidator('duplicate', Mockery::mock(IAccessValidator::class));
             },
-            SecurityAnnotations\InvalidStateException::class,
+            \LogicException::class,
             'Access validator for annotation "duplicate" is already registered.'
         );
     }
@@ -41,7 +41,7 @@ class RequirementsCheckerTest extends TestCase
             function () use ($requirementsChecker): void {
                 $requirementsChecker->addAccessValidator('DUPLICATE', Mockery::mock(IAccessValidator::class));
             },
-            SecurityAnnotations\InvalidStateException::class,
+            \LogicException::class,
             'Access validator for annotation "DUPLICATE" is case insensitive match for already registered access validator "duplicate".'
         );
     }
