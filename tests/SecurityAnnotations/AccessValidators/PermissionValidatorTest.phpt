@@ -5,7 +5,6 @@ namespace NepadaTests\SecurityAnnotations\AccessValidators;
 
 use Mockery;
 use Mockery\MockInterface;
-use Nepada;
 use Nepada\SecurityAnnotations\AccessValidators;
 use NepadaTests\TestCase;
 use Nette;
