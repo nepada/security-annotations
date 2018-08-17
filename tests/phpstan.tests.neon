@@ -16,3 +16,6 @@ parameters:
         - %currentWorkingDirectory%/tests/bootstrap.php
         - %currentWorkingDirectory%/tests/temp/*
         - %currentWorkingDirectory%/tests/SecurityAnnotations/fixtures/*
+
+    ignoreErrors:
+        - '#Call to an undefined method Mockery\\CompositeExpectation::(withArgs|andReturnUsing|times|once)\(\)#' # false positive
