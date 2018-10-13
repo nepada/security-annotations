@@ -53,6 +53,7 @@ class SecuredPresenter extends Nette\Application\UI\Presenter
     }
 
     /**
+     * @sameSite
      * @allowed(resource=world, privilege=destroy)
      */
     public function handleDestroyWorld(): void
@@ -69,6 +70,7 @@ The annotations and rules they enforce are completely customizable (see below), 
 - **@role(admin, superadmin)** - checks whether the user has at least one of the specified roles.
   If you use `Nette\Security\Permission` as your authorizator, then role inheritance is taken into account, i.e. users that have at least one role that inherits from at least one of the specified roles are allowed as well.
 - **@allowed(resource=world, privilege=destroy)** - checks whether the user has at least one role that is granted the specified privilege on the specified resource.
+- **@sameSite** - disallows cross-site requests.
 
 
 ### Securing components

@@ -6,5 +6,6 @@ securityAnnotations:
         loggedIn: false
         role: false
         allowed: false
+        sameSite: false
         foo: NepadaTests\Bridges\SecurityAnnotationsDI\FooValidator
         bar: @barValidator
