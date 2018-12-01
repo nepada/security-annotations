@@ -38,7 +38,7 @@ class SameSiteValidatorTest extends TestCase
     /**
      * @return mixed[]
      */
-    public function getDataForAccessAllowed(): array
+    protected function getDataForAccessAllowed(): array
     {
         return [
             [
@@ -83,7 +83,7 @@ class SameSiteValidatorTest extends TestCase
     /**
      * @return mixed[]
      */
-    public function getDataForInvalidAnnotation(): array
+    protected function getDataForInvalidAnnotation(): array
     {
         return [
             [

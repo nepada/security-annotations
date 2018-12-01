@@ -41,7 +41,7 @@ class PermissionValidatorTest extends TestCase
     /**
      * @return mixed[]
      */
-    public function getDataForAccessAllowed(): array
+    protected function getDataForAccessAllowed(): array
     {
         return [
             [
@@ -87,7 +87,7 @@ class PermissionValidatorTest extends TestCase
     /**
      * @return mixed[]
      */
-    public function getDataForAccessDenied(): array
+    protected function getDataForAccessDenied(): array
     {
         return [
             [
@@ -142,7 +142,7 @@ class PermissionValidatorTest extends TestCase
     /**
      * @return mixed[]
      */
-    public function getDataForInvalidAnnotation(): array
+    protected function getDataForInvalidAnnotation(): array
     {
         return [
             [
