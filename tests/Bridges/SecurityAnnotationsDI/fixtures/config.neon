@@ -3,3 +3,9 @@ extensions:
 
 application:
     scanDirs: false
+
+di:
+    debugger: false
+
+security:
+    debugger: false
