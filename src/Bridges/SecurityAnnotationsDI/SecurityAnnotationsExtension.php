@@ -31,7 +31,7 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
         $config = $this->validateConfig($this->defaults);
 
         $requirementsChecker = $container->addDefinition($this->prefix('requirementsChecker'))
-            ->setClass(RequirementsChecker::class);
+            ->setType(RequirementsChecker::class);
 
         foreach ($config['validators'] as $annotation => $validator) {
             if ($validator === false) {
@@ -57,7 +57,7 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
 
         $serviceName = $this->prefix("accessValidator.$annotation");
         $this->getContainerBuilder()->addDefinition($serviceName)
-            ->setClass($validator);
+            ->setType($validator);
 
         return "@{$serviceName}";
     }
