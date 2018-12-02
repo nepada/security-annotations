@@ -10,20 +10,12 @@ trait TSecuredComponents
 {
 
     /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
      * @param mixed $element
-     * @return void
      * @throws Nette\Application\ForbiddenRequestException;
      */
-    abstract public function checkRequirements($element);
+    abstract public function checkRequirements($element): void;
 
-    /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
-     * @param string $name
-     * @return IComponent|null
-     */
-    protected function createComponent($name)
+    protected function createComponent(string $name): ?IComponent
     {
         $method = 'createComponent' . ucfirst($name);
         if (method_exists($this, $method)) {

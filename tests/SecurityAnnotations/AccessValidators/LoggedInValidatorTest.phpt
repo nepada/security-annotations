@@ -11,6 +11,7 @@ use Nette;
 use Nette\Security\User;
 use Nette\Utils\ArrayHash;
 use Tester\Assert;
+use Tester\Environment;
 
 require_once __DIR__ . '/../../bootstrap.php';
 
@@ -20,6 +21,12 @@ require_once __DIR__ . '/../../bootstrap.php';
  */
 class LoggedInValidatorTest extends TestCase
 {
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Environment::bypassFinals();
+    }
 
     /**
      * @dataProvider getDataForAccessAllowed

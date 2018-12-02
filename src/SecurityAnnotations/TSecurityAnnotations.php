@@ -11,13 +11,7 @@ trait TSecurityAnnotations
     /** @var RequirementsChecker|null */
     private $requirementsChecker;
 
-    /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
-     * @param bool $throw
-     * @return Nette\Application\UI\Presenter|null
-     */
-    abstract public function getPresenter($throw = true);
+    abstract public function getPresenter(): ?Nette\Application\UI\Presenter;
 
     public function getRequirementsChecker(): RequirementsChecker
     {
@@ -36,12 +30,10 @@ trait TSecurityAnnotations
     }
 
     /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
      * @param mixed $element
-     * @return void
      * @throws Nette\Application\ForbiddenRequestException
      */
-    public function checkRequirements($element)
+    public function checkRequirements($element): void
     {
         parent::checkRequirements($element);
 
