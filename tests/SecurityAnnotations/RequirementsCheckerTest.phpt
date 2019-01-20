@@ -48,7 +48,7 @@ class RequirementsCheckerTest extends TestCase
 
     public function testProtectElement(): void
     {
-        $expectArrayAnnotation = function (array $expected): callable {
+        $expectArrayAnnotation = function (array $expected): \Closure {
             return function ($annotation) use ($expected): bool {
                 return $this->matchArray($expected, $annotation);
             };
@@ -76,7 +76,7 @@ class RequirementsCheckerTest extends TestCase
 
     public function testProtectElementWithCaseMismatch(): void
     {
-        $expectArrayAnnotation = function (array $expected): callable {
+        $expectArrayAnnotation = function (array $expected): \Closure {
             return function ($annotation) use ($expected): bool {
                 return $this->matchArray($expected, $annotation);
             };
