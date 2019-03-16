@@ -1,12 +1,12 @@
 <?php
 declare(strict_types = 1);
 
-namespace NepadaTests\SecurityAnnotations;
+namespace NepadaTests\SecurityAnnotations\Fixtures;
 
 use Nepada\SecurityAnnotations;
 use Nette;
 
-class SecuredComponentsControl extends Nette\Application\UI\Control
+class SecuredComponentsPresenter extends Nette\Application\UI\Presenter
 {
 
     use SecurityAnnotations\TSecuredComponents;

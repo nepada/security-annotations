@@ -4,6 +4,9 @@ declare(strict_types = 1);
 namespace NepadaTests\Bridges\SecurityAnnotationsDI;
 
 use Nepada\SecurityAnnotations;
+use NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures\BarValidator;
+use NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures\FooValidator;
+use NepadaTests\SecurityAnnotations\Fixtures\SecuredPresenter;
 use NepadaTests\TestCase;
 use Nette;
 use Tester\Assert;
@@ -25,7 +28,7 @@ class SecurityAnnotationsExtensionTest extends TestCase
         $this->configurator = new Nette\Configurator();
         $this->configurator->setTempDirectory(TEMP_DIR);
         $this->configurator->setDebugMode(true);
-        $this->configurator->addConfig(__DIR__ . '/fixtures/config.neon');
+        $this->configurator->addConfig(__DIR__ . '/Fixtures/config.neon');
     }
 
     public function testDefaultValidators(): void
@@ -52,7 +55,7 @@ class SecurityAnnotationsExtensionTest extends TestCase
 
     public function testCustomValidators(): void
     {
-        $this->configurator->addConfig(__DIR__ . '/fixtures/config.custom-validators.neon');
+        $this->configurator->addConfig(__DIR__ . '/Fixtures/config.custom-validators.neon');
         $container = $this->configurator->createContainer();
         $requirementsChecker = $container->getByType(SecurityAnnotations\RequirementsChecker::class);
 
@@ -66,20 +69,20 @@ class SecurityAnnotationsExtensionTest extends TestCase
 
     public function testInvalidValidator(): void
     {
-        $this->configurator->addConfig(__DIR__ . '/fixtures/config.invalid-validator.neon');
+        $this->configurator->addConfig(__DIR__ . '/Fixtures/config.invalid-validator.neon');
 
         Assert::exception(
             function (): void {
                 $this->configurator->createContainer();
             },
             \LogicException::class,
-            'Access validator class \'NepadaTests\SecurityAnnotations\SecuredPresenter\' must implement IAccessValidator interface.'
+            sprintf('Access validator class \'%s\' must implement IAccessValidator interface.', SecuredPresenter::class)
         );
     }
 
     public function testNotFoundValidator(): void
     {
-        $this->configurator->addConfig(__DIR__ . '/fixtures/config.not-found-validator.neon');
+        $this->configurator->addConfig(__DIR__ . '/Fixtures/config.not-found-validator.neon');
 
         Assert::exception(
             function (): void {

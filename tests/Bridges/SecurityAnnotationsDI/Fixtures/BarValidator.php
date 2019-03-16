@@ -1,11 +1,11 @@
 <?php
 declare(strict_types = 1);
 
-namespace NepadaTests\Bridges\SecurityAnnotationsDI;
+namespace NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures;
 
 use Nepada\SecurityAnnotations\AccessValidators\IAccessValidator;
 
-class FooValidator implements IAccessValidator
+class BarValidator implements IAccessValidator
 {
 
     /**

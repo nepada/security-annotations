@@ -1,5 +1,5 @@
 services:
-    barValidator: NepadaTests\Bridges\SecurityAnnotationsDI\BarValidator
+    barValidator: NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures\BarValidator
 
 securityAnnotations:
     validators:
@@ -7,5 +7,5 @@ securityAnnotations:
         role: false
         allowed: false
         sameSite: false
-        foo: NepadaTests\Bridges\SecurityAnnotationsDI\FooValidator
+        foo: NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures\FooValidator
         bar: @barValidator

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace NepadaTests\SecurityAnnotations;
+namespace NepadaTests\SecurityAnnotations\Fixtures;
 
 use Nette;
 

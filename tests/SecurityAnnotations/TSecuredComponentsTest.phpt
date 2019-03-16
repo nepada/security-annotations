@@ -5,6 +5,8 @@ namespace NepadaTests\SecurityAnnotations;
 
 use Mockery;
 use Nepada\SecurityAnnotations;
+use NepadaTests\SecurityAnnotations\Fixtures\SecuredComponentsControl;
+use NepadaTests\SecurityAnnotations\Fixtures\SecuredComponentsPresenter;
 use NepadaTests\TestCase;
 use Tester\Assert;
 

@@ -1,0 +1,3 @@
+securityAnnotations:
+    validators:
+        Foo: NepadaTests\SecurityAnnotations\Fixtures\SecuredPresenter

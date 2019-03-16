@@ -6,6 +6,7 @@ namespace NepadaTests\SecurityAnnotations;
 use Mockery;
 use Nepada\SecurityAnnotations;
 use Nepada\SecurityAnnotations\AccessValidators\IAccessValidator;
+use NepadaTests\SecurityAnnotations\Fixtures\TestAnnotationsPresenter;
 use NepadaTests\TestCase;
 use Tester\Assert;
 

@@ -5,6 +5,7 @@ namespace NepadaTests\SecurityAnnotations;
 
 use Mockery;
 use Nepada\SecurityAnnotations;
+use NepadaTests\SecurityAnnotations\Fixtures\SecuredPresenter;
 use NepadaTests\TestCase;
 use Nette;
 use Tester\Assert;
