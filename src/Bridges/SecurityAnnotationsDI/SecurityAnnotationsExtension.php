@@ -10,30 +10,34 @@ use Nepada\SecurityAnnotations\AccessValidators\RoleValidator;
 use Nepada\SecurityAnnotations\AccessValidators\SameSiteValidator;
 use Nepada\SecurityAnnotations\RequirementsChecker;
 use Nette;
+use Nette\Schema\Expect;
 use Nette\Utils\Strings;
 
 class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
 {
 
-    /** @var mixed[] */
-    public $defaults = [
-        'validators' => [
-            'loggedIn' => LoggedInValidator::class,
-            'role' => RoleValidator::class,
-            'allowed' => PermissionValidator::class,
-            'sameSite' => SameSiteValidator::class,
-        ],
+    private const DEFAULT_VALIDATORS = [
+        'loggedIn' => LoggedInValidator::class,
+        'role' => RoleValidator::class,
+        'allowed' => PermissionValidator::class,
+        'sameSite' => SameSiteValidator::class,
     ];
+
+    public function getConfigSchema(): Nette\Schema\Schema
+    {
+        return Expect::structure([
+            'validators' => Expect::arrayOf(Expect::anyOf(Expect::string(), false))->default(self::DEFAULT_VALIDATORS),
+        ]);
+    }
 
     public function loadConfiguration(): void
     {
         $container = $this->getContainerBuilder();
-        $config = $this->validateConfig($this->defaults);
 
         $requirementsChecker = $container->addDefinition($this->prefix('requirementsChecker'))
             ->setType(RequirementsChecker::class);
 
-        foreach ($config['validators'] as $annotation => $validator) {
+        foreach ($this->config->validators as $annotation => $validator) {
             if ($validator === false) {
                 continue;
             }
