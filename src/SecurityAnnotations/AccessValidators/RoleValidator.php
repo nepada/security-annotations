@@ -50,7 +50,7 @@ class RoleValidator implements IAccessValidator
             }
         }
 
-        if (!$success) {
+        if (! $success) {
             $message = sprintf("User is not in any of the required roles '%s'.", implode("', '", $roles));
             throw new Nette\Application\ForbiddenRequestException($message);
         }

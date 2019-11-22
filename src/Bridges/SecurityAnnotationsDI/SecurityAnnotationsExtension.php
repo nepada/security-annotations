@@ -53,9 +53,9 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
             return $validator;
         }
 
-        if (!class_exists($validator)) {
+        if (! class_exists($validator)) {
             throw new \LogicException("Access validator class '$validator' not found.");
-        } elseif (!in_array(IAccessValidator::class, class_implements($validator), true)) {
+        } elseif (! in_array(IAccessValidator::class, class_implements($validator), true)) {
             throw new \LogicException("Access validator class '$validator' must implement IAccessValidator interface.");
         }
 

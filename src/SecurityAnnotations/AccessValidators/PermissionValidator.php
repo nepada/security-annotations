@@ -32,14 +32,14 @@ class PermissionValidator implements IAccessValidator
     {
         if ($annotation instanceof \Traversable) {
             $annotation = iterator_to_array($annotation);
-        } elseif (!is_array($annotation)) {
+        } elseif (! is_array($annotation)) {
             throw new \InvalidArgumentException('Unexpected annotation type, array or Traversable expected.');
         }
 
         $resource = $annotation[self::RESOURCE] ?? IAuthorizator::ALL;
         $privilege = $annotation[self::PRIVILEGE] ?? IAuthorizator::ALL;
 
-        if (!$this->user->isAllowed($resource, $privilege)) {
+        if (! $this->user->isAllowed($resource, $privilege)) {
             if (isset($annotation[self::MESSAGE])) {
                 $message = $annotation['message'];
             } else {

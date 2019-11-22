@@ -46,9 +46,9 @@ class RequirementsChecker
     public function protectElement(\Reflector $element): void
     {
         foreach (AnnotationsParser::getAll($element) as $annotationName => $annotations) {
-            if (!isset($this->accessValidators[$annotationName])) {
+            if (! isset($this->accessValidators[$annotationName])) {
                 $lowerCaseAnnotationName = Strings::lower($annotationName);
-                if (!isset($this->annotationNames[$lowerCaseAnnotationName])) {
+                if (! isset($this->annotationNames[$lowerCaseAnnotationName])) {
                     continue;
                 }
 

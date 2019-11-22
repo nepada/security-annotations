@@ -24,11 +24,11 @@ class SameSiteValidator implements IAccessValidator
      */
     public function validateAccess($annotation): void
     {
-        if (!is_bool($annotation)) {
+        if (! is_bool($annotation)) {
             throw new \InvalidArgumentException('Unexpected annotation type, bool expected.');
         }
 
-        if ($annotation && !$this->request->isSameSite()) {
+        if ($annotation && ! $this->request->isSameSite()) {
             throw new Nette\Application\ForbiddenRequestException('Cross-site HTTP request not allowed.');
         }
     }

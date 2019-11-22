@@ -25,11 +25,11 @@ class LoggedInValidator implements IAccessValidator
      */
     public function validateAccess($annotation): void
     {
-        if (!is_bool($annotation)) {
+        if (! is_bool($annotation)) {
             throw new \InvalidArgumentException('Unexpected annotation type, bool expected.');
         }
 
-        if ($annotation && !$this->user->isLoggedIn()) {
+        if ($annotation && ! $this->user->isLoggedIn()) {
             throw new Nette\Application\ForbiddenRequestException('User is not logged in.');
         }
     }
