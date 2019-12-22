@@ -26,7 +26,7 @@ class PermissionValidatorTest extends TestCase
      * @dataProvider getDataForAccessAllowed
      * @param string|null $resource
      * @param string|null $privilege
-     * @param ArrayHash $annotation
+     * @param ArrayHash<string> $annotation
      */
     public function testAccessAllowed(?string $resource, ?string $privilege, ArrayHash $annotation): void
     {
@@ -72,7 +72,7 @@ class PermissionValidatorTest extends TestCase
      * @param string|null $resource
      * @param string|null $privilege
      * @param string $message
-     * @param ArrayHash $annotation
+     * @param ArrayHash<string> $annotation
      */
     public function testAccessDenied(?string $resource, ?string $privilege, string $message, ArrayHash $annotation): void
     {
