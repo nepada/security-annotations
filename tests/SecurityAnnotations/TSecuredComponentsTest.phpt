@@ -22,12 +22,12 @@ class TSecuredComponentsTest extends TestCase
     public function testSecuredComponents(): void
     {
         $requirementsChecker = Mockery::mock(SecurityAnnotations\RequirementsChecker::class);
-        $requirementsChecker->shouldReceive('protectElement')->once()->withArgs(function (\ReflectionMethod $element): bool {
-            return $element->getName() === 'createComponentFoo' && $element->getDeclaringClass()->getName() === SecuredComponentsPresenter::class;
-        });
-        $requirementsChecker->shouldReceive('protectElement')->once()->withArgs(function (\ReflectionMethod $element): bool {
-            return $element->getName() === 'createComponentFoo' && $element->getDeclaringClass()->getName() === SecuredComponentsControl::class;
-        });
+        $requirementsChecker->shouldReceive('protectElement')
+            ->once()
+            ->withArgs(fn (\ReflectionMethod $element): bool => $element->getName() === 'createComponentFoo' && $element->getDeclaringClass()->getName() === SecuredComponentsPresenter::class);
+        $requirementsChecker->shouldReceive('protectElement')
+            ->once()
+            ->withArgs(fn (\ReflectionMethod $element): bool => $element->getName() === 'createComponentFoo' && $element->getDeclaringClass()->getName() === SecuredComponentsControl::class);
 
         Assert::noError(function () use ($requirementsChecker): void {
             $presenter = new SecuredComponentsPresenter();

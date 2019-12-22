@@ -30,7 +30,7 @@ class RequirementsChecker
             $errorMessage = sprintf(
                 'Access validator for annotation "%s" is case insensitive match for already registered access validator "%s".',
                 $annotationName,
-                $this->annotationNames[$lowerCaseAnnotationName]
+                $this->annotationNames[$lowerCaseAnnotationName],
             );
             throw new \LogicException($errorMessage);
         }
@@ -55,7 +55,7 @@ class RequirementsChecker
                 $errorMessage = sprintf(
                     'Case mismatch in security annotation name "%s", correct name is "%s".',
                     $annotationName,
-                    $this->annotationNames[$lowerCaseAnnotationName]
+                    $this->annotationNames[$lowerCaseAnnotationName],
                 );
                 trigger_error($errorMessage, E_USER_WARNING);
                 $annotationName = $this->annotationNames[$lowerCaseAnnotationName];

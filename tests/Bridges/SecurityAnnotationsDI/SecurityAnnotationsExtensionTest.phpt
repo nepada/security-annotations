@@ -77,7 +77,7 @@ class SecurityAnnotationsExtensionTest extends TestCase
                 $this->configurator->createContainer();
             },
             \LogicException::class,
-            sprintf('Access validator class \'%s\' must implement IAccessValidator interface.', SecuredPresenter::class)
+            sprintf('Access validator class \'%s\' must implement IAccessValidator interface.', SecuredPresenter::class),
         );
     }
 
@@ -90,7 +90,7 @@ class SecurityAnnotationsExtensionTest extends TestCase
                 $this->configurator->createContainer();
             },
             \LogicException::class,
-            'Access validator class \'NotFoundValidator\' not found.'
+            'Access validator class \'NotFoundValidator\' not found.',
         );
     }
 

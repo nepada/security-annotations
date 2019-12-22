@@ -29,7 +29,7 @@ class RequirementsCheckerTest extends TestCase
                 $requirementsChecker->addAccessValidator('duplicate', Mockery::mock(IAccessValidator::class));
             },
             \LogicException::class,
-            'Access validator for annotation "duplicate" is already registered.'
+            'Access validator for annotation "duplicate" is already registered.',
         );
     }
 
@@ -43,17 +43,13 @@ class RequirementsCheckerTest extends TestCase
                 $requirementsChecker->addAccessValidator('DUPLICATE', Mockery::mock(IAccessValidator::class));
             },
             \LogicException::class,
-            'Access validator for annotation "DUPLICATE" is case insensitive match for already registered access validator "duplicate".'
+            'Access validator for annotation "DUPLICATE" is case insensitive match for already registered access validator "duplicate".',
         );
     }
 
     public function testProtectElement(): void
     {
-        $expectArrayAnnotation = function (array $expected): \Closure {
-            return function ($annotation) use ($expected): bool {
-                return $this->matchArray($expected, $annotation);
-            };
-        };
+        $expectArrayAnnotation = fn (array $expected): \Closure => fn ($annotation): bool => $this->matchArray($expected, $annotation);
 
         $requirementsChecker = new SecurityAnnotations\RequirementsChecker();
 
@@ -77,11 +73,7 @@ class RequirementsCheckerTest extends TestCase
 
     public function testProtectElementWithCaseMismatch(): void
     {
-        $expectArrayAnnotation = function (array $expected): \Closure {
-            return function ($annotation) use ($expected): bool {
-                return $this->matchArray($expected, $annotation);
-            };
-        };
+        $expectArrayAnnotation = fn (array $expected): \Closure => fn ($annotation): bool => $this->matchArray($expected, $annotation);
 
         $requirementsChecker = new SecurityAnnotations\RequirementsChecker();
 
@@ -95,7 +87,7 @@ class RequirementsCheckerTest extends TestCase
                 $requirementsChecker->protectElement(new \ReflectionClass(TestAnnotationsPresenter::class));
             },
             E_USER_WARNING,
-            'Case mismatch in security annotation name "role", correct name is "ROLE".'
+            'Case mismatch in security annotation name "role", correct name is "ROLE".',
         );
     }
 

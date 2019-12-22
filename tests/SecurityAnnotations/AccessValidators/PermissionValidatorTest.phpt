@@ -119,7 +119,7 @@ class PermissionValidatorTest extends TestCase
                 'privilege' => 'edit',
                 'message' => 'Custom error message.',
                 'annotation' => ArrayHash::from(
-                    ['resource' => 'foo', 'privilege' => 'edit', 'message' => 'Custom error message.']
+                    ['resource' => 'foo', 'privilege' => 'edit', 'message' => 'Custom error message.'],
                 ),
             ],
         ];

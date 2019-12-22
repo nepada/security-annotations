@@ -162,9 +162,7 @@ class RoleValidatorTest extends TestCase
     {
         $permission = Mockery::mock(Nette\Security\Permission::class);
         $permission->shouldReceive('roleInheritsFrom')->andReturnUsing(
-            function (string $child, string $parent) use ($rolesInheritance): bool {
-                return in_array($parent, Arrays::get($rolesInheritance, $child, []), true);
-            }
+            fn (string $child, string $parent): bool => in_array($parent, Arrays::get($rolesInheritance, $child, []), true),
         );
 
         return $permission;

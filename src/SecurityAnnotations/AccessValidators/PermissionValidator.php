@@ -45,7 +45,7 @@ class PermissionValidator implements IAccessValidator
                 $message = sprintf(
                     'User is not allowed to %s the resource%s.',
                     $privilege ?? 'access',
-                    $resource !== null ? " '$resource'" : ''
+                    $resource !== null ? " '$resource'" : '',
                 );
             }
             throw new Nette\Application\ForbiddenRequestException($message);
