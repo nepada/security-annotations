@@ -8,8 +8,7 @@ use Nette;
 trait TSecurityAnnotations
 {
 
-    /** @var RequirementsChecker|null */
-    private $requirementsChecker;
+    private ?RequirementsChecker $requirementsChecker = null;
 
     abstract public function getPresenter(): ?Nette\Application\UI\Presenter;
 

@@ -11,8 +11,7 @@ class LoggedInValidator implements IAccessValidator
 
     use Nette\SmartObject;
 
-    /** @var User */
-    private $user;
+    private User $user;
 
     public function __construct(User $user)
     {

@@ -11,8 +11,11 @@ class SecuredPresenter extends Nette\Application\UI\Presenter
 
     use SecurityAnnotations\TSecurityAnnotations;
 
-    /** @var bool */
-    public $autoCanonicalize = false;
+    public function __construct()
+    {
+        parent::__construct();
+        $this->autoCanonicalize = false;
+    }
 
     public function actionDefault(): void
     {

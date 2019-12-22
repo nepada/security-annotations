@@ -10,8 +10,7 @@ class SameSiteValidator implements IAccessValidator
 
     use Nette\SmartObject;
 
-    /** @var Nette\Http\Request */
-    private $request;
+    private Nette\Http\Request $request;
 
     public function __construct(Nette\Http\Request $request)
     {

@@ -20,8 +20,7 @@ require_once __DIR__ . '/../../bootstrap.php';
 class SecurityAnnotationsExtensionTest extends TestCase
 {
 
-    /** @var Nette\Configurator */
-    private $configurator;
+    private Nette\Configurator $configurator;
 
     public function setUp(): void
     {

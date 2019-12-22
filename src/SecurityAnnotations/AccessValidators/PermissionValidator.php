@@ -16,8 +16,7 @@ class PermissionValidator implements IAccessValidator
     private const PRIVILEGE = 'privilege';
     private const MESSAGE = 'message';
 
-    /** @var User */
-    private $user;
+    private User $user;
 
     public function __construct(User $user)
     {

@@ -14,10 +14,10 @@ class RequirementsChecker
     use Nette\SmartObject;
 
     /** @var IAccessValidator[] */
-    private $accessValidators = [];
+    private array $accessValidators = [];
 
     /** @var string[] */
-    private $annotationNames = [];
+    private array $annotationNames = [];
 
     public function addAccessValidator(string $annotationName, IAccessValidator $accessValidator): void
     {

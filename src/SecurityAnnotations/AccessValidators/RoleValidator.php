@@ -13,11 +13,9 @@ class RoleValidator implements IAccessValidator
 
     use Nette\SmartObject;
 
-    /** @var User */
-    private $user;
+    private User $user;
 
-    /** @var Permission|null */
-    private $permission;
+    private ?Permission $permission = null;
 
     public function __construct(User $user, ?Permission $permission = null)
     {
