@@ -37,7 +37,6 @@ class SecurityAnnotationsExtensionTest extends TestCase
         Assert::type(SecurityAnnotations\AccessValidators\LoggedInValidator::class, $container->getService('securityAnnotations.accessValidator.loggedIn'));
         Assert::type(SecurityAnnotations\AccessValidators\RoleValidator::class, $container->getService('securityAnnotations.accessValidator.role'));
         Assert::type(SecurityAnnotations\AccessValidators\PermissionValidator::class, $container->getService('securityAnnotations.accessValidator.allowed'));
-        Assert::type(SecurityAnnotations\AccessValidators\SameSiteValidator::class, $container->getService('securityAnnotations.accessValidator.sameSite'));
 
         $requirementsChecker = $container->getService('securityAnnotations.requirementsChecker');
         Assert::type(SecurityAnnotations\RequirementsChecker::class, $requirementsChecker);
@@ -46,11 +45,10 @@ class SecurityAnnotationsExtensionTest extends TestCase
         $reflection->setAccessible(true);
         $accessValidators = $reflection->getValue($requirementsChecker);
         Assert::type('array', $accessValidators);
-        Assert::count(4, $accessValidators);
+        Assert::count(3, $accessValidators);
         Assert::type(SecurityAnnotations\AccessValidators\LoggedInValidator::class, $accessValidators['loggedIn']);
         Assert::type(SecurityAnnotations\AccessValidators\RoleValidator::class, $accessValidators['role']);
         Assert::type(SecurityAnnotations\AccessValidators\PermissionValidator::class, $accessValidators['allowed']);
-        Assert::type(SecurityAnnotations\AccessValidators\SameSiteValidator::class, $accessValidators['sameSite']);
     }
 
     public function testCustomValidators(): void
