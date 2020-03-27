@@ -3,11 +3,14 @@ declare(strict_types = 1);
 
 namespace Nepada\SecurityAnnotations\AccessValidators;
 
+use Nepada\SecurityAnnotations\Annotations\Role;
 use Nette;
 use Nette\Security\Permission;
 use Nette\Security\User;
-use Nette\Utils\Validators;
 
+/**
+ * @implements AccessValidator<Role>
+ */
 class RoleValidator implements AccessValidator
 {
 
@@ -25,62 +28,39 @@ class RoleValidator implements AccessValidator
 
     public function getSupportedAnnotationName(): string
     {
-        return 'role';
+        return Role::class;
     }
 
     /**
-     * @param mixed $annotation parsed value of annotation
+     * @phpstan-param Role $annotation
+     * @param object|Role $annotation
      * @throws Nette\Application\ForbiddenRequestException
      */
-    public function validateAccess($annotation): void
+    public function validateAccess(object $annotation): void
     {
-        if ($annotation instanceof \Traversable) {
-            $annotation = iterator_to_array($annotation);
-        }
-        if (is_string($annotation)) {
-            $roles = [$annotation];
-        } elseif (Validators::isList($annotation) && Validators::everyIs($annotation, 'string') && count($annotation) > 0) {
-            $roles = $annotation;
-        } else {
-            throw new \InvalidArgumentException('Unexpected annotation type, string or a list of strings expected.');
+        $allowedRoles = $annotation->roles;
+        $userRoles = $this->user->getRoles();
+
+        if (array_intersect($userRoles, $allowedRoles) !== []) {
+            return;
         }
 
-        $success = false;
-        foreach ($roles as $role) {
-            if ($this->isUserInRole($role)) {
-                $success = true;
-                break;
-            }
-        }
-
-        if (! $success) {
-            $message = sprintf("User is not in any of the required roles '%s'.", implode("', '", $roles));
-            throw new Nette\Application\ForbiddenRequestException($message);
-        }
-    }
-
-    private function isUserInRole(string $requiredRole): bool
-    {
-        $found = false;
-        $roles = $this->user->getRoles();
-
-        if (in_array($requiredRole, $roles, true)) {
-            $found = true;
-
-        } elseif ($this->permission !== null) {
-            foreach ($roles as $role) {
-                try {
-                    if ($this->permission->roleInheritsFrom($role, $requiredRole)) {
-                        $found = true;
-                        break;
+        if ($this->permission !== null) {
+            foreach ($userRoles as $userRole) {
+                foreach ($allowedRoles as $allowedRole) {
+                    try {
+                        if ($this->permission->roleInheritsFrom($userRole, $allowedRole)) {
+                            return;
+                        }
+                    } catch (Nette\InvalidStateException $exception) {
+                        // ignore undefined roles
                     }
-                } catch (Nette\InvalidStateException $exception) {
-                    // ignore undefined roles
                 }
             }
         }
 
-        return $found;
+        $message = sprintf("User is not in any of the required roles '%s'.", implode("', '", $annotation->roles));
+        throw new Nette\Application\ForbiddenRequestException($message);
     }
 
 }

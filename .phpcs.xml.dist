@@ -13,7 +13,6 @@
     </rule>
 
     <rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
-        <exclude-pattern>*/exceptions.php</exclude-pattern>
         <properties>
             <property name="rootNamespaces" type="array">
                 <element key="src" value="Nepada"/>
@@ -35,6 +34,9 @@
                 <element value="@dataProvider"/>
             </property>
         </properties>
+    </rule>
+    <rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint">
+        <exclude-pattern>src/SecurityAnnotations/Annotations/*</exclude-pattern> <!-- doctrine/annotations requires types in @var annotations -->
     </rule>
 
     <!-- special settings for tests and bootstrap -->

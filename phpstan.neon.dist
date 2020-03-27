@@ -14,3 +14,11 @@ parameters:
             - LogicException
             - ReflectionException
             - Nette\InvalidStateException
+
+    ignoreErrors:
+        - # intended
+            message: '~Property Nepada\\SecurityAnnotations\\RequirementsChecker::\$accessValidators with generic interface Nepada\\SecurityAnnotations\\AccessValidators\\AccessValidator does not specify its types: TAnnotation~'
+            path: src/SecurityAnnotations/RequirementsChecker.php
+        - # intended
+            message: '~Method Nepada\\SecurityAnnotations\\RequirementsChecker::addAccessValidator\(\) has parameter \$accessValidator with generic interface Nepada\\SecurityAnnotations\\AccessValidators\\AccessValidator but does not specify its types: TAnnotation~'
+            path: src/SecurityAnnotations/RequirementsChecker.php

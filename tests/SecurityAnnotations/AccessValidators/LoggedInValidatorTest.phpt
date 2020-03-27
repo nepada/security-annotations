@@ -3,13 +3,15 @@ declare(strict_types = 1);
 
 namespace NepadaTests\SecurityAnnotations\AccessValidators;
 
+use Doctrine\Common\Annotations\AnnotationRegistry;
+use Doctrine\Common\Annotations\DocParser;
 use Mockery;
 use Mockery\MockInterface;
 use Nepada\SecurityAnnotations\AccessValidators;
+use Nepada\SecurityAnnotations\Annotations\LoggedIn;
 use NepadaTests\TestCase;
 use Nette;
 use Nette\Security\User;
-use Nette\Utils\ArrayHash;
 use Tester\Assert;
 use Tester\Environment;
 
@@ -22,20 +24,20 @@ require_once __DIR__ . '/../../bootstrap.php';
 class LoggedInValidatorTest extends TestCase
 {
 
+    private DocParser $docParser;
+
     protected function setUp(): void
     {
         parent::setUp();
         Environment::bypassFinals();
+        AnnotationRegistry::registerUniqueLoader('class_exists');
+        $this->docParser = new DocParser();
     }
 
-    /**
-     * @dataProvider getDataForAccessAllowed
-     * @param bool $isLoggedIn
-     * @param bool $annotation
-     */
-    public function testAccessAllowed(bool $isLoggedIn, bool $annotation): void
+    public function testAccessAllowed(): void
     {
-        $user = $this->mockUser($isLoggedIn);
+        $annotation = $this->parseAnnotation('@Nepada\SecurityAnnotations\Annotations\LoggedIn');
+        $user = $this->mockUser(true);
         $validator = new AccessValidators\LoggedInValidator($user);
 
         Assert::noError(function () use ($validator, $annotation): void {
@@ -43,70 +45,15 @@ class LoggedInValidatorTest extends TestCase
         });
     }
 
-    /**
-     * @return mixed[]
-     */
-    protected function getDataForAccessAllowed(): array
-    {
-        return [
-            [
-                'isLoggedIn' => true,
-                'annotation' => true,
-            ],
-            [
-                'isLoggedIn' => true,
-                'annotation' => false,
-            ],
-            [
-                'isLoggedIn' => false,
-                'annotation' => false,
-            ],
-        ];
-    }
-
     public function testAccessDenied(): void
     {
+        $annotation = $this->parseAnnotation('@Nepada\SecurityAnnotations\Annotations\LoggedIn');
         $user = $this->mockUser(false);
-        $validator = new AccessValidators\LoggedInValidator($user);
-
-        Assert::exception(function () use ($validator): void {
-            $validator->validateAccess(true);
-        }, Nette\Application\ForbiddenRequestException::class);
-    }
-
-    /**
-     * @dataProvider getDataForInvalidAnnotation
-     * @param mixed $annotation
-     */
-    public function testInvalidAnnotation($annotation): void
-    {
-        $user = $this->mockUser();
         $validator = new AccessValidators\LoggedInValidator($user);
 
         Assert::exception(function () use ($validator, $annotation): void {
             $validator->validateAccess($annotation);
-        }, \InvalidArgumentException::class, 'Unexpected annotation type, bool expected.');
-    }
-
-    /**
-     * @return mixed[]
-     */
-    protected function getDataForInvalidAnnotation(): array
-    {
-        return [
-            [
-                'annotation' => null,
-            ],
-            [
-                'annotation' => 'foo',
-            ],
-            [
-                'annotation' => ['foo', 'bar'],
-            ],
-            [
-                'annotation' => ArrayHash::from(['foo' => 'bar']),
-            ],
-        ];
+        }, Nette\Application\ForbiddenRequestException::class);
     }
 
     /**
@@ -119,6 +66,14 @@ class LoggedInValidatorTest extends TestCase
         $user->shouldReceive('isLoggedIn')->andReturn($isLoggedIn);
 
         return $user;
+    }
+
+    private function parseAnnotation(string $input): LoggedIn
+    {
+        $annotations = $this->docParser->parse($input);
+        Assert::count(1, $annotations);
+        Assert::type(LoggedIn::class, $annotations[0]);
+        return $annotations[0];
     }
 
 }

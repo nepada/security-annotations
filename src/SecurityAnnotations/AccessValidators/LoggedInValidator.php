@@ -3,9 +3,13 @@ declare(strict_types = 1);
 
 namespace Nepada\SecurityAnnotations\AccessValidators;
 
+use Nepada\SecurityAnnotations\Annotations\LoggedIn;
 use Nette;
 use Nette\Security\User;
 
+/**
+ * @implements AccessValidator<LoggedIn>
+ */
 class LoggedInValidator implements AccessValidator
 {
 
@@ -20,22 +24,21 @@ class LoggedInValidator implements AccessValidator
 
     public function getSupportedAnnotationName(): string
     {
-        return 'loggedIn';
+        return LoggedIn::class;
     }
 
     /**
-     * @param mixed $annotation parsed value of annotation
+     * @phpstan-param LoggedIn $annotation
+     * @param object|LoggedIn $annotation
      * @throws Nette\Application\ForbiddenRequestException
      */
-    public function validateAccess($annotation): void
+    public function validateAccess(object $annotation): void
     {
-        if (! is_bool($annotation)) {
-            throw new \InvalidArgumentException('Unexpected annotation type, bool expected.');
+        if ($this->user->isLoggedIn()) {
+            return;
         }
 
-        if ($annotation && ! $this->user->isLoggedIn()) {
-            throw new Nette\Application\ForbiddenRequestException('User is not logged in.');
-        }
+        throw new Nette\Application\ForbiddenRequestException('User is not logged in.');
     }
 
 }

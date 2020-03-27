@@ -4,6 +4,7 @@ services:
 securityAnnotations:
     enableDefaultValidators: false
     validators:
+        - Nepada\SecurityAnnotations\AccessValidators\LoggedInValidator
         - NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures\FooValidator
         - NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures\Foo\FooValidator
         - @barValidator

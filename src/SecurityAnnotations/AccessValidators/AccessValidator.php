@@ -5,15 +5,22 @@ namespace Nepada\SecurityAnnotations\AccessValidators;
 
 use Nette;
 
+/**
+ * @template TAnnotation of object
+ */
 interface AccessValidator
 {
 
+    /**
+     * @phpstan-return class-string<TAnnotation>
+     */
     public function getSupportedAnnotationName(): string;
 
     /**
-     * @param mixed $annotation parsed value of annotation
+     * @phpstan-param TAnnotation $annotation
+     * @param object $annotation
      * @throws Nette\Application\ForbiddenRequestException
      */
-    public function validateAccess($annotation): void;
+    public function validateAccess(object $annotation): void;
 
 }

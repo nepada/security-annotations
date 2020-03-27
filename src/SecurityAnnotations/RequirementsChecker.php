@@ -3,40 +3,39 @@ declare(strict_types = 1);
 
 namespace Nepada\SecurityAnnotations;
 
+use Doctrine\Common\Annotations\Reader;
 use Nepada\SecurityAnnotations\AccessValidators\AccessValidator;
 use Nette;
-use Nette\Reflection\AnnotationsParser;
-use Nette\Utils\Strings;
 
 class RequirementsChecker
 {
 
     use Nette\SmartObject;
 
-    /** @var AccessValidator[] */
+    private Reader $annotationReader;
+
+    /** @var array<class-string, AccessValidator> */
     private array $accessValidators = [];
 
-    /** @var string[] */
-    private array $annotationNames = [];
+    public function __construct(Reader $annotationReader)
+    {
+        $this->annotationReader = $annotationReader;
+    }
 
     public function addAccessValidator(AccessValidator $accessValidator): void
     {
         $annotationName = $accessValidator->getSupportedAnnotationName();
-        if (isset($this->accessValidators[$annotationName])) {
-            throw new \LogicException("Access validator for annotation \"$annotationName\" is already registered.");
+        if (! class_exists($annotationName)) {
+            throw new \LogicException("Annotation class $annotationName does not exist.");
         }
 
-        $lowerCaseAnnotationName = Strings::lower($annotationName);
-        if (isset($this->annotationNames[$lowerCaseAnnotationName])) {
-            $errorMessage = sprintf(
-                'Access validator for annotation "%s" is case insensitive match for already registered access validator "%s".',
-                $annotationName,
-                $this->annotationNames[$lowerCaseAnnotationName],
-            );
-            throw new \LogicException($errorMessage);
+        $reflection = new \ReflectionClass($annotationName);
+        $normalizedName = $reflection->getName();
+
+        if (isset($this->accessValidators[$normalizedName])) {
+            throw new \LogicException("Access validator for annotation $normalizedName is already registered.");
         }
 
-        $this->annotationNames[$lowerCaseAnnotationName] = $annotationName;
         $this->accessValidators[$annotationName] = $accessValidator;
     }
 
@@ -46,27 +45,34 @@ class RequirementsChecker
      */
     public function protectElement(\Reflector $element): void
     {
-        foreach (AnnotationsParser::getAll($element) as $annotationName => $annotations) {
-            if (! isset($this->accessValidators[$annotationName])) {
-                $lowerCaseAnnotationName = Strings::lower($annotationName);
-                if (! isset($this->annotationNames[$lowerCaseAnnotationName])) {
-                    continue;
-                }
-
-                $errorMessage = sprintf(
-                    'Case mismatch in security annotation name "%s", correct name is "%s".',
-                    $annotationName,
-                    $this->annotationNames[$lowerCaseAnnotationName],
-                );
-                trigger_error($errorMessage, E_USER_WARNING);
-                $annotationName = $this->annotationNames[$lowerCaseAnnotationName];
-            }
-
-            $accessValidator = $this->accessValidators[$annotationName];
-            foreach ($annotations as $annotation) {
-                $accessValidator->validateAccess($annotation);
+        $annotations = $this->readAnnotations($element);
+        foreach ($annotations as $annotation) {
+            $annotationName = get_class($annotation);
+            if (isset($this->accessValidators[$annotationName])) {
+                $this->accessValidators[$annotationName]->validateAccess($annotation);
             }
         }
+    }
+
+    /**
+     * @param \Reflector $element
+     * @return object[]
+     */
+    private function readAnnotations(\Reflector $element): array
+    {
+        if ($element instanceof \ReflectionMethod) {
+            return $this->annotationReader->getMethodAnnotations($element);
+        }
+
+        if ($element instanceof \ReflectionClass) {
+            return $this->annotationReader->getClassAnnotations($element);
+        }
+
+        if ($element instanceof \ReflectionProperty) {
+            return $this->annotationReader->getPropertyAnnotations($element);
+        }
+
+        return [];
     }
 
 }

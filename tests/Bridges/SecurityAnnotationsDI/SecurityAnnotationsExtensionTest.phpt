@@ -7,7 +7,6 @@ use Nepada\SecurityAnnotations;
 use Nepada\SecurityAnnotations\AccessValidators\LoggedInValidator;
 use Nepada\SecurityAnnotations\AccessValidators\PermissionValidator;
 use Nepada\SecurityAnnotations\AccessValidators\RoleValidator;
-use NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures\BarValidator;
 use NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures\Foo\FooValidator as FooValidator2;
 use NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures\FooValidator;
 use NepadaTests\SecurityAnnotations\Fixtures\SecuredPresenter;
@@ -50,9 +49,6 @@ class SecurityAnnotationsExtensionTest extends TestCase
         $accessValidators = $reflection->getValue($requirementsChecker);
         Assert::type('array', $accessValidators);
         Assert::count(3, $accessValidators);
-        Assert::type(LoggedInValidator::class, $accessValidators['loggedIn']);
-        Assert::type(RoleValidator::class, $accessValidators['role']);
-        Assert::type(PermissionValidator::class, $accessValidators['allowed']);
     }
 
     public function testCustomValidators(): void
@@ -60,6 +56,7 @@ class SecurityAnnotationsExtensionTest extends TestCase
         $this->configurator->addConfig(__DIR__ . '/Fixtures/config.custom-validators.neon');
         $container = $this->configurator->createContainer();
 
+        Assert::type(LoggedInValidator::class, $container->getService('securityAnnotations.loggedInValidator'));
         Assert::type(FooValidator::class, $container->getService('securityAnnotations.fooValidator'));
         Assert::type(FooValidator2::class, $container->getService('securityAnnotations.fooValidator_2'));
 
@@ -69,10 +66,7 @@ class SecurityAnnotationsExtensionTest extends TestCase
         $reflection->setAccessible(true);
         $accessValidators = $reflection->getValue($requirementsChecker);
         Assert::type('array', $accessValidators);
-        Assert::count(3, $accessValidators);
-        Assert::type(FooValidator::class, $accessValidators['foo']);
-        Assert::type(FooValidator2::class, $accessValidators['foo2']);
-        Assert::type(BarValidator::class, $accessValidators['bar']);
+        Assert::count(4, $accessValidators);
     }
 
     public function testInvalidValidator(): void

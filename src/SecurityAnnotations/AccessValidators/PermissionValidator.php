@@ -3,18 +3,18 @@ declare(strict_types = 1);
 
 namespace Nepada\SecurityAnnotations\AccessValidators;
 
+use Nepada\SecurityAnnotations\Annotations\Allowed;
 use Nette;
 use Nette\Security\IAuthorizator;
 use Nette\Security\User;
 
+/**
+ * @implements AccessValidator<Allowed>
+ */
 class PermissionValidator implements AccessValidator
 {
 
     use Nette\SmartObject;
-
-    private const RESOURCE = 'resource';
-    private const PRIVILEGE = 'privilege';
-    private const MESSAGE = 'message';
 
     private User $user;
 
@@ -25,36 +25,28 @@ class PermissionValidator implements AccessValidator
 
     public function getSupportedAnnotationName(): string
     {
-        return 'allowed';
+        return Allowed::class;
     }
 
     /**
-     * @param mixed $annotation parsed value of annotation
+     * @phpstan-param Allowed $annotation
+     * @param object|Allowed $annotation
      * @throws Nette\Application\ForbiddenRequestException
      */
-    public function validateAccess($annotation): void
+    public function validateAccess(object $annotation): void
     {
-        if ($annotation instanceof \Traversable) {
-            $annotation = iterator_to_array($annotation);
-        } elseif (! is_array($annotation)) {
-            throw new \InvalidArgumentException('Unexpected annotation type, array or Traversable expected.');
+        $resource = $annotation->resource ?? IAuthorizator::ALL;
+        $privilege = $annotation->privilege ?? IAuthorizator::ALL;
+        if ($this->user->isAllowed($resource, $privilege)) {
+            return;
         }
 
-        $resource = $annotation[self::RESOURCE] ?? IAuthorizator::ALL;
-        $privilege = $annotation[self::PRIVILEGE] ?? IAuthorizator::ALL;
-
-        if (! $this->user->isAllowed($resource, $privilege)) {
-            if (isset($annotation[self::MESSAGE])) {
-                $message = $annotation['message'];
-            } else {
-                $message = sprintf(
-                    'User is not allowed to %s the resource%s.',
-                    $privilege ?? 'access',
-                    $resource !== null ? " '$resource'" : '',
-                );
-            }
-            throw new Nette\Application\ForbiddenRequestException($message);
-        }
+        $message = $annotation->message ?? sprintf(
+            'User is not allowed to %s the resource%s.',
+            $privilege ?? 'access',
+            $resource !== null ? " '$resource'" : '',
+        );
+        throw new Nette\Application\ForbiddenRequestException($message);
     }
 
 }

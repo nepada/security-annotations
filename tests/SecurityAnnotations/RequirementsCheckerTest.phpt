@@ -3,11 +3,17 @@ declare(strict_types = 1);
 
 namespace NepadaTests\SecurityAnnotations;
 
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\DocParser;
 use Mockery\MockInterface;
 use Nepada\SecurityAnnotations;
 use Nepada\SecurityAnnotations\AccessValidators\AccessValidator;
+use Nepada\SecurityAnnotations\Annotations\Allowed;
+use Nepada\SecurityAnnotations\Annotations\LoggedIn;
+use Nepada\SecurityAnnotations\Annotations\Role;
 use NepadaTests\SecurityAnnotations\Fixtures\TestAnnotationsPresenter;
 use NepadaTests\TestCase;
+use Nette\Utils\Strings;
 use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
@@ -21,49 +27,51 @@ class RequirementsCheckerTest extends TestCase
 
     public function testAddDuplicateAccessValidator(): void
     {
-        $requirementsChecker = new SecurityAnnotations\RequirementsChecker();
-        $requirementsChecker->addAccessValidator($this->mockAccessValidator('duplicate'));
+        $requirementsChecker = $this->createRequirementsChecker();
+        $requirementsChecker->addAccessValidator($this->mockAccessValidator(self::class));
 
         Assert::exception(
             function () use ($requirementsChecker): void {
-                $requirementsChecker->addAccessValidator($this->mockAccessValidator('duplicate'));
+                /** @var class-string<object> $lowerCaseClass */
+                $lowerCaseClass = Strings::lower(self::class);
+                $requirementsChecker->addAccessValidator($this->mockAccessValidator($lowerCaseClass));
             },
             \LogicException::class,
-            'Access validator for annotation "duplicate" is already registered.',
-        );
-    }
-
-    public function testAddCaseInsensitiveDuplicateAccessValidator(): void
-    {
-        $requirementsChecker = new SecurityAnnotations\RequirementsChecker();
-        $requirementsChecker->addAccessValidator($this->mockAccessValidator('duplicate'));
-
-        Assert::exception(
-            function () use ($requirementsChecker): void {
-                $requirementsChecker->addAccessValidator($this->mockAccessValidator('DUPLICATE'));
-            },
-            \LogicException::class,
-            'Access validator for annotation "DUPLICATE" is case insensitive match for already registered access validator "duplicate".',
+            'Access validator for annotation NepadaTests\SecurityAnnotations\RequirementsCheckerTest is already registered.',
         );
     }
 
     public function testProtectElement(): void
     {
-        $expectArrayAnnotation = fn (array $expected): \Closure => fn ($annotation): bool => $this->matchArray($expected, $annotation);
+        $requirementsChecker = $this->createRequirementsChecker();
 
-        $requirementsChecker = new SecurityAnnotations\RequirementsChecker();
-
-        $loggedInValidator = $this->mockAccessValidator('loggedIn');
-        $loggedInValidator->shouldReceive('validateAccess')->withArgs([true])->once();
+        $loggedInValidator = $this->mockAccessValidator(LoggedIn::class);
+        $loggedInValidator->shouldReceive('validateAccess')->withArgs([LoggedIn::class])->once();
         $requirementsChecker->addAccessValidator($loggedInValidator);
 
-        $roleValidator = $this->mockAccessValidator('role');
-        $roleValidator->shouldReceive('validateAccess')->withArgs($expectArrayAnnotation(['a', 'b', 'c']))->once();
-        $roleValidator->shouldReceive('validateAccess')->withArgs(['d'])->once();
+        $roleValidator = $this->mockAccessValidator(Role::class);
+        $roleValidator->shouldReceive('validateAccess')->withArgs(
+            function (Role $annotation): bool {
+                Assert::same(['a', 'b', 'c'], $annotation->roles);
+                return true;
+            },
+        )->once();
+        $roleValidator->shouldReceive('validateAccess')->withArgs(
+            function (Role $annotation): bool {
+                Assert::same(['d'], $annotation->roles);
+                return true;
+            },
+        )->once();
         $requirementsChecker->addAccessValidator($roleValidator);
 
-        $allowedValidator = $this->mockAccessValidator('allowed');
-        $allowedValidator->shouldReceive('validateAccess')->withArgs($expectArrayAnnotation(['resource' => 'foo', 'privilege' => 'bar']))->once();
+        $allowedValidator = $this->mockAccessValidator(Allowed::class);
+        $allowedValidator->shouldReceive('validateAccess')->withArgs(
+            function (Allowed $annotation): bool {
+                Assert::same('foo', $annotation->resource);
+                Assert::same('bar', $annotation->privilege);
+                return true;
+            },
+        )->once();
         $requirementsChecker->addAccessValidator($allowedValidator);
 
         Assert::noError(function () use ($requirementsChecker): void {
@@ -71,43 +79,11 @@ class RequirementsCheckerTest extends TestCase
         });
     }
 
-    public function testProtectElementWithCaseMismatch(): void
-    {
-        $expectArrayAnnotation = fn (array $expected): \Closure => fn ($annotation): bool => $this->matchArray($expected, $annotation);
-
-        $requirementsChecker = new SecurityAnnotations\RequirementsChecker();
-
-        $roleValidator = $this->mockAccessValidator('ROLE');
-        $roleValidator->shouldReceive('validateAccess')->withArgs($expectArrayAnnotation(['a', 'b', 'c']))->once();
-        $roleValidator->shouldReceive('validateAccess')->withArgs(['d'])->once();
-        $requirementsChecker->addAccessValidator($roleValidator);
-
-        Assert::error(
-            function () use ($requirementsChecker): void {
-                $requirementsChecker->protectElement(new \ReflectionClass(TestAnnotationsPresenter::class));
-            },
-            E_USER_WARNING,
-            'Case mismatch in security annotation name "role", correct name is "ROLE".',
-        );
-    }
-
     /**
-     * @param string[] $expected
-     * @param mixed $actual
-     * @return bool
-     */
-    private function matchArray(array $expected, $actual): bool
-    {
-        if ($actual instanceof \Traversable) {
-            $actual = iterator_to_array($actual);
-        }
-
-        return $expected === $actual;
-    }
-
-    /**
+     * @template T of object
+     * @phpstan-param class-string<T> $annotationName
      * @param string $annotationName
-     * @return AccessValidator|MockInterface
+     * @return AccessValidator<T>|MockInterface
      */
     private function mockAccessValidator(string $annotationName): AccessValidator
     {
@@ -115,6 +91,11 @@ class RequirementsCheckerTest extends TestCase
         $mock->shouldReceive('getSupportedAnnotationName')->andReturn($annotationName);
 
         return $mock;
+    }
+
+    private function createRequirementsChecker(): SecurityAnnotations\RequirementsChecker
+    {
+        return new SecurityAnnotations\RequirementsChecker(new AnnotationReader(new DocParser()));
     }
 
 }

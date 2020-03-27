@@ -5,12 +5,15 @@ namespace NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures;
 
 use Nepada\SecurityAnnotations\AccessValidators\AccessValidator;
 
+/**
+ * @implements AccessValidator<FooValidator>
+ */
 class FooValidator implements AccessValidator
 {
 
     public function getSupportedAnnotationName(): string
     {
-        return 'foo';
+        return static::class;
     }
 
     /**

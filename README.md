@@ -23,6 +23,8 @@ extensions:
     securityAnnotations: Nepada\Bridges\SecurityAnnotationsDI\SecurityAnnotationsExtension
 ```
 
+The package relies on [doctrine/annotations](https://packagist.org/packages/doctrine/annotations) for parsing annotations. It's up to you to choose and set up the integration, the recommended package to do the job is [nettrine/annotations](https://packagist.org/packages/nettrine/annotations).
+
 
 Usage
 -----
@@ -35,8 +37,12 @@ To enable this feature simple use `SecurityAnnotations` trait in any presenter o
 
 **Example:**
 ```php
+use Nepada\SecurityAnnotations\Annotations\Allowed;
+use Nepada\SecurityAnnotations\Annotations\LoggedIn;
+use Nepada\SecurityAnnotations\Annotations\Role;
+
 /**
- * @loggedIn
+ * @LoggedIn
  * To access this presenter the user must be logged in.
  */
 class SecuredPresenter extends Nette\Application\UI\Presenter
@@ -45,7 +51,7 @@ class SecuredPresenter extends Nette\Application\UI\Presenter
     use Nepada\SecurityAnnotations\SecurityAnnotations;
 
     /**
-     * @role(admin, superadmin)
+     * @Role({"admin", "superadmin"})
      */
     public function actionForAdmins(): void
     {
@@ -53,7 +59,7 @@ class SecuredPresenter extends Nette\Application\UI\Presenter
     }
 
     /**
-     * @allowed(resource=world, privilege=destroy)
+     * @Allowed(resource="world", privilege="destroy")
      */
     public function handleDestroyWorld(): void
     {
@@ -65,10 +71,10 @@ class SecuredPresenter extends Nette\Application\UI\Presenter
 
 The annotations and rules they enforce are completely customizable (see below), however the default setup comes with three predefined rules:
 
-- **@loggedIn** - checks whether the user is logged in.
-- **@role(admin, superadmin)** - checks whether the user has at least one of the specified roles.
+- **@LoggedIn** - checks whether the user is logged in.
+- **@Role({"admin", "superadmin"})** - checks whether the user has at least one of the specified roles.
   If you use `Nette\Security\Permission` as your authorizator, then role inheritance is taken into account, i.e. users that have at least one role that inherits from at least one of the specified roles are allowed as well.
-- **@allowed(resource=world, privilege=destroy)** - checks whether the user has at least one role that is granted the specified privilege on the specified resource.
+- **@Allowed(resource="world", privilege="destroy")** - checks whether the user has at least one role that is granted the specified privilege on the specified resource.
 
 
 ### Securing components
@@ -76,13 +82,15 @@ The annotations and rules they enforce are completely customizable (see below), 
 Properly securing components is a tricky business, take a look at the following example:
 
 ```php
+use Nepada\SecurityAnnotations\Annotations\LoggedIn;
+
 class SecuredPresenter extends Nette\Application\UI\Presenter
 {
 
     use Nepada\SecurityAnnotations\SecurityAnnotations;
 
     /**
-     * @loggedIn
+     * @LoggedIn
      */
     public function actionDefault(): void
     {
@@ -125,6 +133,6 @@ services:
 
 #### How do access validators work?
 
-Annotations are parsed by `Nette\Reflection\AnnotationsParser` and their value is one by one passed for inspection to the specific validator.
-It's the responsibility of the validator to check whether or not the annotation value is of expected type, e.g. the default `@loggedIn` validator can handle only boolean values.
-Based on the annotation value the validator decides either to deny access (throws `Nette\Application\BadRequestException`), or grant access (no exception is thrown).
+Every access validator implements `Nepada\SecurityAnnotations\AccessValidators\AccessValidator` interface. The access validator specifies which annotation type it supports via its public API.
+
+When checking the requirements all annotations are parsed using `doctrine/annotations` and they are passed one by one to associated access validator for inspection. Based on the annotation value the validator decides either to deny access (throws `Nette\Application\BadRequestException`), or grant access (no exception is thrown).
