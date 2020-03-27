@@ -8,22 +8,9 @@ use Nette;
 trait SecurityAnnotations
 {
 
-    private ?RequirementsChecker $requirementsChecker = null;
+    private RequirementsChecker $requirementsChecker;
 
-    abstract public function getPresenter(): ?Nette\Application\UI\Presenter;
-
-    public function getRequirementsChecker(): RequirementsChecker
-    {
-        if ($this->requirementsChecker !== null) {
-            return $this->requirementsChecker;
-        }
-
-        $presenter = $this->getPresenter();
-
-        return $presenter->getContext()->getByType(RequirementsChecker::class);
-    }
-
-    public function setRequirementsChecker(RequirementsChecker $requirementsChecker): void
+    public function injectRequirementsChecker(RequirementsChecker $requirementsChecker): void
     {
         $this->requirementsChecker = $requirementsChecker;
     }
@@ -37,7 +24,7 @@ trait SecurityAnnotations
         parent::checkRequirements($element);
 
         if ($element instanceof \Reflector) {
-            $this->getRequirementsChecker()->protectElement($element);
+            $this->requirementsChecker->protectElement($element);
         }
     }
 

@@ -28,7 +28,9 @@ class SecuredPresenter extends Nette\Application\UI\Presenter
 
     protected function createComponentFoo(): SecuredControl
     {
-        return new SecuredControl();
+        $control = new SecuredControl();
+        $control->injectRequirementsChecker($this->requirementsChecker);
+        return $control;
     }
 
 }

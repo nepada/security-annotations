@@ -32,10 +32,10 @@ class SecuredComponentsTest extends TestCase
         Assert::noError(function () use ($requirementsChecker): void {
             $presenter = new SecuredComponentsPresenter();
 
-            $presenter->setRequirementsChecker($requirementsChecker);
+            $presenter->injectRequirementsChecker($requirementsChecker);
             $control = $presenter->getComponent('foo');
 
-            $control->setRequirementsChecker($requirementsChecker);
+            $control->injectRequirementsChecker($requirementsChecker);
             $control->getComponent('foo');
         });
     }

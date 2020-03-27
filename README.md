@@ -31,7 +31,7 @@ This package builds on top of the standard access authorization of Nette compone
 This method is called before invoking any of component/presenter signal handlers, and before presenter `startup`, `action<>` and `render<>` methods.
 
 With this package you can specify the access rules via annotations on any of the mentioned methods, or on presenter class.
-To enable this feature simple use `SecurityAnnotations` trait in any presenter or component.
+To enable this feature simple use `SecurityAnnotations` trait in any presenter or component and make sure `RequirementsChecker` service gets injected via `injectRquirementsChecker()` - with default Nette configuration this should work on presenters out of the box, but you need to take care of components, e.g. by enabling inject calls.
 
 **Example:**
 ```php
