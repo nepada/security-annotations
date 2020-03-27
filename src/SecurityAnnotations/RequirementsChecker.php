@@ -19,8 +19,9 @@ class RequirementsChecker
     /** @var string[] */
     private array $annotationNames = [];
 
-    public function addAccessValidator(string $annotationName, AccessValidator $accessValidator): void
+    public function addAccessValidator(AccessValidator $accessValidator): void
     {
+        $annotationName = $accessValidator->getSupportedAnnotationName();
         if (isset($this->accessValidators[$annotationName])) {
             throw new \LogicException("Access validator for annotation \"$annotationName\" is already registered.");
         }

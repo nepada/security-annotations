@@ -109,16 +109,15 @@ You should always check user's permissions when creating the component. To make 
 
 ### Customizing access validators
 
-All access validators are configured in `validators` section of the extension configuration:
-- To disable any of the default rules set the validator to `false`.
-- You can also define your own validators, i.e. services implementing `Nepada\SecurityAnnotations\AccessValidators\AccessValidator` interface.
+- You can disable the default set of validators by `enableDefaultValidators: false`.
+- You can also define your own validators, i.e. services implementing `Nepada\SecurityAnnotations\AccessValidators\AccessValidator` interface in `validators` configuration section.
 
 ```yaml
 securityAnnotations:
+    enableDefaultValidators: false # disable default set of validators
     validators:
-        loggedIn: false # disable predefined @loggedIn annotation validator
-        role: MyRoleAccessValidator # redefine validator for @role annotation
-        foo: @fooAccessValidator # use named service as validator for @foo annotation
+        - MyRoleAccessValidator # define validator by class name
+        - @fooAccessValidator # define validator by service reference
         
 services:
     fooAccessValidator: FooAccessValidator(%fooParameter%)

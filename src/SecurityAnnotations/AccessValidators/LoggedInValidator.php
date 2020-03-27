@@ -18,6 +18,11 @@ class LoggedInValidator implements AccessValidator
         $this->user = $user;
     }
 
+    public function getSupportedAnnotationName(): string
+    {
+        return 'loggedIn';
+    }
+
     /**
      * @param mixed $annotation parsed value of annotation
      * @throws Nette\Application\ForbiddenRequestException

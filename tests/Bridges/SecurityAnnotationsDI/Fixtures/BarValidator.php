@@ -8,6 +8,11 @@ use Nepada\SecurityAnnotations\AccessValidators\AccessValidator;
 class BarValidator implements AccessValidator
 {
 
+    public function getSupportedAnnotationName(): string
+    {
+        return 'bar';
+    }
+
     /**
      * @param mixed $annotation parsed value of annotation
      */

@@ -12,19 +12,23 @@ use Nette;
 use Nette\Schema\Expect;
 use Nette\Utils\Strings;
 
+/**
+ * @property \stdClass $config
+ */
 class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
 {
 
     private const DEFAULT_VALIDATORS = [
-        'loggedIn' => LoggedInValidator::class,
-        'role' => RoleValidator::class,
-        'allowed' => PermissionValidator::class,
+        LoggedInValidator::class,
+        RoleValidator::class,
+        PermissionValidator::class,
     ];
 
     public function getConfigSchema(): Nette\Schema\Schema
     {
         return Expect::structure([
-            'validators' => Expect::arrayOf(Expect::anyOf(Expect::string(), false))->default(self::DEFAULT_VALIDATORS),
+            'enableDefaultValidators' => Expect::bool(true),
+            'validators' => Expect::listOf(Expect::string()),
         ]);
     }
 
@@ -35,17 +39,18 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
         $requirementsChecker = $container->addDefinition($this->prefix('requirementsChecker'))
             ->setType(RequirementsChecker::class);
 
-        foreach ($this->config->validators as $annotation => $validator) {
-            if ($validator === false) {
-                continue;
-            }
+        $validators = $this->config->validators;
+        if ($this->config->enableDefaultValidators) {
+            $validators = array_merge(self::DEFAULT_VALIDATORS, $validators);
+        }
 
-            $validatorService = $this->getValidatorService($validator, $annotation);
-            $requirementsChecker->addSetup('addAccessValidator', [$annotation, $validatorService]);
+        foreach ($validators as $validator) {
+            $validatorService = $this->getValidatorService($validator);
+            $requirementsChecker->addSetup('addAccessValidator', [$validatorService]);
         }
     }
 
-    private function getValidatorService(string $validator, string $annotation): string
+    private function getValidatorService(string $validator): string
     {
         if (Strings::startsWith($validator, '@')) {
             return $validator;
@@ -53,15 +58,36 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
 
         if (! class_exists($validator)) {
             throw new \LogicException("Access validator class '$validator' not found.");
-        } elseif (! in_array(AccessValidator::class, class_implements($validator), true)) {
+        }
+
+        $reflection = new \ReflectionClass($validator);
+        if (! $reflection->implementsInterface(AccessValidator::class)) {
             throw new \LogicException("Access validator class '$validator' must implement AccessValidator interface.");
         }
 
-        $serviceName = $this->prefix("accessValidator.$annotation");
+        $serviceName = $this->generateValidatorServiceName($reflection);
         $this->getContainerBuilder()->addDefinition($serviceName)
             ->setType($validator);
 
         return "@{$serviceName}";
+    }
+
+    /**
+     * @param \ReflectionClass<object> $reflectionClass
+     * @return string
+     */
+    private function generateValidatorServiceName(\ReflectionClass $reflectionClass): string
+    {
+        $container = $this->getContainerBuilder();
+
+        $shortName = Strings::firstLower($reflectionClass->getShortName());
+        $serviceName = $this->prefix($shortName);
+        $i = 1;
+        while ($container->hasDefinition($serviceName)) {
+            $i++;
+            $serviceName = $this->prefix("{$shortName}_{$i}");
+        }
+        return $serviceName;
     }
 
 }

@@ -12,9 +12,5 @@ parameters:
     exceptionRules:
         uncheckedExceptions:
             - LogicException
+            - ReflectionException
             - Nette\InvalidStateException
-
-    ignoreErrors:
-        -
-            message: "#Cannot access property \\$validators on array\\|object\\.#"
-            path: src/Bridges/SecurityAnnotationsDI/SecurityAnnotationsExtension.php

@@ -2,9 +2,8 @@ services:
     barValidator: NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures\BarValidator
 
 securityAnnotations:
+    enableDefaultValidators: false
     validators:
-        loggedIn: false
-        role: false
-        allowed: false
-        foo: NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures\FooValidator
-        bar: @barValidator
+        - NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures\FooValidator
+        - NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures\Foo\FooValidator
+        - @barValidator

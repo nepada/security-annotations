@@ -23,6 +23,11 @@ class RoleValidator implements AccessValidator
         $this->permission = $permission;
     }
 
+    public function getSupportedAnnotationName(): string
+    {
+        return 'role';
+    }
+
     /**
      * @param mixed $annotation parsed value of annotation
      * @throws Nette\Application\ForbiddenRequestException

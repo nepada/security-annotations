@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures;
+namespace NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures\Foo;
 
 use Nepada\SecurityAnnotations\AccessValidators\AccessValidator;
 
@@ -10,7 +10,7 @@ class FooValidator implements AccessValidator
 
     public function getSupportedAnnotationName(): string
     {
-        return 'foo';
+        return 'foo2';
     }
 
     /**

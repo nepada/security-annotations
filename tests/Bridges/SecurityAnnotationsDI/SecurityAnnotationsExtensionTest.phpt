@@ -4,7 +4,11 @@ declare(strict_types = 1);
 namespace NepadaTests\Bridges\SecurityAnnotationsDI;
 
 use Nepada\SecurityAnnotations;
+use Nepada\SecurityAnnotations\AccessValidators\LoggedInValidator;
+use Nepada\SecurityAnnotations\AccessValidators\PermissionValidator;
+use Nepada\SecurityAnnotations\AccessValidators\RoleValidator;
 use NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures\BarValidator;
+use NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures\Foo\FooValidator as FooValidator2;
 use NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures\FooValidator;
 use NepadaTests\SecurityAnnotations\Fixtures\SecuredPresenter;
 use NepadaTests\TestCase;
@@ -34,9 +38,9 @@ class SecurityAnnotationsExtensionTest extends TestCase
     {
         $container = $this->configurator->createContainer();
 
-        Assert::type(SecurityAnnotations\AccessValidators\LoggedInValidator::class, $container->getService('securityAnnotations.accessValidator.loggedIn'));
-        Assert::type(SecurityAnnotations\AccessValidators\RoleValidator::class, $container->getService('securityAnnotations.accessValidator.role'));
-        Assert::type(SecurityAnnotations\AccessValidators\PermissionValidator::class, $container->getService('securityAnnotations.accessValidator.allowed'));
+        Assert::type(LoggedInValidator::class, $container->getService('securityAnnotations.loggedInValidator'));
+        Assert::type(RoleValidator::class, $container->getService('securityAnnotations.roleValidator'));
+        Assert::type(PermissionValidator::class, $container->getService('securityAnnotations.permissionValidator'));
 
         $requirementsChecker = $container->getService('securityAnnotations.requirementsChecker');
         Assert::type(SecurityAnnotations\RequirementsChecker::class, $requirementsChecker);
@@ -46,23 +50,28 @@ class SecurityAnnotationsExtensionTest extends TestCase
         $accessValidators = $reflection->getValue($requirementsChecker);
         Assert::type('array', $accessValidators);
         Assert::count(3, $accessValidators);
-        Assert::type(SecurityAnnotations\AccessValidators\LoggedInValidator::class, $accessValidators['loggedIn']);
-        Assert::type(SecurityAnnotations\AccessValidators\RoleValidator::class, $accessValidators['role']);
-        Assert::type(SecurityAnnotations\AccessValidators\PermissionValidator::class, $accessValidators['allowed']);
+        Assert::type(LoggedInValidator::class, $accessValidators['loggedIn']);
+        Assert::type(RoleValidator::class, $accessValidators['role']);
+        Assert::type(PermissionValidator::class, $accessValidators['allowed']);
     }
 
     public function testCustomValidators(): void
     {
         $this->configurator->addConfig(__DIR__ . '/Fixtures/config.custom-validators.neon');
         $container = $this->configurator->createContainer();
+
+        Assert::type(FooValidator::class, $container->getService('securityAnnotations.fooValidator'));
+        Assert::type(FooValidator2::class, $container->getService('securityAnnotations.fooValidator_2'));
+
         $requirementsChecker = $container->getByType(SecurityAnnotations\RequirementsChecker::class);
 
         $reflection = new \ReflectionProperty(SecurityAnnotations\RequirementsChecker::class, 'accessValidators');
         $reflection->setAccessible(true);
         $accessValidators = $reflection->getValue($requirementsChecker);
         Assert::type('array', $accessValidators);
-        Assert::count(2, $accessValidators);
+        Assert::count(3, $accessValidators);
         Assert::type(FooValidator::class, $accessValidators['foo']);
+        Assert::type(FooValidator2::class, $accessValidators['foo2']);
         Assert::type(BarValidator::class, $accessValidators['bar']);
     }
 

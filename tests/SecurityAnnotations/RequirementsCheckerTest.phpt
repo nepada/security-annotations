@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace NepadaTests\SecurityAnnotations;
 
-use Mockery;
+use Mockery\MockInterface;
 use Nepada\SecurityAnnotations;
 use Nepada\SecurityAnnotations\AccessValidators\AccessValidator;
 use NepadaTests\SecurityAnnotations\Fixtures\TestAnnotationsPresenter;
@@ -22,11 +22,11 @@ class RequirementsCheckerTest extends TestCase
     public function testAddDuplicateAccessValidator(): void
     {
         $requirementsChecker = new SecurityAnnotations\RequirementsChecker();
-        $requirementsChecker->addAccessValidator('duplicate', Mockery::mock(AccessValidator::class));
+        $requirementsChecker->addAccessValidator($this->mockAccessValidator('duplicate'));
 
         Assert::exception(
             function () use ($requirementsChecker): void {
-                $requirementsChecker->addAccessValidator('duplicate', Mockery::mock(AccessValidator::class));
+                $requirementsChecker->addAccessValidator($this->mockAccessValidator('duplicate'));
             },
             \LogicException::class,
             'Access validator for annotation "duplicate" is already registered.',
@@ -36,11 +36,11 @@ class RequirementsCheckerTest extends TestCase
     public function testAddCaseInsensitiveDuplicateAccessValidator(): void
     {
         $requirementsChecker = new SecurityAnnotations\RequirementsChecker();
-        $requirementsChecker->addAccessValidator('duplicate', Mockery::mock(AccessValidator::class));
+        $requirementsChecker->addAccessValidator($this->mockAccessValidator('duplicate'));
 
         Assert::exception(
             function () use ($requirementsChecker): void {
-                $requirementsChecker->addAccessValidator('DUPLICATE', Mockery::mock(AccessValidator::class));
+                $requirementsChecker->addAccessValidator($this->mockAccessValidator('DUPLICATE'));
             },
             \LogicException::class,
             'Access validator for annotation "DUPLICATE" is case insensitive match for already registered access validator "duplicate".',
@@ -53,18 +53,18 @@ class RequirementsCheckerTest extends TestCase
 
         $requirementsChecker = new SecurityAnnotations\RequirementsChecker();
 
-        $loggedInValidator = Mockery::mock(AccessValidator::class);
+        $loggedInValidator = $this->mockAccessValidator('loggedIn');
         $loggedInValidator->shouldReceive('validateAccess')->withArgs([true])->once();
-        $requirementsChecker->addAccessValidator('loggedIn', $loggedInValidator);
+        $requirementsChecker->addAccessValidator($loggedInValidator);
 
-        $roleValidator = Mockery::mock(AccessValidator::class);
+        $roleValidator = $this->mockAccessValidator('role');
         $roleValidator->shouldReceive('validateAccess')->withArgs($expectArrayAnnotation(['a', 'b', 'c']))->once();
         $roleValidator->shouldReceive('validateAccess')->withArgs(['d'])->once();
-        $requirementsChecker->addAccessValidator('role', $roleValidator);
+        $requirementsChecker->addAccessValidator($roleValidator);
 
-        $allowedValidator = Mockery::mock(AccessValidator::class);
+        $allowedValidator = $this->mockAccessValidator('allowed');
         $allowedValidator->shouldReceive('validateAccess')->withArgs($expectArrayAnnotation(['resource' => 'foo', 'privilege' => 'bar']))->once();
-        $requirementsChecker->addAccessValidator('allowed', $allowedValidator);
+        $requirementsChecker->addAccessValidator($allowedValidator);
 
         Assert::noError(function () use ($requirementsChecker): void {
             $requirementsChecker->protectElement(new \ReflectionClass(TestAnnotationsPresenter::class));
@@ -77,10 +77,10 @@ class RequirementsCheckerTest extends TestCase
 
         $requirementsChecker = new SecurityAnnotations\RequirementsChecker();
 
-        $roleValidator = Mockery::mock(AccessValidator::class);
+        $roleValidator = $this->mockAccessValidator('ROLE');
         $roleValidator->shouldReceive('validateAccess')->withArgs($expectArrayAnnotation(['a', 'b', 'c']))->once();
         $roleValidator->shouldReceive('validateAccess')->withArgs(['d'])->once();
-        $requirementsChecker->addAccessValidator('ROLE', $roleValidator);
+        $requirementsChecker->addAccessValidator($roleValidator);
 
         Assert::error(
             function () use ($requirementsChecker): void {
@@ -103,6 +103,18 @@ class RequirementsCheckerTest extends TestCase
         }
 
         return $expected === $actual;
+    }
+
+    /**
+     * @param string $annotationName
+     * @return AccessValidator|MockInterface
+     */
+    private function mockAccessValidator(string $annotationName): AccessValidator
+    {
+        $mock = \Mockery::mock(AccessValidator::class);
+        $mock->shouldReceive('getSupportedAnnotationName')->andReturn($annotationName);
+
+        return $mock;
     }
 
 }

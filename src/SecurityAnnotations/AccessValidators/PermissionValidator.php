@@ -23,6 +23,11 @@ class PermissionValidator implements AccessValidator
         $this->user = $user;
     }
 
+    public function getSupportedAnnotationName(): string
+    {
+        return 'allowed';
+    }
+
     /**
      * @param mixed $annotation parsed value of annotation
      * @throws Nette\Application\ForbiddenRequestException

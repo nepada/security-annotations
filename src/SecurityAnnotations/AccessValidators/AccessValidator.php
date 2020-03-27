@@ -8,6 +8,8 @@ use Nette;
 interface AccessValidator
 {
 
+    public function getSupportedAnnotationName(): string;
+
     /**
      * @param mixed $annotation parsed value of annotation
      * @throws Nette\Application\ForbiddenRequestException
