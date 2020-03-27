@@ -3,9 +3,9 @@ declare(strict_types = 1);
 
 namespace NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures;
 
-use Nepada\SecurityAnnotations\AccessValidators\IAccessValidator;
+use Nepada\SecurityAnnotations\AccessValidators\AccessValidator;
 
-class BarValidator implements IAccessValidator
+class BarValidator implements AccessValidator
 {
 
     /**

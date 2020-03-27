@@ -5,7 +5,7 @@ namespace NepadaTests\SecurityAnnotations;
 
 use Mockery;
 use Nepada\SecurityAnnotations;
-use Nepada\SecurityAnnotations\AccessValidators\IAccessValidator;
+use Nepada\SecurityAnnotations\AccessValidators\AccessValidator;
 use NepadaTests\SecurityAnnotations\Fixtures\TestAnnotationsPresenter;
 use NepadaTests\TestCase;
 use Tester\Assert;
@@ -22,11 +22,11 @@ class RequirementsCheckerTest extends TestCase
     public function testAddDuplicateAccessValidator(): void
     {
         $requirementsChecker = new SecurityAnnotations\RequirementsChecker();
-        $requirementsChecker->addAccessValidator('duplicate', Mockery::mock(IAccessValidator::class));
+        $requirementsChecker->addAccessValidator('duplicate', Mockery::mock(AccessValidator::class));
 
         Assert::exception(
             function () use ($requirementsChecker): void {
-                $requirementsChecker->addAccessValidator('duplicate', Mockery::mock(IAccessValidator::class));
+                $requirementsChecker->addAccessValidator('duplicate', Mockery::mock(AccessValidator::class));
             },
             \LogicException::class,
             'Access validator for annotation "duplicate" is already registered.',
@@ -36,11 +36,11 @@ class RequirementsCheckerTest extends TestCase
     public function testAddCaseInsensitiveDuplicateAccessValidator(): void
     {
         $requirementsChecker = new SecurityAnnotations\RequirementsChecker();
-        $requirementsChecker->addAccessValidator('duplicate', Mockery::mock(IAccessValidator::class));
+        $requirementsChecker->addAccessValidator('duplicate', Mockery::mock(AccessValidator::class));
 
         Assert::exception(
             function () use ($requirementsChecker): void {
-                $requirementsChecker->addAccessValidator('DUPLICATE', Mockery::mock(IAccessValidator::class));
+                $requirementsChecker->addAccessValidator('DUPLICATE', Mockery::mock(AccessValidator::class));
             },
             \LogicException::class,
             'Access validator for annotation "DUPLICATE" is case insensitive match for already registered access validator "duplicate".',
@@ -53,16 +53,16 @@ class RequirementsCheckerTest extends TestCase
 
         $requirementsChecker = new SecurityAnnotations\RequirementsChecker();
 
-        $loggedInValidator = Mockery::mock(IAccessValidator::class);
+        $loggedInValidator = Mockery::mock(AccessValidator::class);
         $loggedInValidator->shouldReceive('validateAccess')->withArgs([true])->once();
         $requirementsChecker->addAccessValidator('loggedIn', $loggedInValidator);
 
-        $roleValidator = Mockery::mock(IAccessValidator::class);
+        $roleValidator = Mockery::mock(AccessValidator::class);
         $roleValidator->shouldReceive('validateAccess')->withArgs($expectArrayAnnotation(['a', 'b', 'c']))->once();
         $roleValidator->shouldReceive('validateAccess')->withArgs(['d'])->once();
         $requirementsChecker->addAccessValidator('role', $roleValidator);
 
-        $allowedValidator = Mockery::mock(IAccessValidator::class);
+        $allowedValidator = Mockery::mock(AccessValidator::class);
         $allowedValidator->shouldReceive('validateAccess')->withArgs($expectArrayAnnotation(['resource' => 'foo', 'privilege' => 'bar']))->once();
         $requirementsChecker->addAccessValidator('allowed', $allowedValidator);
 
@@ -77,7 +77,7 @@ class RequirementsCheckerTest extends TestCase
 
         $requirementsChecker = new SecurityAnnotations\RequirementsChecker();
 
-        $roleValidator = Mockery::mock(IAccessValidator::class);
+        $roleValidator = Mockery::mock(AccessValidator::class);
         $roleValidator->shouldReceive('validateAccess')->withArgs($expectArrayAnnotation(['a', 'b', 'c']))->once();
         $roleValidator->shouldReceive('validateAccess')->withArgs(['d'])->once();
         $requirementsChecker->addAccessValidator('ROLE', $roleValidator);

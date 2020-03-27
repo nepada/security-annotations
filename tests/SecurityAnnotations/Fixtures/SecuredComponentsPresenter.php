@@ -9,8 +9,8 @@ use Nette;
 class SecuredComponentsPresenter extends Nette\Application\UI\Presenter
 {
 
-    use SecurityAnnotations\TSecuredComponents;
-    use SecurityAnnotations\TSecurityAnnotations;
+    use SecurityAnnotations\SecuredComponents;
+    use SecurityAnnotations\SecurityAnnotations;
 
     protected function createComponentFoo(): SecuredComponentsControl
     {

@@ -6,7 +6,7 @@ namespace Nepada\SecurityAnnotations;
 use Nette;
 use Nette\ComponentModel\IComponent;
 
-trait TSecuredComponents
+trait SecuredComponents
 {
 
     /**

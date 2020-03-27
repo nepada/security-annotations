@@ -5,7 +5,7 @@ namespace Nepada\SecurityAnnotations;
 
 use Nette;
 
-trait TSecurityAnnotations
+trait SecurityAnnotations
 {
 
     private ?RequirementsChecker $requirementsChecker = null;

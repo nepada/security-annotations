@@ -6,7 +6,7 @@ namespace Nepada\SecurityAnnotations\AccessValidators;
 use Nette;
 use Nette\Security\User;
 
-class LoggedInValidator implements IAccessValidator
+class LoggedInValidator implements AccessValidator
 {
 
     use Nette\SmartObject;

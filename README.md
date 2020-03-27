@@ -31,7 +31,7 @@ This package builds on top of the standard access authorization of Nette compone
 This method is called before invoking any of component/presenter signal handlers, and before presenter `startup`, `action<>` and `render<>` methods.
 
 With this package you can specify the access rules via annotations on any of the mentioned methods, or on presenter class.
-To enable this feature simple use `TSecurityAnnotations` trait in any presenter or component.
+To enable this feature simple use `SecurityAnnotations` trait in any presenter or component.
 
 **Example:**
 ```php
@@ -42,7 +42,7 @@ To enable this feature simple use `TSecurityAnnotations` trait in any presenter 
 class SecuredPresenter extends Nette\Application\UI\Presenter
 {
 
-    use Nepada\SecurityAnnotations\TSecurityAnnotations;
+    use Nepada\SecurityAnnotations\SecurityAnnotations;
 
     /**
      * @role(admin, superadmin)
@@ -79,7 +79,7 @@ Properly securing components is a tricky business, take a look at the following 
 class SecuredPresenter extends Nette\Application\UI\Presenter
 {
 
-    use Nepada\SecurityAnnotations\TSecurityAnnotations;
+    use Nepada\SecurityAnnotations\SecurityAnnotations;
 
     /**
      * @loggedIn
@@ -104,14 +104,14 @@ class SecuredPresenter extends Nette\Application\UI\Presenter
 
 Securing presenter `action<>` (or `render<>`) methods is not sufficient! All it takes is a one general route in your router, e.g. a very common `Route('<presenter>/<action>')`, and anyone may successfully submit the form by sending POST request to `/secured/foo` URL.
 
-You should always check user's permissions when creating the component. To make your life easier there is `TSecuredComponents` trait that calls the standard `Nette\Application\UI\Component::checkRequirements()` method before calling the component factory. Combining it with `TSecurityAnnotations` it allows you to control access to components via annotations on `createComponent<>` methods.
+You should always check user's permissions when creating the component. To make your life easier there is `SecuredComponents` trait that calls the standard `Nette\Application\UI\Component::checkRequirements()` method before calling the component factory. Combining it with `SecurityAnnotations` it allows you to control access to components via annotations on `createComponent<>` methods.
 
 
 ### Customizing access validators
 
 All access validators are configured in `validators` section of the extension configuration:
 - To disable any of the default rules set the validator to `false`.
-- You can also define your own validators, i.e. services implementing `Nepada\SecurityAnnotations\AccessValidators\IAccessValidator` interface.
+- You can also define your own validators, i.e. services implementing `Nepada\SecurityAnnotations\AccessValidators\AccessValidator` interface.
 
 ```yaml
 securityAnnotations:

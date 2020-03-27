@@ -16,7 +16,7 @@ require_once __DIR__ . '/../bootstrap.php';
 /**
  * @testCase
  */
-class TSecuredComponentsTest extends TestCase
+class SecuredComponentsTest extends TestCase
 {
 
     public function testSecuredComponents(): void
@@ -43,4 +43,4 @@ class TSecuredComponentsTest extends TestCase
 }
 
 
-(new TSecuredComponentsTest())->run();
+(new SecuredComponentsTest())->run();

@@ -16,7 +16,7 @@ require_once __DIR__ . '/../bootstrap.php';
 /**
  * @testCase
  */
-class TSecurityAnnotationsTest extends TestCase
+class SecurityAnnotationsTest extends TestCase
 {
 
     public function testGetRequirementsCheckerFromDI(): void
@@ -50,4 +50,4 @@ class TSecurityAnnotationsTest extends TestCase
 }
 
 
-(new TSecurityAnnotationsTest())->run();
+(new SecurityAnnotationsTest())->run();

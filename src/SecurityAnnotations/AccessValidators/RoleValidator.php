@@ -8,7 +8,7 @@ use Nette\Security\Permission;
 use Nette\Security\User;
 use Nette\Utils\Validators;
 
-class RoleValidator implements IAccessValidator
+class RoleValidator implements AccessValidator
 {
 
     use Nette\SmartObject;

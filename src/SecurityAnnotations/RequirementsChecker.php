@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Nepada\SecurityAnnotations;
 
-use Nepada\SecurityAnnotations\AccessValidators\IAccessValidator;
+use Nepada\SecurityAnnotations\AccessValidators\AccessValidator;
 use Nette;
 use Nette\Reflection\AnnotationsParser;
 use Nette\Utils\Strings;
@@ -13,13 +13,13 @@ class RequirementsChecker
 
     use Nette\SmartObject;
 
-    /** @var IAccessValidator[] */
+    /** @var AccessValidator[] */
     private array $accessValidators = [];
 
     /** @var string[] */
     private array $annotationNames = [];
 
-    public function addAccessValidator(string $annotationName, IAccessValidator $accessValidator): void
+    public function addAccessValidator(string $annotationName, AccessValidator $accessValidator): void
     {
         if (isset($this->accessValidators[$annotationName])) {
             throw new \LogicException("Access validator for annotation \"$annotationName\" is already registered.");

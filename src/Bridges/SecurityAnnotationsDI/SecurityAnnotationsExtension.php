@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Nepada\Bridges\SecurityAnnotationsDI;
 
-use Nepada\SecurityAnnotations\AccessValidators\IAccessValidator;
+use Nepada\SecurityAnnotations\AccessValidators\AccessValidator;
 use Nepada\SecurityAnnotations\AccessValidators\LoggedInValidator;
 use Nepada\SecurityAnnotations\AccessValidators\PermissionValidator;
 use Nepada\SecurityAnnotations\AccessValidators\RoleValidator;
@@ -53,8 +53,8 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
 
         if (! class_exists($validator)) {
             throw new \LogicException("Access validator class '$validator' not found.");
-        } elseif (! in_array(IAccessValidator::class, class_implements($validator), true)) {
-            throw new \LogicException("Access validator class '$validator' must implement IAccessValidator interface.");
+        } elseif (! in_array(AccessValidator::class, class_implements($validator), true)) {
+            throw new \LogicException("Access validator class '$validator' must implement AccessValidator interface.");
         }
 
         $serviceName = $this->prefix("accessValidator.$annotation");

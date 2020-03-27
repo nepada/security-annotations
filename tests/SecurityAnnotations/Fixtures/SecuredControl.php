@@ -9,6 +9,6 @@ use Nette;
 class SecuredControl extends Nette\Application\UI\Control
 {
 
-    use SecurityAnnotations\TSecurityAnnotations;
+    use SecurityAnnotations\SecurityAnnotations;
 
 }

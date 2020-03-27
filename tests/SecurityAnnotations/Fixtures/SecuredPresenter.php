@@ -9,7 +9,7 @@ use Nette;
 class SecuredPresenter extends Nette\Application\UI\Presenter
 {
 
-    use SecurityAnnotations\TSecurityAnnotations;
+    use SecurityAnnotations\SecurityAnnotations;
 
     public function __construct()
     {

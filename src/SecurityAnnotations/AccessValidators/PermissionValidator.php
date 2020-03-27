@@ -7,7 +7,7 @@ use Nette;
 use Nette\Security\IAuthorizator;
 use Nette\Security\User;
 
-class PermissionValidator implements IAccessValidator
+class PermissionValidator implements AccessValidator
 {
 
     use Nette\SmartObject;
