@@ -44,10 +44,14 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
             $validators = array_merge(self::DEFAULT_VALIDATORS, $validators);
         }
 
+        $validatorServices = [];
         foreach ($validators as $validator) {
-            $validatorService = $this->getValidatorService($validator);
-            $requirementsChecker->addSetup('addAccessValidator', [$validatorService]);
+            $validatorServices[] = $this->getValidatorService($validator);
         }
+
+        $arguments = [null, ...$validatorServices];
+        unset($arguments[0]);
+        $requirementsChecker->setArguments($arguments);
     }
 
     private function getValidatorService(string $validator): string

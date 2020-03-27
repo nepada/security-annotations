@@ -17,26 +17,12 @@ class RequirementsChecker
     /** @var array<class-string, AccessValidator> */
     private array $accessValidators = [];
 
-    public function __construct(Reader $annotationReader)
+    public function __construct(Reader $annotationReader, AccessValidator ...$accessValidators)
     {
         $this->annotationReader = $annotationReader;
-    }
-
-    public function addAccessValidator(AccessValidator $accessValidator): void
-    {
-        $annotationName = $accessValidator->getSupportedAnnotationName();
-        if (! class_exists($annotationName)) {
-            throw new \LogicException("Annotation class $annotationName does not exist.");
+        foreach ($accessValidators as $accessValidator) {
+            $this->addAccessValidator($accessValidator);
         }
-
-        $reflection = new \ReflectionClass($annotationName);
-        $normalizedName = $reflection->getName();
-
-        if (isset($this->accessValidators[$normalizedName])) {
-            throw new \LogicException("Access validator for annotation $normalizedName is already registered.");
-        }
-
-        $this->accessValidators[$annotationName] = $accessValidator;
     }
 
     /**
@@ -52,6 +38,23 @@ class RequirementsChecker
                 $this->accessValidators[$annotationName]->validateAccess($annotation);
             }
         }
+    }
+
+    private function addAccessValidator(AccessValidator $accessValidator): void
+    {
+        $annotationName = $accessValidator->getSupportedAnnotationName();
+        if (! class_exists($annotationName)) {
+            throw new \LogicException("Annotation class $annotationName does not exist.");
+        }
+
+        $reflection = new \ReflectionClass($annotationName);
+        $normalizedName = $reflection->getName();
+
+        if (isset($this->accessValidators[$normalizedName])) {
+            throw new \LogicException("Access validator for annotation $normalizedName is already registered.");
+        }
+
+        $this->accessValidators[$annotationName] = $accessValidator;
     }
 
     /**

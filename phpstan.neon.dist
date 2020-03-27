@@ -22,3 +22,6 @@ parameters:
         - # intended
             message: '~Method Nepada\\SecurityAnnotations\\RequirementsChecker::addAccessValidator\(\) has parameter \$accessValidator with generic interface Nepada\\SecurityAnnotations\\AccessValidators\\AccessValidator but does not specify its types: TAnnotation~'
             path: src/SecurityAnnotations/RequirementsChecker.php
+        - # intended
+            message: '~Method Nepada\\SecurityAnnotations\\RequirementsChecker::__construct\(\) has parameter \$accessValidators with generic interface Nepada\\SecurityAnnotations\\AccessValidators\\AccessValidator but does not specify its types: TAnnotation~'
+            path: src/SecurityAnnotations/RequirementsChecker.php

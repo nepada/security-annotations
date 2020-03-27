@@ -27,14 +27,11 @@ class RequirementsCheckerTest extends TestCase
 
     public function testAddDuplicateAccessValidator(): void
     {
-        $requirementsChecker = $this->createRequirementsChecker();
-        $requirementsChecker->addAccessValidator($this->mockAccessValidator(self::class));
-
         Assert::exception(
-            function () use ($requirementsChecker): void {
+            function (): void {
                 /** @var class-string<object> $lowerCaseClass */
                 $lowerCaseClass = Strings::lower(self::class);
-                $requirementsChecker->addAccessValidator($this->mockAccessValidator($lowerCaseClass));
+                $this->createRequirementsChecker($this->mockAccessValidator(self::class), $this->mockAccessValidator($lowerCaseClass));
             },
             \LogicException::class,
             'Access validator for annotation NepadaTests\SecurityAnnotations\RequirementsCheckerTest is already registered.',
@@ -43,11 +40,8 @@ class RequirementsCheckerTest extends TestCase
 
     public function testProtectElement(): void
     {
-        $requirementsChecker = $this->createRequirementsChecker();
-
         $loggedInValidator = $this->mockAccessValidator(LoggedIn::class);
         $loggedInValidator->shouldReceive('validateAccess')->withArgs([LoggedIn::class])->once();
-        $requirementsChecker->addAccessValidator($loggedInValidator);
 
         $roleValidator = $this->mockAccessValidator(Role::class);
         $roleValidator->shouldReceive('validateAccess')->withArgs(
@@ -62,7 +56,6 @@ class RequirementsCheckerTest extends TestCase
                 return true;
             },
         )->once();
-        $requirementsChecker->addAccessValidator($roleValidator);
 
         $allowedValidator = $this->mockAccessValidator(Allowed::class);
         $allowedValidator->shouldReceive('validateAccess')->withArgs(
@@ -72,7 +65,8 @@ class RequirementsCheckerTest extends TestCase
                 return true;
             },
         )->once();
-        $requirementsChecker->addAccessValidator($allowedValidator);
+
+        $requirementsChecker = $this->createRequirementsChecker($loggedInValidator, $roleValidator, $allowedValidator);
 
         Assert::noError(function () use ($requirementsChecker): void {
             $requirementsChecker->protectElement(new \ReflectionClass(TestAnnotationsPresenter::class));
@@ -93,9 +87,9 @@ class RequirementsCheckerTest extends TestCase
         return $mock;
     }
 
-    private function createRequirementsChecker(): SecurityAnnotations\RequirementsChecker
+    private function createRequirementsChecker(AccessValidator ...$accessValidators): SecurityAnnotations\RequirementsChecker
     {
-        return new SecurityAnnotations\RequirementsChecker(new AnnotationReader(new DocParser()));
+        return new SecurityAnnotations\RequirementsChecker(new AnnotationReader(new DocParser()), ...$accessValidators);
     }
 
 }
