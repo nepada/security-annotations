@@ -128,12 +128,6 @@ class PermissionValidatorTest extends TestCase
                 'privilege' => 'edit',
                 'message' => "User is not allowed to edit the resource 'foo'.",
             ],
-            [
-                'input' => '@Nepada\SecurityAnnotations\Annotations\Allowed(resource="foo", privilege="edit", message="Custom error message.")',
-                'resource' => 'foo',
-                'privilege' => 'edit',
-                'message' => 'Custom error message.',
-            ],
         ];
     }
 

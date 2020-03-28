@@ -19,7 +19,4 @@ final class Allowed
     /** @var string */
     public ?string $privilege = null;
 
-    /** @var string */
-    public ?string $message = null;
-
 }

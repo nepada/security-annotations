@@ -41,7 +41,7 @@ class PermissionValidator implements AccessValidator
             return;
         }
 
-        $message = $annotation->message ?? sprintf(
+        $message = sprintf(
             'User is not allowed to %s the resource%s.',
             $privilege ?? 'access',
             $resource !== null ? " '$resource'" : '',
