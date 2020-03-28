@@ -42,7 +42,6 @@ class PermissionValidatorTest extends TestCase
     public function testAccessAllowed(string $input, ?string $resource, ?string $privilege): void
     {
         $annotation = $this->parseAnnotation($input);
-        var_dump($annotation);
         $user = $this->mockUser($resource, $privilege, IAuthorizator::ALLOW);
         $validator = new AccessValidators\PermissionValidator($user);
 
