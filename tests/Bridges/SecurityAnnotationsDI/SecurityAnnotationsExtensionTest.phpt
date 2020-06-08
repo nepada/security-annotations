@@ -9,6 +9,7 @@ use Nepada\SecurityAnnotations\AccessValidators\PermissionValidator;
 use Nepada\SecurityAnnotations\AccessValidators\RoleValidator;
 use NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures\Foo\FooValidator as FooValidator2;
 use NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures\FooValidator;
+use NepadaTests\Environment;
 use NepadaTests\SecurityAnnotations\Fixtures\SecuredPresenter;
 use NepadaTests\TestCase;
 use Nette;
@@ -28,7 +29,7 @@ class SecurityAnnotationsExtensionTest extends TestCase
     public function setUp(): void
     {
         $this->configurator = new Nette\Configurator();
-        $this->configurator->setTempDirectory(TEMP_DIR);
+        $this->configurator->setTempDirectory(Environment::getTempDir());
         $this->configurator->setDebugMode(true);
         $this->configurator->addConfig(__DIR__ . '/Fixtures/config.neon');
     }
