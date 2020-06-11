@@ -14,7 +14,9 @@ class RequirementsChecker
 
     private Reader $annotationReader;
 
-    /** @var array<class-string, AccessValidator> */
+    /**
+     * @var array<class-string, AccessValidator>
+     */
     private array $accessValidators = [];
 
     public function __construct(Reader $annotationReader, AccessValidator ...$accessValidators)

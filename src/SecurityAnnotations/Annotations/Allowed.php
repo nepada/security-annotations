@@ -13,10 +13,14 @@ final class Allowed
 
     use Nette\SmartObject;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     public ?string $resource = null;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     public ?string $privilege = null;
 
 }
