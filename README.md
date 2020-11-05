@@ -1,7 +1,7 @@
 Security Annotations
 ====================
 
-[![Build Status](https://travis-ci.org/nepada/security-annotations.svg?branch=master)](https://travis-ci.org/nepada/security-annotations)
+[![Build Status](https://github.com/nepada/security-annotations/workflows/CI/badge.svg)](https://github.com/nepada/security-annotations/actions?query=workflow%3ACI+branch%3Amaster)
 [![Coverage Status](https://coveralls.io/repos/github/nepada/security-annotations/badge.svg?branch=master)](https://coveralls.io/github/nepada/security-annotations?branch=master)
 [![Downloads this Month](https://img.shields.io/packagist/dm/nepada/security-annotations.svg)](https://packagist.org/packages/nepada/security-annotations)
 [![Latest stable](https://img.shields.io/packagist/v/nepada/security-annotations.svg)](https://packagist.org/packages/nepada/security-annotations)
