@@ -28,8 +28,7 @@ class LoggedInValidator implements AccessValidator
     }
 
     /**
-     * @phpstan-param LoggedIn $annotation
-     * @param object|LoggedIn $annotation
+     * @param LoggedIn $annotation
      * @throws Nette\Application\ForbiddenRequestException
      */
     public function validateAccess(object $annotation): void

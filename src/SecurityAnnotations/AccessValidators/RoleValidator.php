@@ -32,8 +32,7 @@ class RoleValidator implements AccessValidator
     }
 
     /**
-     * @phpstan-param Role $annotation
-     * @param object|Role $annotation
+     * @param Role $annotation
      * @throws Nette\Application\ForbiddenRequestException
      */
     public function validateAccess(object $annotation): void

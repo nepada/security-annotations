@@ -12,13 +12,12 @@ interface AccessValidator
 {
 
     /**
-     * @phpstan-return class-string<TAnnotation>
+     * @return class-string<TAnnotation>
      */
     public function getSupportedAnnotationName(): string;
 
     /**
-     * @phpstan-param TAnnotation $annotation
-     * @param object $annotation
+     * @param TAnnotation $annotation
      * @throws Nette\Application\ForbiddenRequestException
      */
     public function validateAccess(object $annotation): void;

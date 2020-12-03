@@ -75,8 +75,7 @@ class RequirementsCheckerTest extends TestCase
 
     /**
      * @template T of object
-     * @phpstan-param class-string<T> $annotationName
-     * @param string $annotationName
+     * @param class-string<T> $annotationName
      * @return AccessValidator<T>|MockInterface
      */
     private function mockAccessValidator(string $annotationName): AccessValidator

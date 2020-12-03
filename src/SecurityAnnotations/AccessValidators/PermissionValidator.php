@@ -29,8 +29,7 @@ class PermissionValidator implements AccessValidator
     }
 
     /**
-     * @phpstan-param Allowed $annotation
-     * @param object|Allowed $annotation
+     * @param Allowed $annotation
      * @throws Nette\Application\ForbiddenRequestException
      */
     public function validateAccess(object $annotation): void
