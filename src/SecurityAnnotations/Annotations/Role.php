@@ -7,6 +7,7 @@ use Nette;
 
 /**
  * @Annotation
+ * @Target({"CLASS","METHOD"})
  */
 final class Role
 {
