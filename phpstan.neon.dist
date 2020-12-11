@@ -6,6 +6,7 @@ includes:
     - vendor/spaze/phpstan-disallowed-calls/extension.neon
     - vendor/spaze/phpstan-disallowed-calls/disallowed-dangerous-calls.neon
     - tests/PHPStan/disallowedCalls.neon
+    - tests/PHPStan/conditional.config.php
 
 parameters:
     level: max

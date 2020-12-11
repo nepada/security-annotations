@@ -8,7 +8,9 @@ use Nepada\SecurityAnnotations\AccessValidators\LoggedInValidator;
 use Nepada\SecurityAnnotations\AccessValidators\PermissionValidator;
 use Nepada\SecurityAnnotations\AccessValidators\RoleValidator;
 use Nepada\SecurityAnnotations\AnnotationReaders\AnnotationsReader;
+use Nepada\SecurityAnnotations\AnnotationReaders\AttributesReader;
 use Nepada\SecurityAnnotations\AnnotationReaders\DoctrineAnnotationsReader;
+use Nepada\SecurityAnnotations\AnnotationReaders\UnionReader;
 use Nepada\SecurityAnnotations\RequirementsChecker;
 use Nette;
 use Nette\Schema\Expect;
@@ -38,9 +40,15 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
     {
         $container = $this->getContainerBuilder();
 
+        $container->addDefinition($this->prefix('doctrineAnnotationsReader'))
+            ->setType(DoctrineAnnotationsReader::class)
+            ->setAutowired(DoctrineAnnotationsReader::class);
+        $container->addDefinition($this->prefix('attributesReader'))
+            ->setType(AttributesReader::class)
+            ->setAutowired(AttributesReader::class);
         $container->addDefinition($this->prefix('annotationsReader'))
             ->setType(AnnotationsReader::class)
-            ->setFactory(DoctrineAnnotationsReader::class);
+            ->setFactory(UnionReader::class, [$this->prefix('@attributesReader'), $this->prefix('@doctrineAnnotationsReader')]);
 
         $requirementsChecker = $container->addDefinition($this->prefix('requirementsChecker'))
             ->setType(RequirementsChecker::class);

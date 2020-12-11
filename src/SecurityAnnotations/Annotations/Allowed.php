@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Nepada\SecurityAnnotations\Annotations;
 
+use Attribute;
 use Doctrine\Common\Annotations\NamedArgumentConstructorAnnotation;
 use Nette;
 
@@ -10,6 +11,7 @@ use Nette;
  * @Annotation
  * @Target({"CLASS","METHOD"})
  */
+#[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
 final class Allowed implements NamedArgumentConstructorAnnotation
 {
 

@@ -38,6 +38,13 @@
     <rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint">
         <exclude-pattern>src/SecurityAnnotations/Annotations/*</exclude-pattern> <!-- doctrine/annotations requires types in @var annotations -->
     </rule>
+    <rule ref="PEAR.Commenting.InlineComment.WrongStyle">
+        <exclude-pattern>src/SecurityAnnotations/Annotations/*</exclude-pattern> <!-- PHP 8.0 attributes not recognized on PHP 7.4 -->
+        <exclude-pattern>tests/SecurityAnnotations/Fixtures/TestAnnotationsPresenter.php</exclude-pattern> <!-- PHP 8.0 attributes not recognized on PHP 7.4 -->
+    </rule>
+    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse">
+        <exclude-pattern>src/SecurityAnnotations/Annotations/*</exclude-pattern> <!-- PHP 8.0 attributes not recognized on PHP 7.4 -->
+    </rule>
 
     <!-- special settings for tests and bootstrap -->
     <exclude-pattern>*/tests/temp/*</exclude-pattern>

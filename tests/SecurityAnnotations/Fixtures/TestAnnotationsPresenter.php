@@ -15,6 +15,10 @@ use Nette;
  * @Allowed(resource="foo", privilege="bar")
  * @author Foo Bar
  */
+#[LoggedIn()]
+#[Role('lorem')]
+#[Role(['foo', 'bar'])]
+#[Allowed(privilege: 'shiny')]
 class TestAnnotationsPresenter extends Nette\Application\UI\Presenter
 {
 
