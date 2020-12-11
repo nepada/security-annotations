@@ -3,13 +3,14 @@ declare(strict_types = 1);
 
 namespace Nepada\SecurityAnnotations\Annotations;
 
+use Doctrine\Common\Annotations\NamedArgumentConstructorAnnotation;
 use Nette;
 
 /**
  * @Annotation
  * @Target({"CLASS","METHOD"})
  */
-final class Allowed
+final class Allowed implements NamedArgumentConstructorAnnotation
 {
 
     use Nette\SmartObject;
@@ -17,11 +18,17 @@ final class Allowed
     /**
      * @var string
      */
-    public ?string $resource = null;
+    public ?string $resource;
 
     /**
      * @var string
      */
-    public ?string $privilege = null;
+    public ?string $privilege;
+
+    public function __construct(?string $resource = null, ?string $privilege = null)
+    {
+        $this->resource = $resource;
+        $this->privilege = $privilege;
+    }
 
 }
