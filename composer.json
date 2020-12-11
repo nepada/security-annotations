@@ -21,7 +21,7 @@
         "nette/application": "^3.0@dev",
         "nette/security": "^3.0@dev",
         "nette/http": "^3.0.1@dev",
-        "doctrine/annotations": "^1.10.4@dev"
+        "doctrine/annotations": "^1.11.0@dev"
     },
     "require-dev": {
         "nette/tester": "^2.3.4",
