@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 namespace Nepada\SecurityAnnotations;
 
-use Doctrine\Common\Annotations\Reader;
 use Nepada\SecurityAnnotations\AccessValidators\AccessValidator;
+use Nepada\SecurityAnnotations\AnnotationReaders\AnnotationsReader;
 use Nette;
 
 class RequirementsChecker
@@ -12,14 +12,14 @@ class RequirementsChecker
 
     use Nette\SmartObject;
 
-    private Reader $annotationReader;
+    private AnnotationsReader $annotationReader;
 
     /**
      * @var array<class-string, AccessValidator>
      */
     private array $accessValidators = [];
 
-    public function __construct(Reader $annotationReader, AccessValidator ...$accessValidators)
+    public function __construct(AnnotationsReader $annotationReader, AccessValidator ...$accessValidators)
     {
         $this->annotationReader = $annotationReader;
         foreach ($accessValidators as $accessValidator) {
@@ -33,7 +33,7 @@ class RequirementsChecker
      */
     public function protectElement(\Reflector $element): void
     {
-        $annotations = $this->readAnnotations($element);
+        $annotations = $this->annotationReader->getAll($element);
         foreach ($annotations as $annotation) {
             $annotationName = get_class($annotation);
             if (isset($this->accessValidators[$annotationName])) {
@@ -57,27 +57,6 @@ class RequirementsChecker
         }
 
         $this->accessValidators[$annotationName] = $accessValidator;
-    }
-
-    /**
-     * @param \Reflector $element
-     * @return object[]
-     */
-    private function readAnnotations(\Reflector $element): array
-    {
-        if ($element instanceof \ReflectionMethod) {
-            return $this->annotationReader->getMethodAnnotations($element);
-        }
-
-        if ($element instanceof \ReflectionClass) {
-            return $this->annotationReader->getClassAnnotations($element);
-        }
-
-        if ($element instanceof \ReflectionProperty) {
-            return $this->annotationReader->getPropertyAnnotations($element);
-        }
-
-        return [];
     }
 
 }

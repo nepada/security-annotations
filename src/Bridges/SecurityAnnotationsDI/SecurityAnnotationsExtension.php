@@ -7,6 +7,8 @@ use Nepada\SecurityAnnotations\AccessValidators\AccessValidator;
 use Nepada\SecurityAnnotations\AccessValidators\LoggedInValidator;
 use Nepada\SecurityAnnotations\AccessValidators\PermissionValidator;
 use Nepada\SecurityAnnotations\AccessValidators\RoleValidator;
+use Nepada\SecurityAnnotations\AnnotationReaders\AnnotationsReader;
+use Nepada\SecurityAnnotations\AnnotationReaders\DoctrineAnnotationsReader;
 use Nepada\SecurityAnnotations\RequirementsChecker;
 use Nette;
 use Nette\Schema\Expect;
@@ -35,6 +37,10 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
     public function loadConfiguration(): void
     {
         $container = $this->getContainerBuilder();
+
+        $container->addDefinition($this->prefix('annotationsReader'))
+            ->setType(AnnotationsReader::class)
+            ->setFactory(DoctrineAnnotationsReader::class);
 
         $requirementsChecker = $container->addDefinition($this->prefix('requirementsChecker'))
             ->setType(RequirementsChecker::class);

@@ -3,15 +3,13 @@ declare(strict_types = 1);
 
 namespace NepadaTests\SecurityAnnotations;
 
-use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\DocParser;
 use Mockery\MockInterface;
-use Nepada\SecurityAnnotations;
 use Nepada\SecurityAnnotations\AccessValidators\AccessValidator;
 use Nepada\SecurityAnnotations\Annotations\Allowed;
 use Nepada\SecurityAnnotations\Annotations\LoggedIn;
 use Nepada\SecurityAnnotations\Annotations\Role;
-use NepadaTests\SecurityAnnotations\Fixtures\TestAnnotationsPresenter;
+use Nepada\SecurityAnnotations\RequirementsChecker;
+use NepadaTests\SecurityAnnotations\AnnotationReaders\DummyAnnotationReader;
 use NepadaTests\TestCase;
 use Nette\Utils\Strings;
 use Tester\Assert;
@@ -31,7 +29,11 @@ class RequirementsCheckerTest extends TestCase
             function (): void {
                 /** @var class-string<object> $lowerCaseClass */
                 $lowerCaseClass = Strings::lower(self::class);
-                $this->createRequirementsChecker($this->mockAccessValidator(self::class), $this->mockAccessValidator($lowerCaseClass));
+                $requirementsChecker = new RequirementsChecker(
+                    new DummyAnnotationReader([]),
+                    $this->mockAccessValidator(self::class),
+                    $this->mockAccessValidator($lowerCaseClass),
+                );
             },
             \LogicException::class,
             'Access validator for annotation NepadaTests\SecurityAnnotations\RequirementsCheckerTest is already registered.',
@@ -40,36 +42,23 @@ class RequirementsCheckerTest extends TestCase
 
     public function testProtectElement(): void
     {
+        $loggedIn = new LoggedIn();
+        $role1 = new Role('foo');
+        $role2 = new Role(['a', 'b']);
+        $allowed = new Allowed();
+        $annotationsReader = new DummyAnnotationReader([$loggedIn, $role1, $role2, $allowed]);
+
         $loggedInValidator = $this->mockAccessValidator(LoggedIn::class);
-        $loggedInValidator->shouldReceive('validateAccess')->withArgs([LoggedIn::class])->once();
+        $loggedInValidator->shouldReceive('validateAccess')->withArgs([$loggedIn])->once();
 
         $roleValidator = $this->mockAccessValidator(Role::class);
-        $roleValidator->shouldReceive('validateAccess')->withArgs(
-            function (Role $annotation): bool {
-                Assert::same(['a', 'b', 'c'], $annotation->roles);
-                return true;
-            },
-        )->once();
-        $roleValidator->shouldReceive('validateAccess')->withArgs(
-            function (Role $annotation): bool {
-                Assert::same(['d'], $annotation->roles);
-                return true;
-            },
-        )->once();
+        $roleValidator->shouldReceive('validateAccess')->withArgs([$role1])->once();
+        $roleValidator->shouldReceive('validateAccess')->withArgs([$role2])->once();
 
-        $allowedValidator = $this->mockAccessValidator(Allowed::class);
-        $allowedValidator->shouldReceive('validateAccess')->withArgs(
-            function (Allowed $annotation): bool {
-                Assert::same('foo', $annotation->resource);
-                Assert::same('bar', $annotation->privilege);
-                return true;
-            },
-        )->once();
-
-        $requirementsChecker = $this->createRequirementsChecker($loggedInValidator, $roleValidator, $allowedValidator);
+        $requirementsChecker = new RequirementsChecker($annotationsReader, $loggedInValidator, $roleValidator);
 
         Assert::noError(function () use ($requirementsChecker): void {
-            $requirementsChecker->protectElement(new \ReflectionClass(TestAnnotationsPresenter::class));
+            $requirementsChecker->protectElement(\Mockery::mock(\ReflectionClass::class));
         });
     }
 
@@ -84,11 +73,6 @@ class RequirementsCheckerTest extends TestCase
         $mock->shouldReceive('getSupportedAnnotationName')->andReturn($annotationName);
 
         return $mock;
-    }
-
-    private function createRequirementsChecker(AccessValidator ...$accessValidators): SecurityAnnotations\RequirementsChecker
-    {
-        return new SecurityAnnotations\RequirementsChecker(new AnnotationReader(new DocParser()), ...$accessValidators);
     }
 
 }

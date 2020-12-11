@@ -20,8 +20,3 @@ parameters:
     excludes_analyse:
         - tests/temp/*
         - tests/SecurityAnnotations/fixtures/*
-
-    ignoreErrors:
-        - # intended
-            message: '~Method NepadaTests\\SecurityAnnotations\\RequirementsCheckerTest::createRequirementsChecker\(\) has parameter \$accessValidators with generic interface Nepada\\SecurityAnnotations\\AccessValidators\\AccessValidator but does not specify its types: TAnnotation~'
-            path: tests/SecurityAnnotations/RequirementsCheckerTest.phpt
