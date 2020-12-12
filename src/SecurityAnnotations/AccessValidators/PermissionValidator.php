@@ -5,7 +5,6 @@ namespace Nepada\SecurityAnnotations\AccessValidators;
 
 use Nepada\SecurityAnnotations\Annotations\Allowed;
 use Nette;
-use Nette\Security\IAuthorizator;
 use Nette\Security\User;
 
 /**
@@ -34,8 +33,8 @@ class PermissionValidator implements AccessValidator
      */
     public function validateAccess(object $annotation): void
     {
-        $resource = $annotation->resource ?? IAuthorizator::ALL;
-        $privilege = $annotation->privilege ?? IAuthorizator::ALL;
+        $resource = $annotation->getResource();
+        $privilege = $annotation->getPrivilege();
         if ($this->user->isAllowed($resource, $privilege)) {
             return;
         }

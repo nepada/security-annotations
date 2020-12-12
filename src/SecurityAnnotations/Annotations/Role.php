@@ -19,6 +19,7 @@ final class Role implements NamedArgumentConstructorAnnotation
 
     /**
      * @Required
+     * @internal use getter instead
      * @var array<string>
      */
     public array $roles;
@@ -29,6 +30,14 @@ final class Role implements NamedArgumentConstructorAnnotation
     public function __construct($value)
     {
         $this->roles = is_string($value) ? [$value] : $value;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getRoles(): array
+    {
+        return $this->roles;
     }
 
 }

@@ -37,7 +37,7 @@ class RoleValidator implements AccessValidator
      */
     public function validateAccess(object $annotation): void
     {
-        $allowedRoles = $annotation->roles;
+        $allowedRoles = $annotation->getRoles();
         $userRoles = $this->user->getRoles();
 
         if (array_intersect($userRoles, $allowedRoles) !== []) {
@@ -58,7 +58,7 @@ class RoleValidator implements AccessValidator
             }
         }
 
-        $message = sprintf("User is not in any of the required roles '%s'.", implode("', '", $annotation->roles));
+        $message = sprintf("User is not in any of the required roles '%s'.", implode("', '", $annotation->getRoles()));
         throw new Nette\Application\ForbiddenRequestException($message);
     }
 
