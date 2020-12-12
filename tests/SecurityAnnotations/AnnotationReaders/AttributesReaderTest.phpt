@@ -12,6 +12,7 @@ require_once __DIR__ . '/../../bootstrap.php';
 
 
 /**
+ * @phpVersion >= 8.0
  * @testCase
  */
 class AttributesReaderTest extends TestCase
@@ -27,9 +28,6 @@ class AttributesReaderTest extends TestCase
             new SecurityAnnotations\Annotations\Role(['foo', 'bar']),
             new SecurityAnnotations\Annotations\Allowed(null, 'shiny'),
         ];
-        if (PHP_VERSION_ID < 8_00_00) {
-            $expected = [];
-        }
         $actual = $reader->getAll(new \ReflectionClass(TestAnnotationsPresenter::class));
         Assert::equal($expected, $actual);
     }

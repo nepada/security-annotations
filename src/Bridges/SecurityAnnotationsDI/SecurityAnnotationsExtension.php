@@ -40,15 +40,19 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
     {
         $container = $this->getContainerBuilder();
 
-        $container->addDefinition($this->prefix('doctrineAnnotationsReader'))
+        $readers = [];
+        if (PHP_VERSION_ID >= 8_00_00) {
+            $readers[] = $container->addDefinition($this->prefix('attributesReader'))
+                ->setType(AttributesReader::class)
+                ->setAutowired(AttributesReader::class);
+        }
+        $readers[] = $container->addDefinition($this->prefix('doctrineAnnotationsReader'))
             ->setType(DoctrineAnnotationsReader::class)
             ->setAutowired(DoctrineAnnotationsReader::class);
-        $container->addDefinition($this->prefix('attributesReader'))
-            ->setType(AttributesReader::class)
-            ->setAutowired(AttributesReader::class);
+
         $container->addDefinition($this->prefix('annotationsReader'))
             ->setType(AnnotationsReader::class)
-            ->setFactory(UnionReader::class, [$this->prefix('@attributesReader'), $this->prefix('@doctrineAnnotationsReader')]);
+            ->setFactory(UnionReader::class, $readers);
 
         $requirementsChecker = $container->addDefinition($this->prefix('requirementsChecker'))
             ->setType(RequirementsChecker::class);
