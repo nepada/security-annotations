@@ -33,7 +33,7 @@ This package builds on top of the standard access authorization of Nette compone
 This method is called before invoking any of component/presenter signal handlers, and before presenter `startup`, `action<>` and `render<>` methods.
 
 With this package you can specify the access rules via annotations on any of the mentioned methods, or on presenter class.
-To enable this feature simple use `SecurityAnnotations` trait in any presenter or component and make sure `RequirementsChecker` service gets injected via `injectRquirementsChecker()` - with default Nette configuration this should work on presenters out of the box, but you need to take care of components, e.g. by enabling inject calls.
+To enable this feature simple use `SecurityAnnotations` trait in any presenter or component and make sure `RequirementsChecker` service gets injected via `injectRequirementsChecker()` - with default Nette configuration this should work on presenters out of the box, but you need to take care of components, e.g. by enabling inject calls.
 
 **Example:**
 ```php
@@ -135,4 +135,26 @@ services:
 
 Every access validator implements `Nepada\SecurityAnnotations\AccessValidators\AccessValidator` interface. The access validator specifies which annotation type it supports via its public API.
 
-When checking the requirements all annotations are parsed using `doctrine/annotations` and they are passed one by one to associated access validator for inspection. Based on the annotation value the validator decides either to deny access (throws `Nette\Application\BadRequestException`), or grant access (no exception is thrown).
+When checking the requirements PHP attributes and all annotations parsed using `doctrine/annotations` are passed one by one to associated access validator for inspection. Based on the annotation value the validator decides either to deny access (throws `Nette\Application\BadRequestException`), or grant access (no exception is thrown).
+
+
+### PHP attributes support
+
+Security annotations may be defined also via standard PHP attributes (introduced in PHP 8.0), e.g.
+```php
+use Nepada\SecurityAnnotations\Annotations\LoggedIn;
+
+#[LoggedIn()]
+class SecuredPresenter extends Nette\Application\UI\Presenter
+{
+    // ...
+}
+```
+
+PHP attributes are the preferred way of specifying your security metadata. The support for legacy PHP DocBlock annotations will be removed in the future major version. 
+
+If you do not use legacy PHP DocBlock annotations, consider completely disabling doctrine annotations reader:
+```yaml
+securityAnnotations:
+    enableDoctrineAnnotations: false
+```
