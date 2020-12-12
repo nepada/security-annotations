@@ -9,6 +9,7 @@ use Nepada\SecurityAnnotations\AccessValidators\PermissionValidator;
 use Nepada\SecurityAnnotations\AccessValidators\RoleValidator;
 use NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures\Foo\FooValidator as FooValidator2;
 use NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures\FooValidator;
+use NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures\LoremIpsum;
 use NepadaTests\Environment;
 use NepadaTests\SecurityAnnotations\Fixtures\SecuredPresenter;
 use NepadaTests\TestCase;
@@ -93,6 +94,41 @@ class SecurityAnnotationsExtensionTest extends TestCase
             },
             \LogicException::class,
             'Access validator class \'NotFoundValidator\' not found.',
+        );
+    }
+
+    public function testDefaultReader(): void
+    {
+        $expected = [
+            new SecurityAnnotations\Annotations\Role('attribute'),
+            new SecurityAnnotations\Annotations\Role('annotation'),
+        ];
+        if (PHP_VERSION_ID < 8_00_00) {
+            array_shift($expected);
+        }
+        /** @var SecurityAnnotations\AnnotationReaders\AnnotationsReader $reader */
+        $reader = $this->configurator->createContainer()->getByType(SecurityAnnotations\AnnotationReaders\AnnotationsReader::class);
+        Assert::equal($expected, $reader->getAll(new \ReflectionClass(LoremIpsum::class)));
+    }
+
+    public function testReaderWithDoctrineAnnotationsDisabled(): void
+    {
+        $this->configurator->addConfig(__DIR__ . '/Fixtures/config.doctrine-annotations-disabled.neon');
+
+        if (PHP_VERSION_ID < 8_00_00) {
+            Assert::exception(
+                fn () => $this->configurator->createContainer()->getByType(SecurityAnnotations\AnnotationReaders\AnnotationsReader::class),
+                \LogicException::class,
+                'You must either use PHP >= 8.0 for attributes support, or enable doctrine annotations.',
+            );
+            return;
+        }
+
+        /** @var SecurityAnnotations\AnnotationReaders\AnnotationsReader $reader */
+        $reader = $this->configurator->createContainer()->getByType(SecurityAnnotations\AnnotationReaders\AnnotationsReader::class);
+        Assert::equal(
+            [new SecurityAnnotations\Annotations\Role('attribute')],
+            $reader->getAll(new \ReflectionClass(LoremIpsum::class)),
         );
     }
 

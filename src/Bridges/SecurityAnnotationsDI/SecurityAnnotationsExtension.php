@@ -33,6 +33,7 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
         return Expect::structure([
             'enableDefaultValidators' => Expect::bool(true),
             'validators' => Expect::listOf(Expect::string()),
+            'enableDoctrineAnnotations' => Expect::bool(true),
         ]);
     }
 
@@ -46,9 +47,14 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
                 ->setType(AttributesReader::class)
                 ->setAutowired(AttributesReader::class);
         }
-        $readers[] = $container->addDefinition($this->prefix('doctrineAnnotationsReader'))
-            ->setType(DoctrineAnnotationsReader::class)
-            ->setAutowired(DoctrineAnnotationsReader::class);
+        if ($this->config->enableDoctrineAnnotations) {
+            $readers[] = $container->addDefinition($this->prefix('doctrineAnnotationsReader'))
+                ->setType(DoctrineAnnotationsReader::class)
+                ->setAutowired(DoctrineAnnotationsReader::class);
+        }
+        if ($readers === []) {
+            throw new \LogicException('You must either use PHP >= 8.0 for attributes support, or enable doctrine annotations.');
+        }
 
         $container->addDefinition($this->prefix('annotationsReader'))
             ->setType(AnnotationsReader::class)
