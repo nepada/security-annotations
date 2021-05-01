@@ -34,7 +34,7 @@
         "spaze/phpstan-disallowed-calls": "1.4.0",
         "phpstan/phpstan-mockery": "0.12.13",
         "php-parallel-lint/php-parallel-lint": "1.2",
-        "nepada/coding-standard": "7.3",
+        "nepada/coding-standard": "7.4.0",
         "nette/bootstrap": "^3.0@dev",
         "nette/di": "^3.0.5@dev",
         "nettrine/annotations": "^0.7.0@dev"
