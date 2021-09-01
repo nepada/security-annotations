@@ -10,16 +10,6 @@ if (PHP_VERSION_ID < 8_00_00) {
         'path' => '../../src/SecurityAnnotations/AnnotationReaders/AttributesReader.php',
         'count' => 1,
     ];
-    $config['parameters']['ignoreErrors'][] = [
-        'message' => '#^Call to method newInstance\\(\\) on an unknown class ReflectionAttribute\\.$#',
-        'path' => '../../src/SecurityAnnotations/AnnotationReaders/AttributesReader.php',
-        'count' => 1,
-    ];
-    $config['parameters']['ignoreErrors'][] = [
-        'message' => '#^Parameter \\$attribute of anonymous function has invalid typehint type ReflectionAttribute\\.$#',
-        'path' => '../../src/SecurityAnnotations/AnnotationReaders/AttributesReader.php',
-        'count' => 1,
-    ];
 }
 
 return $config;
