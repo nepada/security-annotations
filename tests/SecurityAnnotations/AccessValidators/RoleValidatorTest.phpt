@@ -37,7 +37,7 @@ class RoleValidatorTest extends TestCase
      * @dataProvider getDataForAccessAllowed
      * @param string $input
      * @param string[] $userRoles
-     * @param string[]|null $rolesInheritance
+     * @param array<array<string>>|null $rolesInheritance
      */
     public function testAccessAllowed(string $input, array $userRoles, ?array $rolesInheritance): void
     {
@@ -79,7 +79,7 @@ class RoleValidatorTest extends TestCase
      * @dataProvider getDataForAccessDenied
      * @param string $input
      * @param string[] $userRoles
-     * @param string[]|null $rolesInheritance
+     * @param array<array<string>>|null $rolesInheritance
      */
     public function testAccessDenied(string $input, array $userRoles, ?array $rolesInheritance): void
     {
@@ -130,14 +130,14 @@ class RoleValidatorTest extends TestCase
     }
 
     /**
-     * @param string[] $rolesInheritance
+     * @param array<array<string>> $rolesInheritance
      * @return Nette\Security\Permission|MockInterface
      */
     private function mockPermission(array $rolesInheritance): Nette\Security\Permission
     {
         $permission = Mockery::mock(Nette\Security\Permission::class);
         $permission->shouldReceive('roleInheritsFrom')->andReturnUsing(
-            fn (string $child, string $parent): bool => in_array($parent, Arrays::get($rolesInheritance, $child, []), true),
+            fn (string $child, string $parent): bool => in_array($parent, (array) Arrays::get($rolesInheritance, $child, []), true),
         );
 
         return $permission;
