@@ -13,6 +13,7 @@ use Nepada\SecurityAnnotations\AnnotationReaders\DoctrineAnnotationsReader;
 use Nepada\SecurityAnnotations\AnnotationReaders\UnionReader;
 use Nepada\SecurityAnnotations\RequirementsChecker;
 use Nette;
+use Nette\DI\Definitions\ServiceDefinition;
 use Nette\Schema\Expect;
 use Nette\Utils\Strings;
 
@@ -43,12 +44,12 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
 
         $readers = [];
         if (PHP_VERSION_ID >= 8_00_00) {
-            $readers[] = $container->addDefinition($this->prefix('attributesReader'))
+            $readers[] = $container->addDefinition($this->prefix('attributesReader'), new ServiceDefinition())
                 ->setType(AttributesReader::class)
                 ->setAutowired(AttributesReader::class);
         }
         if ($this->config->enableDoctrineAnnotations) {
-            $readers[] = $container->addDefinition($this->prefix('doctrineAnnotationsReader'))
+            $readers[] = $container->addDefinition($this->prefix('doctrineAnnotationsReader'), new ServiceDefinition())
                 ->setType(DoctrineAnnotationsReader::class)
                 ->setAutowired(DoctrineAnnotationsReader::class);
         }
@@ -56,11 +57,11 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
             throw new \LogicException('You must either use PHP >= 8.0 for attributes support, or enable doctrine annotations.');
         }
 
-        $container->addDefinition($this->prefix('annotationsReader'))
+        $container->addDefinition($this->prefix('annotationsReader'), new ServiceDefinition())
             ->setType(AnnotationsReader::class)
             ->setFactory(UnionReader::class, $readers);
 
-        $requirementsChecker = $container->addDefinition($this->prefix('requirementsChecker'))
+        $requirementsChecker = $container->addDefinition($this->prefix('requirementsChecker'), new ServiceDefinition())
             ->setType(RequirementsChecker::class);
 
         $validators = $this->config->validators;
@@ -94,7 +95,7 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
         }
 
         $serviceName = $this->generateValidatorServiceName($reflection);
-        $this->getContainerBuilder()->addDefinition($serviceName)
+        $this->getContainerBuilder()->addDefinition($serviceName, new ServiceDefinition())
             ->setType($validator);
 
         return "@{$serviceName}";
