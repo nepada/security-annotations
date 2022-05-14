@@ -27,7 +27,7 @@ final class Role implements NamedArgumentConstructorAnnotation
     /**
      * @param string|array<string> $value
      */
-    public function __construct($value)
+    public function __construct(string|array $value)
     {
         $this->roles = is_string($value) ? [$value] : $value;
     }

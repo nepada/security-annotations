@@ -13,7 +13,7 @@ trait SecuredComponents
      * @param mixed $element
      * @throws Nette\Application\ForbiddenRequestException;
      */
-    abstract public function checkRequirements($element): void;
+    abstract public function checkRequirements(mixed $element): void;
 
     protected function createComponent(string $name): ?IComponent
     {

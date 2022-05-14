@@ -17,9 +17,9 @@ class BarValidator implements AccessValidator
     }
 
     /**
-     * @param mixed $annotation parsed value of annotation
+     * @param BarValidator $annotation parsed value of annotation
      */
-    public function validateAccess($annotation): void
+    public function validateAccess(object $annotation): void
     {
     }
 
