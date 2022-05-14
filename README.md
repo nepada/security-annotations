@@ -23,16 +23,18 @@ extensions:
     securityAnnotations: Nepada\Bridges\SecurityAnnotationsDI\SecurityAnnotationsExtension
 ```
 
-The package relies on [doctrine/annotations](https://packagist.org/packages/doctrine/annotations) for parsing annotations. It's up to you to choose and set up the integration, the recommended package to do the job is [nettrine/annotations](https://packagist.org/packages/nettrine/annotations).
+For parsing phpdoc annotation this package relies on [doctrine/annotations](https://packagist.org/packages/doctrine/annotations) for parsing annotations. It's up to you to choose and set up the integration, the recommended package to do the job is [nettrine/annotations](https://packagist.org/packages/nettrine/annotations).
+
+**Note: using phpdoc annotations is deprecated and will be removed in next major release. Migrate all your annotations to native PHP8 attributes and set `enableDoctrineAnnotations: false` in your config.** 
 
 
-Usage
+UsagecheckReq
 -----
 
 This package builds on top of the standard access authorization of Nette components, namely `Nette\Application\UI\Component::checkRequirements()` method.
 This method is called before invoking any of component/presenter signal handlers, and before presenter `startup`, `action<>` and `render<>` methods.
 
-With this package you can specify the access rules via annotations on any of the mentioned methods, or on presenter class.
+With this package you can specify the access rules via attributes on any of the mentioned methods, or on presenter class.
 To enable this feature simple use `SecurityAnnotations` trait in any presenter or component and make sure `RequirementsChecker` service gets injected via `injectRequirementsChecker()` - with default Nette configuration this should work on presenters out of the box, but you need to take care of components, e.g. by enabling inject calls.
 
 **Example:**
@@ -42,25 +44,21 @@ use Nepada\SecurityAnnotations\Annotations\LoggedIn;
 use Nepada\SecurityAnnotations\Annotations\Role;
 
 /**
- * @LoggedIn
  * To access this presenter the user must be logged in.
  */
+ #[LoggedIn]
 class SecuredPresenter extends Nette\Application\UI\Presenter
 {
 
     use Nepada\SecurityAnnotations\SecurityAnnotations;
 
-    /**
-     * @Role({"admin", "superadmin"})
-     */
+    #[Role(["admin", "superadmin"])]
     public function actionForAdmins(): void
     {
         // Only users with role admin or superadmin are allowed here.
     }
 
-    /**
-     * @Allowed(resource="world", privilege="destroy")
-     */
+     #[Allowed(resource: "world", privilege: "destroy")]
     public function handleDestroyWorld(): void
     {
         // Only users with specific permission are allowed to call this signal.
@@ -69,12 +67,12 @@ class SecuredPresenter extends Nette\Application\UI\Presenter
 }
 ```
 
-The annotations and rules they enforce are completely customizable (see below), however the default setup comes with three predefined rules:
+The attributes and rules they enforce are completely customizable (see below), however the default setup comes with three predefined rules:
 
-- **@LoggedIn** - checks whether the user is logged in.
-- **@Role({"admin", "superadmin"})** - checks whether the user has at least one of the specified roles.
+- **LoggedIn** - checks whether the user is logged in.
+- **Role(["admin", "superadmin"])** - checks whether the user has at least one of the specified roles.
   If you use `Nette\Security\Permission` as your authorizator, then role inheritance is taken into account, i.e. users that have at least one role that inherits from at least one of the specified roles are allowed as well.
-- **@Allowed(resource="world", privilege="destroy")** - checks whether the user has at least one role that is granted the specified privilege on the specified resource.
+- **Allowed(resource: "world", privilege: "destroy")** - checks whether the user has at least one role that is granted the specified privilege on the specified resource.
 
 
 ### Securing components
@@ -89,9 +87,7 @@ class SecuredPresenter extends Nette\Application\UI\Presenter
 
     use Nepada\SecurityAnnotations\SecurityAnnotations;
 
-    /**
-     * @LoggedIn
-     */
+    #[LoggedIn]
     public function actionDefault(): void
     {
         // ...
@@ -112,7 +108,7 @@ class SecuredPresenter extends Nette\Application\UI\Presenter
 
 Securing presenter `action<>` (or `render<>`) methods is not sufficient! All it takes is a one general route in your router, e.g. a very common `Route('<presenter>/<action>')`, and anyone may successfully submit the form by sending POST request to `/secured/foo` URL.
 
-You should always check user's permissions when creating the component. To make your life easier there is `SecuredComponents` trait that calls the standard `Nette\Application\UI\Component::checkRequirements()` method before calling the component factory. Combining it with `SecurityAnnotations` it allows you to control access to components via annotations on `createComponent<>` methods.
+You should always check user's permissions when creating the component. To make your life easier there is `SecuredComponents` trait that calls the standard `Nette\Application\UI\Component::checkRequirements()` method before calling the component factory. Combining it with `SecurityAnnotations` it allows you to control access to components via attributes on `createComponent<>` methods.
 
 
 ### Customizing access validators
@@ -133,28 +129,6 @@ services:
 
 #### How do access validators work?
 
-Every access validator implements `Nepada\SecurityAnnotations\AccessValidators\AccessValidator` interface. The access validator specifies which annotation type it supports via its public API.
+Every access validator implements `Nepada\SecurityAnnotations\AccessValidators\AccessValidator` interface. The access validator specifies which attribute type it supports via its public API.
 
-When checking the requirements PHP attributes and all annotations parsed using `doctrine/annotations` are passed one by one to associated access validator for inspection. Based on the annotation value the validator decides either to deny access (throws `Nette\Application\BadRequestException`), or grant access (no exception is thrown).
-
-
-### PHP attributes support
-
-Security annotations may be defined also via standard PHP attributes (introduced in PHP 8.0), e.g.
-```php
-use Nepada\SecurityAnnotations\Annotations\LoggedIn;
-
-#[LoggedIn()]
-class SecuredPresenter extends Nette\Application\UI\Presenter
-{
-    // ...
-}
-```
-
-PHP attributes are the preferred way of specifying your security metadata. The support for legacy PHP DocBlock annotations will be removed in the future major version. 
-
-If you do not use legacy PHP DocBlock annotations, consider completely disabling doctrine annotations reader:
-```yaml
-securityAnnotations:
-    enableDoctrineAnnotations: false
-```
+When checking the requirements PHP attributes and all annotations parsed using `doctrine/annotations` are passed one by one to associated access validator for inspection. Based on the attribute value the validator decides either to deny access (throws `Nette\Application\BadRequestException`), or grant access (no exception is thrown).

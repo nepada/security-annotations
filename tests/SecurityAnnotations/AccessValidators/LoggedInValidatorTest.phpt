@@ -3,8 +3,6 @@ declare(strict_types = 1);
 
 namespace NepadaTests\SecurityAnnotations\AccessValidators;
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
-use Doctrine\Common\Annotations\DocParser;
 use Mockery;
 use Mockery\MockInterface;
 use Nepada\SecurityAnnotations\AccessValidators;
@@ -24,19 +22,15 @@ require_once __DIR__ . '/../../bootstrap.php';
 class LoggedInValidatorTest extends TestCase
 {
 
-    private DocParser $docParser;
-
     protected function setUp(): void
     {
         parent::setUp();
         Environment::bypassFinals();
-        AnnotationRegistry::registerUniqueLoader('class_exists');
-        $this->docParser = new DocParser();
     }
 
     public function testAccessAllowed(): void
     {
-        $annotation = $this->parseAnnotation('@Nepada\SecurityAnnotations\Annotations\LoggedIn');
+        $annotation = new LoggedIn();
         $user = $this->mockUser(true);
         $validator = new AccessValidators\LoggedInValidator($user);
 
@@ -47,7 +41,7 @@ class LoggedInValidatorTest extends TestCase
 
     public function testAccessDenied(): void
     {
-        $annotation = $this->parseAnnotation('@Nepada\SecurityAnnotations\Annotations\LoggedIn');
+        $annotation = new LoggedIn();
         $user = $this->mockUser(false);
         $validator = new AccessValidators\LoggedInValidator($user);
 
@@ -66,14 +60,6 @@ class LoggedInValidatorTest extends TestCase
         $user->shouldReceive('isLoggedIn')->andReturn($isLoggedIn);
 
         return $user;
-    }
-
-    private function parseAnnotation(string $input): LoggedIn
-    {
-        $annotations = $this->docParser->parse($input);
-        Assert::count(1, $annotations);
-        Assert::type(LoggedIn::class, $annotations[0]);
-        return $annotations[0];
     }
 
 }

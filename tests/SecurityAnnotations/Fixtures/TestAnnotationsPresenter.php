@@ -13,11 +13,13 @@ use Nette;
  * @Role({"a", "b", "c"})
  * @Role("d")
  * @Allowed(resource="foo", privilege="bar")
+ * @Allowed(privilege="shiny")
  * @author Foo Bar
  */
 #[LoggedIn()]
 #[Role('lorem')]
 #[Role(['foo', 'bar'])]
+#[Allowed('foo', 'bar')]
 #[Allowed(privilege: 'shiny')]
 class TestAnnotationsPresenter extends Nette\Application\UI\Presenter
 {

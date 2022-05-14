@@ -3,8 +3,6 @@ declare(strict_types = 1);
 
 namespace NepadaTests\SecurityAnnotations\AccessValidators;
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
-use Doctrine\Common\Annotations\DocParser;
 use Mockery;
 use Mockery\MockInterface;
 use Nepada\SecurityAnnotations\AccessValidators;
@@ -24,24 +22,14 @@ require_once __DIR__ . '/../../bootstrap.php';
 class RoleValidatorTest extends TestCase
 {
 
-    private DocParser $docParser;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        AnnotationRegistry::registerUniqueLoader('class_exists');
-        $this->docParser = new DocParser();
-    }
-
     /**
      * @dataProvider getDataForAccessAllowed
-     * @param string $input
+     * @param Role $annotation
      * @param string[] $userRoles
      * @param array<array<string>>|null $rolesInheritance
      */
-    public function testAccessAllowed(string $input, array $userRoles, ?array $rolesInheritance): void
+    public function testAccessAllowed(Role $annotation, array $userRoles, ?array $rolesInheritance): void
     {
-        $annotation = $this->parseAnnotation($input);
         $user = $this->mockUser($userRoles);
         $permission = $rolesInheritance === null ? null : $this->mockPermission($rolesInheritance);
         $validator = new AccessValidators\RoleValidator($user, $permission);
@@ -58,17 +46,17 @@ class RoleValidatorTest extends TestCase
     {
         return [
             [
-                'input' => '@Nepada\SecurityAnnotations\Annotations\Role("bar")',
+                'annotation' => new Role('bar'),
                 'userRoles' => ['foo', 'bar', 'baz'],
                 'rolesInheritance' => null,
             ],
             [
-                'input' => '@Nepada\SecurityAnnotations\Annotations\Role({"xyz", "bar", "abc"})',
+                'annotation' => new Role(['xyz', 'bar', 'abc']),
                 'userRoles' => ['foo', 'bar', 'baz'],
                 'rolesInheritance' => null,
             ],
             [
-                'input' => '@Nepada\SecurityAnnotations\Annotations\Role({"abc", "cde"})',
+                'annotation' => new Role(['abc', 'cde']),
                 'userRoles' => ['foo', 'bar', 'baz'],
                 'rolesInheritance' => ['foo' => ['xyz'], 'bar' => ['abc']],
             ],
@@ -77,13 +65,12 @@ class RoleValidatorTest extends TestCase
 
     /**
      * @dataProvider getDataForAccessDenied
-     * @param string $input
+     * @param Role $annotation
      * @param string[] $userRoles
      * @param array<array<string>>|null $rolesInheritance
      */
-    public function testAccessDenied(string $input, array $userRoles, ?array $rolesInheritance): void
+    public function testAccessDenied(Role $annotation, array $userRoles, ?array $rolesInheritance): void
     {
-        $annotation = $this->parseAnnotation($input);
         $user = $this->mockUser($userRoles);
         $permission = $rolesInheritance === null ? null : $this->mockPermission($rolesInheritance);
         $validator = new AccessValidators\RoleValidator($user, $permission);
@@ -100,17 +87,17 @@ class RoleValidatorTest extends TestCase
     {
         return [
             [
-                'input' => '@Nepada\SecurityAnnotations\Annotations\Role("required")',
+                'annotation' => new Role('required'),
                 'userRoles' => [],
                 'rolesInheritance' => null,
             ],
             [
-                'input' => '@Nepada\SecurityAnnotations\Annotations\Role({"required", "another"})',
+                'annotation' => new Role(['required', 'another']),
                 'userRoles' => ['baz'],
                 'rolesInheritance' => null,
             ],
             [
-                'input' => '@Nepada\SecurityAnnotations\Annotations\Role({"required", "another"})',
+                'annotation' => new Role(['required', 'another']),
                 'userRoles' => ['foo', 'bar', 'baz'],
                 'rolesInheritance' => ['foo' => ['xyz'], 'bar' => ['abc']],
             ],
@@ -141,14 +128,6 @@ class RoleValidatorTest extends TestCase
         );
 
         return $permission;
-    }
-
-    private function parseAnnotation(string $input): Role
-    {
-        $annotations = $this->docParser->parse($input);
-        Assert::count(1, $annotations);
-        Assert::type(Role::class, $annotations[0]);
-        return $annotations[0];
     }
 
 }
