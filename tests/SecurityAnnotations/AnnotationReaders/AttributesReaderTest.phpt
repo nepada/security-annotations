@@ -12,7 +12,6 @@ require_once __DIR__ . '/../../bootstrap.php';
 
 
 /**
- * @phpVersion >= 8.0
  * @testCase
  */
 class AttributesReaderTest extends TestCase

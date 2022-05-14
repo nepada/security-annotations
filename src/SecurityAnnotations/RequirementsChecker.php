@@ -35,7 +35,7 @@ class RequirementsChecker
     {
         $annotations = $this->annotationReader->getAll($element);
         foreach ($annotations as $annotation) {
-            $annotationName = get_class($annotation);
+            $annotationName = $annotation::class;
             if (isset($this->accessValidators[$annotationName])) {
                 $this->accessValidators[$annotationName]->validateAccess($annotation);
             }

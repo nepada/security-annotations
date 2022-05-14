@@ -103,9 +103,6 @@ class SecurityAnnotationsExtensionTest extends TestCase
             new SecurityAnnotations\Annotations\Role('attribute'),
             new SecurityAnnotations\Annotations\Role('annotation'),
         ];
-        if (PHP_VERSION_ID < 8_00_00) {
-            array_shift($expected);
-        }
         /** @var SecurityAnnotations\AnnotationReaders\AnnotationsReader $reader */
         $reader = $this->configurator->createContainer()->getByType(SecurityAnnotations\AnnotationReaders\AnnotationsReader::class);
         Assert::equal($expected, $reader->getAll(new \ReflectionClass(LoremIpsum::class)));
@@ -114,15 +111,6 @@ class SecurityAnnotationsExtensionTest extends TestCase
     public function testReaderWithDoctrineAnnotationsDisabled(): void
     {
         $this->configurator->addConfig(__DIR__ . '/Fixtures/config.doctrine-annotations-disabled.neon');
-
-        if (PHP_VERSION_ID < 8_00_00) {
-            Assert::exception(
-                fn () => $this->configurator->createContainer()->getByType(SecurityAnnotations\AnnotationReaders\AnnotationsReader::class),
-                \LogicException::class,
-                'You must either use PHP >= 8.0 for attributes support, or enable doctrine annotations.',
-            );
-            return;
-        }
 
         /** @var SecurityAnnotations\AnnotationReaders\AnnotationsReader $reader */
         $reader = $this->configurator->createContainer()->getByType(SecurityAnnotations\AnnotationReaders\AnnotationsReader::class);

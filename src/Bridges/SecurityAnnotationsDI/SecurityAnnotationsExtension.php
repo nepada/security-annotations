@@ -43,18 +43,13 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
         $container = $this->getContainerBuilder();
 
         $readers = [];
-        if (PHP_VERSION_ID >= 8_00_00) {
-            $readers[] = $container->addDefinition($this->prefix('attributesReader'), new ServiceDefinition())
-                ->setType(AttributesReader::class)
-                ->setAutowired(AttributesReader::class);
-        }
+        $readers[] = $container->addDefinition($this->prefix('attributesReader'), new ServiceDefinition())
+            ->setType(AttributesReader::class)
+            ->setAutowired(AttributesReader::class);
         if ($this->config->enableDoctrineAnnotations) {
             $readers[] = $container->addDefinition($this->prefix('doctrineAnnotationsReader'), new ServiceDefinition())
                 ->setType(DoctrineAnnotationsReader::class)
                 ->setAutowired(DoctrineAnnotationsReader::class);
-        }
-        if ($readers === []) {
-            throw new \LogicException('You must either use PHP >= 8.0 for attributes support, or enable doctrine annotations.');
         }
 
         $container->addDefinition($this->prefix('annotationsReader'), new ServiceDefinition())
