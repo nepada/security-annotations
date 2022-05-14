@@ -28,6 +28,7 @@ class DoctrineAnnotationsReaderTest extends TestCase
             new SecurityAnnotations\Annotations\Role(['a', 'b', 'c']),
             new SecurityAnnotations\Annotations\Role('d'),
             new SecurityAnnotations\Annotations\Allowed('foo', 'bar'),
+            new SecurityAnnotations\Annotations\Allowed(null, 'shiny'),
         ];
         $actual = $reader->getAll(new \ReflectionClass(TestAnnotationsPresenter::class));
         Assert::equal($expected, $actual);

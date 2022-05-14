@@ -25,6 +25,7 @@ class AttributesReaderTest extends TestCase
             new SecurityAnnotations\Annotations\LoggedIn(),
             new SecurityAnnotations\Annotations\Role('lorem'),
             new SecurityAnnotations\Annotations\Role(['foo', 'bar']),
+            new SecurityAnnotations\Annotations\Allowed('foo', 'bar'),
             new SecurityAnnotations\Annotations\Allowed(null, 'shiny'),
         ];
         $actual = $reader->getAll(new \ReflectionClass(TestAnnotationsPresenter::class));

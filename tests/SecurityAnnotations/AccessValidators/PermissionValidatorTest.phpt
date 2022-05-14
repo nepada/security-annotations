@@ -3,8 +3,6 @@ declare(strict_types = 1);
 
 namespace NepadaTests\SecurityAnnotations\AccessValidators;
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
-use Doctrine\Common\Annotations\DocParser;
 use Mockery;
 use Mockery\MockInterface;
 use Nepada\SecurityAnnotations\AccessValidators;
@@ -24,24 +22,14 @@ require_once __DIR__ . '/../../bootstrap.php';
 class PermissionValidatorTest extends TestCase
 {
 
-    private DocParser $docParser;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        AnnotationRegistry::registerUniqueLoader('class_exists');
-        $this->docParser = new DocParser();
-    }
-
     /**
      * @dataProvider getDataForAccessAllowed
-     * @param string $input
+     * @param Allowed $annotation
      * @param string|null $resource
      * @param string|null $privilege
      */
-    public function testAccessAllowed(string $input, ?string $resource, ?string $privilege): void
+    public function testAccessAllowed(Allowed $annotation, ?string $resource, ?string $privilege): void
     {
-        $annotation = $this->parseAnnotation($input);
         $user = $this->mockUser($resource, $privilege, IAuthorizator::ALLOW);
         $validator = new AccessValidators\PermissionValidator($user);
 
@@ -57,22 +45,22 @@ class PermissionValidatorTest extends TestCase
     {
         return [
             [
-                'input' => '@Nepada\SecurityAnnotations\Annotations\Allowed()',
+                'annotation' => new Allowed(),
                 'resource' => IAuthorizator::ALL,
                 'privilege' => IAuthorizator::ALL,
             ],
             [
-                'input' => '@Nepada\SecurityAnnotations\Annotations\Allowed(resource="foo")',
+                'annotation' => new Allowed('foo'),
                 'resource' => 'foo',
                 'privilege' => IAuthorizator::ALL,
             ],
             [
-                'input' => '@Nepada\SecurityAnnotations\Annotations\Allowed(privilege="edit")',
+                'annotation' => new Allowed(null, 'edit'),
                 'resource' => IAuthorizator::ALL,
                 'privilege' => 'edit',
             ],
             [
-                'input' => '@Nepada\SecurityAnnotations\Annotations\Allowed(resource="foo", privilege="edit")',
+                'annotation' => new Allowed('foo', 'edit'),
                 'resource' => 'foo',
                 'privilege' => 'edit',
             ],
@@ -81,14 +69,13 @@ class PermissionValidatorTest extends TestCase
 
     /**
      * @dataProvider getDataForAccessDenied
-     * @param string $input
+     * @param Allowed $annotation
      * @param string|null $resource
      * @param string|null $privilege
      * @param string $message
      */
-    public function testAccessDenied(string $input, ?string $resource, ?string $privilege, string $message): void
+    public function testAccessDenied(Allowed $annotation, ?string $resource, ?string $privilege, string $message): void
     {
-        $annotation = $this->parseAnnotation($input);
         $user = $this->mockUser($resource, $privilege, IAuthorizator::DENY);
         $validator = new AccessValidators\PermissionValidator($user);
 
@@ -104,25 +91,25 @@ class PermissionValidatorTest extends TestCase
     {
         return [
             [
-                'input' => '@Nepada\SecurityAnnotations\Annotations\Allowed()',
+                'annotation' => new Allowed(),
                 'resource' => IAuthorizator::ALL,
                 'privilege' => IAuthorizator::ALL,
                 'message' => 'User is not allowed to access the resource.',
             ],
             [
-                'input' => '@Nepada\SecurityAnnotations\Annotations\Allowed(resource="foo")',
+                'annotation' => new Allowed('foo'),
                 'resource' => 'foo',
                 'privilege' => IAuthorizator::ALL,
                 'message' => "User is not allowed to access the resource 'foo'.",
             ],
             [
-                'input' => '@Nepada\SecurityAnnotations\Annotations\Allowed(privilege="edit")',
+                'annotation' => new Allowed(null, 'edit'),
                 'resource' => IAuthorizator::ALL,
                 'privilege' => 'edit',
                 'message' => 'User is not allowed to edit the resource.',
             ],
             [
-                'input' => '@Nepada\SecurityAnnotations\Annotations\Allowed(resource="foo", privilege="edit")',
+                'annotation' => new Allowed('foo', 'edit'),
                 'resource' => 'foo',
                 'privilege' => 'edit',
                 'message' => "User is not allowed to edit the resource 'foo'.",
@@ -142,14 +129,6 @@ class PermissionValidatorTest extends TestCase
         $user->shouldReceive('isAllowed')->withArgs([$resource, $privilege])->andReturn($isAllowed);
 
         return $user;
-    }
-
-    private function parseAnnotation(string $input): Allowed
-    {
-        $annotations = $this->docParser->parse($input);
-        Assert::count(1, $annotations);
-        Assert::type(Allowed::class, $annotations[0]);
-        return $annotations[0];
     }
 
 }

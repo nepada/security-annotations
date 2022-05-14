@@ -47,6 +47,10 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
             ->setType(AttributesReader::class)
             ->setAutowired(AttributesReader::class);
         if ($this->config->enableDoctrineAnnotations) {
+            trigger_error(
+                'Using Doctrine annotations is deprecated, migrate to native PHP8 attributes and set enableDoctrineAnnotations: false in your config',
+                E_USER_DEPRECATED,
+            );
             $readers[] = $container->addDefinition($this->prefix('doctrineAnnotationsReader'), new ServiceDefinition())
                 ->setType(DoctrineAnnotationsReader::class)
                 ->setAutowired(DoctrineAnnotationsReader::class);

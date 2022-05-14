@@ -37,6 +37,7 @@ class SecurityAnnotationsExtensionTest extends TestCase
 
     public function testDefaultValidators(): void
     {
+        $this->configurator->addConfig(__DIR__ . '/Fixtures/config.doctrine-annotations-disabled.neon');
         $container = $this->configurator->createContainer();
 
         Assert::type(LoggedInValidator::class, $container->getService('securityAnnotations.loggedInValidator'));
@@ -55,6 +56,7 @@ class SecurityAnnotationsExtensionTest extends TestCase
 
     public function testCustomValidators(): void
     {
+        $this->configurator->addConfig(__DIR__ . '/Fixtures/config.doctrine-annotations-disabled.neon');
         $this->configurator->addConfig(__DIR__ . '/Fixtures/config.custom-validators.neon');
         $container = $this->configurator->createContainer();
 
@@ -73,6 +75,7 @@ class SecurityAnnotationsExtensionTest extends TestCase
 
     public function testInvalidValidator(): void
     {
+        $this->configurator->addConfig(__DIR__ . '/Fixtures/config.doctrine-annotations-disabled.neon');
         $this->configurator->addConfig(__DIR__ . '/Fixtures/config.invalid-validator.neon');
 
         Assert::exception(
@@ -86,6 +89,7 @@ class SecurityAnnotationsExtensionTest extends TestCase
 
     public function testNotFoundValidator(): void
     {
+        $this->configurator->addConfig(__DIR__ . '/Fixtures/config.doctrine-annotations-disabled.neon');
         $this->configurator->addConfig(__DIR__ . '/Fixtures/config.not-found-validator.neon');
 
         Assert::exception(
@@ -103,9 +107,15 @@ class SecurityAnnotationsExtensionTest extends TestCase
             new SecurityAnnotations\Annotations\Role('attribute'),
             new SecurityAnnotations\Annotations\Role('annotation'),
         ];
-        /** @var SecurityAnnotations\AnnotationReaders\AnnotationsReader $reader */
-        $reader = $this->configurator->createContainer()->getByType(SecurityAnnotations\AnnotationReaders\AnnotationsReader::class);
-        Assert::equal($expected, $reader->getAll(new \ReflectionClass(LoremIpsum::class)));
+        Assert::error(
+            function () use ($expected): void {
+                /** @var SecurityAnnotations\AnnotationReaders\AnnotationsReader $reader */
+                $reader = $this->configurator->createContainer()->getByType(SecurityAnnotations\AnnotationReaders\AnnotationsReader::class);
+                Assert::equal($expected, $reader->getAll(new \ReflectionClass(LoremIpsum::class)));
+            },
+            E_USER_DEPRECATED,
+            'Using Doctrine annotations is deprecated, migrate to native PHP8 attributes and set enableDoctrineAnnotations: false in your config',
+        );
     }
 
     public function testReaderWithDoctrineAnnotationsDisabled(): void
