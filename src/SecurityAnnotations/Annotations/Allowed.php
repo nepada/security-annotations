@@ -17,17 +17,9 @@ final class Allowed implements NamedArgumentConstructorAnnotation
 
     use Nette\SmartObject;
 
-    /**
-     * @internal use getter instead
-     * @var string
-     */
-    public ?string $resource;
+    private ?string $resource;
 
-    /**
-     * @internal use getter instead
-     * @var string
-     */
-    public ?string $privilege;
+    private ?string $privilege;
 
     public function __construct(?string $resource = Nette\Security\IAuthorizator::ALL, ?string $privilege = Nette\Security\IAuthorizator::ALL)
     {

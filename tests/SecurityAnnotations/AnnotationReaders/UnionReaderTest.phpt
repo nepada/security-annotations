@@ -27,13 +27,13 @@ class UnionReaderTest extends TestCase
         $expected = [
             new SecurityAnnotations\Annotations\LoggedIn(),
             new SecurityAnnotations\Annotations\Role('lorem'),
-            new SecurityAnnotations\Annotations\Role(['foo', 'bar']),
+            new SecurityAnnotations\Annotations\Role('foo', 'bar'),
             new SecurityAnnotations\Annotations\Allowed('foo', 'bar'),
             new SecurityAnnotations\Annotations\Allowed(null, 'shiny'),
 
             new SecurityAnnotations\Annotations\LoggedIn(),
             new SecurityAnnotations\Annotations\Role('lorem'),
-            new SecurityAnnotations\Annotations\Role(['foo', 'bar']),
+            new SecurityAnnotations\Annotations\Role('foo', 'bar'),
             new SecurityAnnotations\Annotations\Allowed('foo', 'bar'),
             new SecurityAnnotations\Annotations\Allowed(null, 'shiny'),
         ];

@@ -51,12 +51,12 @@ class RoleValidatorTest extends TestCase
                 'rolesInheritance' => null,
             ],
             [
-                'annotation' => new Role(['xyz', 'bar', 'abc']),
+                'annotation' => new Role('xyz', 'bar', 'abc'),
                 'userRoles' => ['foo', 'bar', 'baz'],
                 'rolesInheritance' => null,
             ],
             [
-                'annotation' => new Role(['abc', 'cde']),
+                'annotation' => new Role('abc', 'cde'),
                 'userRoles' => ['foo', 'bar', 'baz'],
                 'rolesInheritance' => ['foo' => ['xyz'], 'bar' => ['abc']],
             ],
@@ -92,12 +92,12 @@ class RoleValidatorTest extends TestCase
                 'rolesInheritance' => null,
             ],
             [
-                'annotation' => new Role(['required', 'another']),
+                'annotation' => new Role('required', 'another'),
                 'userRoles' => ['baz'],
                 'rolesInheritance' => null,
             ],
             [
-                'annotation' => new Role(['required', 'another']),
+                'annotation' => new Role('required', 'another'),
                 'userRoles' => ['foo', 'bar', 'baz'],
                 'rolesInheritance' => ['foo' => ['xyz'], 'bar' => ['abc']],
             ],

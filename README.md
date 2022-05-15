@@ -52,7 +52,7 @@ class SecuredPresenter extends Nette\Application\UI\Presenter
 
     use Nepada\SecurityAnnotations\SecurityAnnotations;
 
-    #[Role(["admin", "superadmin"])]
+    #[Role("admin", "superadmin")]
     public function actionForAdmins(): void
     {
         // Only users with role admin or superadmin are allowed here.

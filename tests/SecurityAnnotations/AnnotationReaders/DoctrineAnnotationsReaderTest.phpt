@@ -25,12 +25,23 @@ class DoctrineAnnotationsReaderTest extends TestCase
 
         $expected = [
             new SecurityAnnotations\Annotations\LoggedIn(),
-            new SecurityAnnotations\Annotations\Role(['a', 'b', 'c']),
+            new SecurityAnnotations\Annotations\Role('a', 'b', 'c'),
             new SecurityAnnotations\Annotations\Role('d'),
             new SecurityAnnotations\Annotations\Allowed('foo', 'bar'),
             new SecurityAnnotations\Annotations\Allowed(null, 'shiny'),
         ];
         $actual = $reader->getAll(new \ReflectionClass(TestAnnotationsPresenter::class));
+        Assert::equal($expected, $actual);
+    }
+
+    public function testDeprecatedSyntax(): void
+    {
+        $reader = new SecurityAnnotations\AnnotationReaders\DoctrineAnnotationsReader(new AnnotationReader(new DocParser()));
+
+        $expected = [
+            new SecurityAnnotations\Annotations\Role('a', 'b', 'c'),
+        ];
+        $actual = $reader->getAll(new \ReflectionMethod(TestAnnotationsPresenter::class, 'deprecated'));
         Assert::equal($expected, $actual);
     }
 
