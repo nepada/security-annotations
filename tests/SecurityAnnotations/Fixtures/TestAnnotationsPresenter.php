@@ -10,7 +10,7 @@ use Nette;
 
 /**
  * @LoggedIn
- * @Role({"a", "b", "c"})
+ * @Role("a", "b", "c")
  * @Role("d")
  * @Allowed(resource="foo", privilege="bar")
  * @Allowed(privilege="shiny")
@@ -18,10 +18,18 @@ use Nette;
  */
 #[LoggedIn()]
 #[Role('lorem')]
-#[Role(['foo', 'bar'])]
+#[Role('foo', 'bar')]
 #[Allowed('foo', 'bar')]
 #[Allowed(privilege: 'shiny')]
 class TestAnnotationsPresenter extends Nette\Application\UI\Presenter
 {
+
+    /**
+     * @Role({"a", "b", "c"})
+     */
+    #[Role(['foo', 'bar'])]
+    public function deprecated(): void
+    {
+    }
 
 }

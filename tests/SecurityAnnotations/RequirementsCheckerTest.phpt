@@ -44,7 +44,7 @@ class RequirementsCheckerTest extends TestCase
     {
         $loggedIn = new LoggedIn();
         $role1 = new Role('foo');
-        $role2 = new Role(['a', 'b']);
+        $role2 = new Role('a', 'b');
         $allowed = new Allowed();
         $annotationsReader = new DummyAnnotationReader([$loggedIn, $role1, $role2, $allowed]);
 
