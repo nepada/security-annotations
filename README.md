@@ -28,7 +28,7 @@ For parsing phpdoc annotation this package relies on [doctrine/annotations](http
 **Note: using phpdoc annotations is deprecated and will be removed in next major release. Migrate all your annotations to native PHP8 attributes and set `enableDoctrineAnnotations: false` in your config.** 
 
 
-UsagecheckReq
+Usage
 -----
 
 This package builds on top of the standard access authorization of Nette components, namely `Nette\Application\UI\Component::checkRequirements()` method.
