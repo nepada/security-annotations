@@ -23,10 +23,6 @@ extensions:
     securityAnnotations: Nepada\Bridges\SecurityAnnotationsDI\SecurityAnnotationsExtension
 ```
 
-For parsing phpdoc annotation this package relies on [doctrine/annotations](https://packagist.org/packages/doctrine/annotations) for parsing annotations. It's up to you to choose and set up the integration, the recommended package to do the job is [nettrine/annotations](https://packagist.org/packages/nettrine/annotations).
-
-**Note: using phpdoc annotations is deprecated and will be removed in next major release. Migrate all your annotations to native PHP8 attributes and set `enableDoctrineAnnotations: false` in your config.** 
-
 
 Usage
 -----
@@ -70,7 +66,7 @@ class SecuredPresenter extends Nette\Application\UI\Presenter
 The attributes and rules they enforce are completely customizable (see below), however the default setup comes with three predefined rules:
 
 - **LoggedIn** - checks whether the user is logged in.
-- **Role(["admin", "superadmin"])** - checks whether the user has at least one of the specified roles.
+- **Role("admin", "superadmin")** - checks whether the user has at least one of the specified roles.
   If you use `Nette\Security\Permission` as your authorizator, then role inheritance is taken into account, i.e. users that have at least one role that inherits from at least one of the specified roles are allowed as well.
 - **Allowed(resource: "world", privilege: "destroy")** - checks whether the user has at least one role that is granted the specified privilege on the specified resource.
 
@@ -131,4 +127,4 @@ services:
 
 Every access validator implements `Nepada\SecurityAnnotations\AccessValidators\AccessValidator` interface. The access validator specifies which attribute type it supports via its public API.
 
-When checking the requirements PHP attributes and all annotations parsed using `doctrine/annotations` are passed one by one to associated access validator for inspection. Based on the attribute value the validator decides either to deny access (throws `Nette\Application\BadRequestException`), or grant access (no exception is thrown).
+When checking the requirements PHP attributes are passed one by one to associated access validator for inspection. Based on the attribute value the validator decides either to deny access (throws `Nette\Application\BadRequestException`), or grant access (no exception is thrown).

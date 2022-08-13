@@ -32,23 +32,6 @@ class AttributesReaderTest extends TestCase
         Assert::equal($expected, $actual);
     }
 
-    public function testDeprecatedSyntax(): void
-    {
-        $reader = new SecurityAnnotations\AnnotationReaders\AttributesReader();
-
-        $expected = [
-            new SecurityAnnotations\Annotations\Role('foo', 'bar'),
-        ];
-        Assert::error(
-            function () use ($reader, $expected): void {
-                $actual = $reader->getAll(new \ReflectionMethod(TestAnnotationsPresenter::class, 'deprecated'));
-                Assert::equal($expected, $actual);
-            },
-            E_USER_DEPRECATED,
-            'Passing roles as a single array argument is deprecated, use variadic argument instead',
-        );
-    }
-
 }
 
 

@@ -1,9 +1,5 @@
 extensions:
-    annotations: Nettrine\Annotations\DI\AnnotationsExtension
     securityAnnotations: Nepada\Bridges\SecurityAnnotationsDI\SecurityAnnotationsExtension
-
-annotations:
-    debug: true
 
 application:
     scanDirs: false
@@ -13,6 +9,3 @@ di:
 
 security:
     debugger: false
-
-services:
-    - Doctrine\Common\Cache\ArrayCache

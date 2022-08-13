@@ -5,9 +5,6 @@ namespace NepadaTests\Bridges\SecurityAnnotationsDI\Fixtures;
 
 use Nepada\SecurityAnnotations\Annotations\Role;
 
-/**
- * @Role("annotation")
- */
 #[Role('attribute')]
 final class LoremIpsum
 {
