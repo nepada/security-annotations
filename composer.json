@@ -19,7 +19,7 @@
         "nette/utils": "^3.2@dev",
         "nette/component-model": "^3.0.2@dev",
         "nette/application": "^3.1.4@dev",
-        "nette/security": "^3.0@dev"
+        "nette/security": "^3.1@dev"
     },
     "require-dev": {
         "nette/tester": "2.4.2",

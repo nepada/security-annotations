@@ -16,7 +16,7 @@ final class Allowed
 
     private ?string $privilege;
 
-    public function __construct(?string $resource = Nette\Security\IAuthorizator::ALL, ?string $privilege = Nette\Security\IAuthorizator::ALL)
+    public function __construct(?string $resource = Nette\Security\Authorizator::ALL, ?string $privilege = Nette\Security\Authorizator::ALL)
     {
         $this->resource = $resource;
         $this->privilege = $privilege;
