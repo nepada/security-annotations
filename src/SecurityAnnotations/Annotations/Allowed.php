@@ -12,17 +12,17 @@ final class Allowed
 
     use Nette\SmartObject;
 
-    private ?string $resource;
+    private Nette\Security\Resource|string|null $resource;
 
     private ?string $privilege;
 
-    public function __construct(?string $resource = Nette\Security\Authorizator::ALL, ?string $privilege = Nette\Security\Authorizator::ALL)
+    public function __construct(Nette\Security\Resource|string|null $resource = Nette\Security\Authorizator::ALL, ?string $privilege = Nette\Security\Authorizator::ALL)
     {
         $this->resource = $resource;
         $this->privilege = $privilege;
     }
 
-    public function getResource(): ?string
+    public function getResource(): Nette\Security\Resource|string|null
     {
         return $this->resource;
     }

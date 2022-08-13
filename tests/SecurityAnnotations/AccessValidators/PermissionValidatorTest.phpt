@@ -7,6 +7,7 @@ use Mockery;
 use Mockery\MockInterface;
 use Nepada\SecurityAnnotations\AccessValidators;
 use Nepada\SecurityAnnotations\Annotations\Allowed;
+use NepadaTests\SecurityAnnotations\Fixtures\FooResource;
 use NepadaTests\TestCase;
 use Nette;
 use Nette\Security\Authorizator;
@@ -60,7 +61,7 @@ class PermissionValidatorTest extends TestCase
                 'privilege' => 'edit',
             ],
             [
-                'annotation' => new Allowed('foo', 'edit'),
+                'annotation' => new Allowed(new FooResource(), 'edit'),
                 'resource' => 'foo',
                 'privilege' => 'edit',
             ],

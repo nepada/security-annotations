@@ -7,6 +7,7 @@ use Mockery;
 use Mockery\MockInterface;
 use Nepada\SecurityAnnotations\AccessValidators;
 use Nepada\SecurityAnnotations\Annotations\Role;
+use NepadaTests\SecurityAnnotations\Fixtures\BarRole;
 use NepadaTests\TestCase;
 use Nette;
 use Nette\Security\User;
@@ -46,8 +47,8 @@ class RoleValidatorTest extends TestCase
     {
         return [
             [
-                'annotation' => new Role('bar'),
-                'userRoles' => ['foo', 'bar', 'baz'],
+                'annotation' => new Role(new BarRole()),
+                'userRoles' => ['foo', new BarRole(), 'baz'],
                 'rolesInheritance' => null,
             ],
             [
