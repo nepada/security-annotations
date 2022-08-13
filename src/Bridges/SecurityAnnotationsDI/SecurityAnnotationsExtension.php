@@ -9,7 +9,6 @@ use Nepada\SecurityAnnotations\AccessValidators\PermissionValidator;
 use Nepada\SecurityAnnotations\AccessValidators\RoleValidator;
 use Nepada\SecurityAnnotations\AnnotationReaders\AnnotationsReader;
 use Nepada\SecurityAnnotations\AnnotationReaders\AttributesReader;
-use Nepada\SecurityAnnotations\AnnotationReaders\DoctrineAnnotationsReader;
 use Nepada\SecurityAnnotations\AnnotationReaders\UnionReader;
 use Nepada\SecurityAnnotations\RequirementsChecker;
 use Nette;
@@ -34,7 +33,6 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
         return Expect::structure([
             'enableDefaultValidators' => Expect::bool(true),
             'validators' => Expect::listOf(Expect::string()),
-            'enableDoctrineAnnotations' => Expect::bool(true),
         ]);
     }
 
@@ -46,15 +44,6 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
         $readers[] = $container->addDefinition($this->prefix('attributesReader'), new ServiceDefinition())
             ->setType(AttributesReader::class)
             ->setAutowired(AttributesReader::class);
-        if ($this->config->enableDoctrineAnnotations) {
-            trigger_error(
-                'Using Doctrine annotations is deprecated, migrate to native PHP8 attributes and set enableDoctrineAnnotations: false in your config',
-                E_USER_DEPRECATED,
-            );
-            $readers[] = $container->addDefinition($this->prefix('doctrineAnnotationsReader'), new ServiceDefinition())
-                ->setType(DoctrineAnnotationsReader::class)
-                ->setAutowired(DoctrineAnnotationsReader::class);
-        }
 
         $container->addDefinition($this->prefix('annotationsReader'), new ServiceDefinition())
             ->setType(AnnotationsReader::class)
