@@ -13,11 +13,11 @@ final class Role
     use Nette\SmartObject;
 
     /**
-     * @var non-empty-list<string>
+     * @var non-empty-list<Nette\Security\Role|string>
      */
     private array $roles;
 
-    public function __construct(string ...$roles)
+    public function __construct(Nette\Security\Role|string ...$roles)
     {
         if ($roles === []) {
             throw new \InvalidArgumentException('At least one role name must be specified');
@@ -26,7 +26,7 @@ final class Role
     }
 
     /**
-     * @return non-empty-list<string>
+     * @return non-empty-list<Nette\Security\Role|string>
      */
     public function getRoles(): array
     {
