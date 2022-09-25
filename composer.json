@@ -25,7 +25,7 @@
         "nette/tester": "2.4.3",
         "mockery/mockery": "1.5.1",
         "phpstan/phpstan": "1.8.6",
-        "phpstan/phpstan-strict-rules": "1.4.2",
+        "phpstan/phpstan-strict-rules": "1.4.4",
         "phpstan/phpstan-nette": "1.1.0",
         "phpstan/phpstan-mockery": "1.1.0",
         "nepada/phpstan-nette-tester": "1.0.0",
@@ -35,7 +35,8 @@
         "nepada/coding-standard": "7.5.2",
         "nette/di": "^3.0.6@dev",
         "nette/schema": "^1.0.3@dev",
-        "nette/bootstrap": ">=3.0@dev"
+        "nette/bootstrap": ">=3.1@dev",
+        "nette/http": ">=3.0@dev"
     },
     "suggest": {
         "nette/di": "for integration with Nette DI container"

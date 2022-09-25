@@ -16,3 +16,4 @@ updates:
       - dependency-name: "nette/di"
       - dependency-name: "nette/schema"
       - dependency-name: "nette/bootstrap"
+      - dependency-name: "nette/http"
