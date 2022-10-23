@@ -35,3 +35,7 @@ parameters:
         - # intended
             message: '~Method Nepada\\SecurityAnnotations\\RequirementsChecker::__construct\(\) has parameter \$accessValidators with generic interface Nepada\\SecurityAnnotations\\AccessValidators\\AccessValidator but does not specify its types: TAnnotation~'
             path: src/SecurityAnnotations/RequirementsChecker.php
+        - # conditional type narrowing
+            message: "#^Overwriting variable \\$resource while changing its type from Nette\\\\Security\\\\Resource to string$#"
+            count: 1
+            path: src/SecurityAnnotations/AccessValidators/PermissionValidator.php
