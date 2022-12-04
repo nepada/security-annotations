@@ -18,7 +18,7 @@ class RoleValidator implements AccessValidator
 
     private User $user;
 
-    private ?Permission $permission = null;
+    private ?Permission $permission;
 
     public function __construct(User $user, ?Permission $permission = null)
     {

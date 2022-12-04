@@ -24,9 +24,3 @@ parameters:
     excludePaths:
         - tests/temp/*
         - tests/SecurityAnnotations/fixtures/*
-
-    ignoreErrors:
-        - # intentional
-            message: "#^Invalid var phpdoc of \\$lowerCaseClass\\. Cannot assign string to class\\-string\\<object\\>$#"
-            count: 1
-            path: tests/SecurityAnnotations/RequirementsCheckerTest.phpt
