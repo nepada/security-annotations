@@ -11,7 +11,6 @@ use NepadaTests\SecurityAnnotations\Fixtures\BarRole;
 use NepadaTests\TestCase;
 use Nette;
 use Nette\Security\User;
-use Nette\Utils\Arrays;
 use Tester\Assert;
 
 require_once __DIR__ . '/../../bootstrap.php';
