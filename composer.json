@@ -27,7 +27,7 @@
         "phpstan/phpstan": "1.10.9",
         "phpstan/phpstan-strict-rules": "1.5.1",
         "phpstan/phpstan-nette": "1.2.4",
-        "phpstan/phpstan-mockery": "1.1.0",
+        "phpstan/phpstan-mockery": "1.1.1",
         "nepada/phpstan-nette-tester": "1.0.0",
         "spaze/phpstan-disallowed-calls": "2.12.1",
         "shipmonk/phpstan-rules": "2.3.1",
