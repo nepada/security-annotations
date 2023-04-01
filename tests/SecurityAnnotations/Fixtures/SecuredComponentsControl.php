@@ -12,9 +12,9 @@ class SecuredComponentsControl extends Nette\Application\UI\Control
     use SecurityAnnotations\SecuredComponents;
     use SecurityAnnotations\SecurityAnnotations;
 
-    protected function createComponentFoo(): SecuredComponentsControl
+    protected function createComponentFoo(): self
     {
-        return new SecuredComponentsControl();
+        return new self();
     }
 
 }
