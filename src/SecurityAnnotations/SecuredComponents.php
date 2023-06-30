@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace Nepada\SecurityAnnotations;
 
-use Nette;
 use Nette\ComponentModel\IComponent;
 
 trait SecuredComponents
