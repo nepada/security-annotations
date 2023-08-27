@@ -17,3 +17,6 @@ updates:
       - dependency-name: "nette/schema"
       - dependency-name: "nette/bootstrap"
       - dependency-name: "nette/http"
+    groups:
+        phpstan:
+            patterns: ["*phpstan*"]
