@@ -9,6 +9,10 @@ parameters:
             enabled: false
         enforceReadonlyPublicProperty:
             enabled: false
+        forbidCheckedExceptionInCallable:
+            allowedCheckedExceptionCallables:
+                'Tester\Assert::exception': 0
+                'Tester\Assert::noError': 0
         forbidCustomFunctions:
             enabled: false
             list: []
