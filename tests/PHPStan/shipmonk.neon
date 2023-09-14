@@ -7,6 +7,11 @@ parameters:
             enabled: false
         allowNamedArgumentOnlyInAttributes:
             enabled: false
+        classSuffixNaming:
+            superclassToSuffixMapping:
+                \Throwable: Exception
+                \Nette\DI\CompilerExtension: Extension
+                \Nepada\SecurityAnnotations\AccessValidators\AccessValidator: Validator
         enforceReadonlyPublicProperty:
             enabled: false
         forbidCheckedExceptionInCallable:
