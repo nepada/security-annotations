@@ -33,11 +33,11 @@ class PermissionValidator implements AccessValidator
      */
     public function validateAccess(object $annotation): void
     {
-        $resource = $annotation->getResource();
+        $resource = $annotation->resource;
         if ($resource instanceof Nette\Security\Resource) {
             $resource = $resource->getResourceId();
         }
-        $privilege = $annotation->getPrivilege();
+        $privilege = $annotation->privilege;
         if ($this->user->isAllowed($resource, $privilege)) {
             return;
         }

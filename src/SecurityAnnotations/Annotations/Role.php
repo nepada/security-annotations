@@ -15,7 +15,7 @@ final class Role
     /**
      * @var non-empty-list<Nette\Security\Role|string>
      */
-    private array $roles;
+    public readonly array $roles;
 
     public function __construct(Nette\Security\Role|string ...$roles)
     {
@@ -26,6 +26,7 @@ final class Role
     }
 
     /**
+     * @deprecated read the property directly instead
      * @return non-empty-list<Nette\Security\Role|string>
      */
     public function getRoles(): array

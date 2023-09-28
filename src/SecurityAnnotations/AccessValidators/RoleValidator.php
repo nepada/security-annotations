@@ -38,7 +38,7 @@ class RoleValidator implements AccessValidator
     public function validateAccess(object $annotation): void
     {
         $roleNormalizer = fn (Nette\Security\Role|string $role): string => $role instanceof Nette\Security\Role ? $role->getRoleId() : $role;
-        $allowedRoles = array_map($roleNormalizer, $annotation->getRoles());
+        $allowedRoles = array_map($roleNormalizer, $annotation->roles);
         $userRoles = array_map($roleNormalizer, $this->user->getRoles());
 
         if (array_intersect($userRoles, $allowedRoles) !== []) {
