@@ -21,7 +21,6 @@ final class UnionReader implements AnnotationsReader
     }
 
     /**
-     * @param \Reflector $element
      * @return object[]
      */
     public function getAll(\Reflector $element): array

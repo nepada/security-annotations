@@ -91,7 +91,6 @@ class SecurityAnnotationsExtension extends Nette\DI\CompilerExtension
 
     /**
      * @param \ReflectionClass<object> $reflectionClass
-     * @return string
      */
     private function generateValidatorServiceName(\ReflectionClass $reflectionClass): string
     {

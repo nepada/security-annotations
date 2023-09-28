@@ -28,7 +28,6 @@ class RequirementsChecker
     }
 
     /**
-     * @param \Reflector $element
      * @throws Nette\Application\ForbiddenRequestException
      */
     public function protectElement(\Reflector $element): void

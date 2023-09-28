@@ -24,7 +24,6 @@ class RoleValidatorTest extends TestCase
 
     /**
      * @dataProvider getDataForAccessAllowed
-     * @param Role $annotation
      * @param string[] $userRoles
      * @param array<array<string>>|null $rolesInheritance
      */
@@ -65,7 +64,6 @@ class RoleValidatorTest extends TestCase
 
     /**
      * @dataProvider getDataForAccessDenied
-     * @param Role $annotation
      * @param string[] $userRoles
      * @param array<array<string>>|null $rolesInheritance
      */

@@ -25,9 +25,6 @@ class PermissionValidatorTest extends TestCase
 
     /**
      * @dataProvider getDataForAccessAllowed
-     * @param Allowed $annotation
-     * @param string|null $resource
-     * @param string|null $privilege
      */
     public function testAccessAllowed(Allowed $annotation, ?string $resource, ?string $privilege): void
     {
@@ -70,10 +67,6 @@ class PermissionValidatorTest extends TestCase
 
     /**
      * @dataProvider getDataForAccessDenied
-     * @param Allowed $annotation
-     * @param string|null $resource
-     * @param string|null $privilege
-     * @param string $message
      */
     public function testAccessDenied(Allowed $annotation, ?string $resource, ?string $privilege, string $message): void
     {
@@ -119,9 +112,6 @@ class PermissionValidatorTest extends TestCase
     }
 
     /**
-     * @param string|null $resource
-     * @param string|null $privilege
-     * @param bool $isAllowed
      * @return User|MockInterface
      */
     private function mockUser(?string $resource = Authorizator::ALL, ?string $privilege = Authorizator::ALL, bool $isAllowed = false): User

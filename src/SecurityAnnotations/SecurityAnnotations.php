@@ -16,7 +16,6 @@ trait SecurityAnnotations
     }
 
     /**
-     * @param mixed $element
      * @throws Nette\Application\ForbiddenRequestException
      */
     public function checkRequirements(mixed $element): void

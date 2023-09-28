@@ -3,14 +3,14 @@ declare(strict_types = 1);
 
 namespace Nepada\SecurityAnnotations;
 
+use Nette;
 use Nette\ComponentModel\IComponent;
 
 trait SecuredComponents
 {
 
     /**
-     * @param mixed $element
-     * @throws Nette\Application\ForbiddenRequestException;
+     * @throws Nette\Application\ForbiddenRequestException
      */
     abstract public function checkRequirements(mixed $element): void;
 

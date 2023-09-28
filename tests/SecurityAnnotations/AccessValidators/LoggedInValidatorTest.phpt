@@ -51,7 +51,6 @@ class LoggedInValidatorTest extends TestCase
     }
 
     /**
-     * @param bool $isLoggedIn
      * @return User|MockInterface
      */
     private function mockUser(bool $isLoggedIn = false): User
