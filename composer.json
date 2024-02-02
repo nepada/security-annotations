@@ -22,7 +22,7 @@
         "nette/security": "^3.1@dev"
     },
     "require-dev": {
-        "nette/tester": "2.5.1",
+        "nette/tester": "2.5.2",
         "mockery/mockery": "1.6.7",
         "phpstan/phpstan": "1.10.50",
         "phpstan/phpstan-strict-rules": "1.5.2",
