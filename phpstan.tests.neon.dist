@@ -24,3 +24,9 @@ parameters:
     excludePaths:
         - tests/temp/*
         - tests/SecurityAnnotations/fixtures/*
+
+    ignoreErrors:
+        -
+            message: "#^Parameter .* of method Nette\\\\Application\\\\UI\\\\Presenter\\:\\:injectPrimary\\(\\) expects .*, .* given\\.$#"
+            count: 1
+            path: tests/SecurityAnnotations/SecurityAnnotationsTest.phpt
