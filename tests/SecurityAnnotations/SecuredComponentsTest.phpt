@@ -23,9 +23,11 @@ class SecuredComponentsTest extends TestCase
     {
         $requirementsChecker = Mockery::mock(SecurityAnnotations\RequirementsChecker::class);
         $requirementsChecker->shouldReceive('protectElement')
+            ->atLeast()
             ->once()
             ->withArgs(fn (\ReflectionMethod $element): bool => $element->getName() === 'createComponentFoo' && $element->getDeclaringClass()->getName() === SecuredComponentsPresenter::class);
         $requirementsChecker->shouldReceive('protectElement')
+            ->atLeast()
             ->once()
             ->withArgs(fn (\ReflectionMethod $element): bool => $element->getName() === 'createComponentFoo' && $element->getDeclaringClass()->getName() === SecuredComponentsControl::class);
 
