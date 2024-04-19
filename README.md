@@ -104,7 +104,7 @@ class SecuredPresenter extends Nette\Application\UI\Presenter
 
 Securing presenter `action<>` (or `render<>`) methods is not sufficient! All it takes is a one general route in your router, e.g. a very common `Route('<presenter>/<action>')`, and anyone may successfully submit the form by sending POST request to `/secured/foo` URL.
 
-You should always check user's permissions when creating the component. To make your life easier there is `SecuredComponents` trait that calls the standard `Nette\Application\UI\Component::checkRequirements()` method before calling the component factory. Combining it with `SecurityAnnotations` it allows you to control access to components via attributes on `createComponent<>` methods.
+You should always check user's permissions when creating the component. To make your life easier there is `SecuredComponents` trait that calls the standard `Nette\Application\UI\Component::checkRequirements()` method before calling the component factory (nette/application 3.2.2 and later performs this check natively, making the trait obsolete). Combining it with `SecurityAnnotations` it allows you to control access to components via attributes on `createComponent<>` methods.
 
 
 ### Customizing access validators

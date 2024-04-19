@@ -6,6 +6,9 @@ namespace Nepada\SecurityAnnotations;
 use Nette;
 use Nette\ComponentModel\IComponent;
 
+/**
+ * @deprecated Implemented directly in nette/application since version 3.2.2
+ */
 trait SecuredComponents
 {
 
