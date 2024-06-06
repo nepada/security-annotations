@@ -27,7 +27,7 @@ class RequirementsCheckerTest extends TestCase
     {
         Assert::exception(
             function (): void {
-                /** @var class-string<object> $lowerCaseClass allow-narrowing */
+                /** @var class-string<object> $lowerCaseClass */
                 $lowerCaseClass = Strings::lower(self::class);
                 $requirementsChecker = new RequirementsChecker(
                     new DummyAnnotationReader([]),
