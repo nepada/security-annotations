@@ -7,7 +7,7 @@ interface AnnotationsReader
 {
 
     /**
-     * @return object[]
+     * @return list<object>
      */
     public function getAll(\Reflector $element): array;
 

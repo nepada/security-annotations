@@ -39,7 +39,7 @@ class RoleValidatorTest extends TestCase
     }
 
     /**
-     * @return mixed[]
+     * @return list<mixed[]>
      */
     protected function getDataForAccessAllowed(): array
     {
@@ -79,7 +79,7 @@ class RoleValidatorTest extends TestCase
     }
 
     /**
-     * @return mixed[]
+     * @return list<mixed[]>
      */
     protected function getDataForAccessDenied(): array
     {

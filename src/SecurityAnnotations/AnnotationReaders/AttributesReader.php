@@ -11,7 +11,7 @@ final class AttributesReader implements AnnotationsReader
     use Nette\SmartObject;
 
     /**
-     * @return object[]
+     * @return list<object>
      */
     public function getAll(\Reflector $element): array
     {

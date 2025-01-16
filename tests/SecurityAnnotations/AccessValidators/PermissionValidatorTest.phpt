@@ -37,7 +37,7 @@ class PermissionValidatorTest extends TestCase
     }
 
     /**
-     * @return mixed[]
+     * @return list<mixed[]>
      */
     protected function getDataForAccessAllowed(): array
     {
@@ -79,7 +79,7 @@ class PermissionValidatorTest extends TestCase
     }
 
     /**
-     * @return mixed[]
+     * @return list<mixed[]>
      */
     protected function getDataForAccessDenied(): array
     {

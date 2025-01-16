@@ -9,12 +9,12 @@ final class DummyAnnotationReader implements AnnotationsReader
 {
 
     /**
-     * @var object[]
+     * @var list<object>
      */
     private array $annotations;
 
     /**
-     * @param object[] $annotations
+     * @param list<object> $annotations
      */
     public function __construct(array $annotations)
     {
@@ -22,7 +22,7 @@ final class DummyAnnotationReader implements AnnotationsReader
     }
 
     /**
-     * @return object[]
+     * @return list<object>
      */
     public function getAll(\Reflector $element): array
     {
