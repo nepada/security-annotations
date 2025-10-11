@@ -47,7 +47,6 @@ class SecurityAnnotationsExtensionTest extends TestCase
         Assert::type(SecurityAnnotations\RequirementsChecker::class, $requirementsChecker);
 
         $reflection = new \ReflectionProperty(SecurityAnnotations\RequirementsChecker::class, 'accessValidators');
-        $reflection->setAccessible(true);
         $accessValidators = $reflection->getValue($requirementsChecker);
         Assert::type('array', $accessValidators);
         Assert::count(3, $accessValidators);
@@ -65,7 +64,6 @@ class SecurityAnnotationsExtensionTest extends TestCase
         $requirementsChecker = $container->getByType(SecurityAnnotations\RequirementsChecker::class);
 
         $reflection = new \ReflectionProperty(SecurityAnnotations\RequirementsChecker::class, 'accessValidators');
-        $reflection->setAccessible(true);
         $accessValidators = $reflection->getValue($requirementsChecker);
         Assert::type('array', $accessValidators);
         Assert::count(4, $accessValidators);
