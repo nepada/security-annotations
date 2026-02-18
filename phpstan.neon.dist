@@ -9,6 +9,7 @@ includes:
     - vendor/spaze/phpstan-disallowed-calls/disallowed-loose-calls.neon
     - tests/PHPStan/disallowedCalls.neon
     - tests/PHPStan/shipmonk.neon
+    - tests/PHPStan/conditional.config.php
 
 parameters:
     level: max
@@ -54,11 +55,6 @@ parameters:
             identifier: argument.type
             count: 1
             path: src/Bridges/SecurityAnnotationsDI/SecurityAnnotationsExtension.php
-        -
-            message: '#^Parameter \#1 \$callback of function array_map expects \(callable\(mixed\)\: mixed\)\|null, Closure\(Nette\\Security\\Role\|string\)\: string given\.$#'
-            identifier: argument.type
-            count: 1
-            path: src/SecurityAnnotations/AccessValidators/RoleValidator.php
         - # covered by tests
             message: '#^Trait Nepada\\SecurityAnnotations\\SecuredComponents is used zero times and is not analysed\.$#'
             identifier: trait.unused

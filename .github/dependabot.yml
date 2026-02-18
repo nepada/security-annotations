@@ -16,6 +16,7 @@ updates:
       - dependency-name: "nette/di"
       - dependency-name: "nette/schema"
       - dependency-name: "nette/bootstrap"
+      - dependency-name: "composer-runtime-api"
       - dependency-name: "nette/neon"
     groups:
         phpstan:
