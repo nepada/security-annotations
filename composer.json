@@ -25,7 +25,7 @@
         "nette/component-model": "3.1.2"
     },
     "require-dev": {
-        "nette/tester": "2.6.0",
+        "nette/tester": "2.6.1",
         "mockery/mockery": "1.6.12",
         "phpstan/phpstan": "2.2.1",
         "phpstan/phpstan-strict-rules": "2.0.11",
