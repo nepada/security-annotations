@@ -30,5 +30,3 @@ parameters:
             message: "#^Parameter .* of method Nette\\\\Application\\\\UI\\\\Presenter\\:\\:injectPrimary\\(\\) expects .*, .* given\\.$#"
             count: 1
             path: tests/SecurityAnnotations/SecurityAnnotationsTest.phpt
-        -
-            identifier: shipmonk.checkedExceptionInCallable
