@@ -27,9 +27,6 @@
     <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
         <properties>
             <property name="ignoredAnnotationNames" type="array">
-                <element value="@loggedIn"/>
-                <element value="@role"/>
-                <element value="@allowed"/>
                 <element value="@testCase"/>
                 <element value="@dataProvider"/>
             </property>
