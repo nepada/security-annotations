@@ -16,14 +16,11 @@ class RoleValidator implements AccessValidator
 
     use Nette\SmartObject;
 
-    private User $user;
-
-    private ?Permission $permission;
-
-    public function __construct(User $user, ?Permission $permission = null)
+    public function __construct(
+        private User $user,
+        private ?Permission $permission = null,
+    )
     {
-        $this->user = $user;
-        $this->permission = $permission;
     }
 
     public function getSupportedAnnotationName(): string

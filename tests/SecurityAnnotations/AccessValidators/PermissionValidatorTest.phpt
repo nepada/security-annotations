@@ -26,7 +26,11 @@ class PermissionValidatorTest extends TestCase
     /**
      * @dataProvider getDataForAccessAllowed
      */
-    public function testAccessAllowed(Allowed $annotation, ?string $resource, ?string $privilege): void
+    public function testAccessAllowed(
+        Allowed $annotation,
+        ?string $resource,
+        ?string $privilege,
+    ): void
     {
         $user = $this->mockUser($resource, $privilege, Authorizator::ALLOW);
         $validator = new AccessValidators\PermissionValidator($user);
@@ -68,7 +72,12 @@ class PermissionValidatorTest extends TestCase
     /**
      * @dataProvider getDataForAccessDenied
      */
-    public function testAccessDenied(Allowed $annotation, ?string $resource, ?string $privilege, string $message): void
+    public function testAccessDenied(
+        Allowed $annotation,
+        ?string $resource,
+        ?string $privilege,
+        string $message,
+    ): void
     {
         $user = $this->mockUser($resource, $privilege, Authorizator::DENY);
         $validator = new AccessValidators\PermissionValidator($user);
@@ -114,7 +123,11 @@ class PermissionValidatorTest extends TestCase
     /**
      * @return User|MockInterface
      */
-    private function mockUser(?string $resource = Authorizator::ALL, ?string $privilege = Authorizator::ALL, bool $isAllowed = false): User
+    private function mockUser(
+        ?string $resource = Authorizator::ALL,
+        ?string $privilege = Authorizator::ALL,
+        bool $isAllowed = false,
+    ): User
     {
         $user = Mockery::mock(User::class);
         $user->shouldReceive('isAllowed')->withArgs([$resource, $privilege])->andReturn($isAllowed);

@@ -15,11 +15,10 @@ class PermissionValidator implements AccessValidator
 
     use Nette\SmartObject;
 
-    private User $user;
-
-    public function __construct(User $user)
+    public function __construct(
+        private User $user,
+    )
     {
-        $this->user = $user;
     }
 
     public function getSupportedAnnotationName(): string

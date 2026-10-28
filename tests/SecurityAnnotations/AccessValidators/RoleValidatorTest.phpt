@@ -27,7 +27,11 @@ class RoleValidatorTest extends TestCase
      * @param string[] $userRoles
      * @param array<array<string>>|null $rolesInheritance
      */
-    public function testAccessAllowed(Role $annotation, array $userRoles, ?array $rolesInheritance): void
+    public function testAccessAllowed(
+        Role $annotation,
+        array $userRoles,
+        ?array $rolesInheritance,
+    ): void
     {
         $user = $this->mockUser($userRoles);
         $permission = $rolesInheritance === null ? null : $this->mockPermission($rolesInheritance);
@@ -67,7 +71,11 @@ class RoleValidatorTest extends TestCase
      * @param string[] $userRoles
      * @param array<array<string>>|null $rolesInheritance
      */
-    public function testAccessDenied(Role $annotation, array $userRoles, ?array $rolesInheritance): void
+    public function testAccessDenied(
+        Role $annotation,
+        array $userRoles,
+        ?array $rolesInheritance,
+    ): void
     {
         $user = $this->mockUser($userRoles);
         $permission = $rolesInheritance === null ? null : $this->mockPermission($rolesInheritance);

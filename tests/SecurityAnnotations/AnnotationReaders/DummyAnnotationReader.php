@@ -9,16 +9,12 @@ final class DummyAnnotationReader implements AnnotationsReader
 {
 
     /**
-     * @var list<object>
-     */
-    private array $annotations;
-
-    /**
      * @param list<object> $annotations
      */
-    public function __construct(array $annotations)
+    public function __construct(
+        private array $annotations,
+    )
     {
-        $this->annotations = $annotations;
     }
 
     /**

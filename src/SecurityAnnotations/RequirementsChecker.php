@@ -12,16 +12,16 @@ class RequirementsChecker
 
     use Nette\SmartObject;
 
-    private AnnotationsReader $annotationReader;
-
     /**
      * @var array<class-string, AccessValidator>
      */
     private array $accessValidators = [];
 
-    public function __construct(AnnotationsReader $annotationReader, AccessValidator ...$accessValidators)
+    public function __construct(
+        private AnnotationsReader $annotationReader,
+        AccessValidator ...$accessValidators,
+    )
     {
-        $this->annotationReader = $annotationReader;
         foreach ($accessValidators as $accessValidator) {
             $this->addAccessValidator($accessValidator);
         }
