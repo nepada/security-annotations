@@ -22,7 +22,6 @@ parameters:
         - phpt
 
     excludePaths:
-        - tests/temp/*
         - tests/SecurityAnnotations/fixtures/*
 
     ignoreErrors:

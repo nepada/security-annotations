@@ -8,7 +8,7 @@ use Tester;
 final class Environment
 {
 
-    public const TEMP_BASE_DIR = __DIR__ . '/temp';
+    public const TEMP_BASE_DIR = __DIR__ . '/../temp';
     private const LOCK_FILE = __DIR__ . '/.lock';
     private const GC_DIVISOR = 100;
     private const GC_DIR_THRESHOLD = 200;

@@ -44,7 +44,7 @@ jobs:
           COMPOSER_ARGS: ${{ matrix.composer_args }}
         run: composer update --no-interaction --no-progress --prefer-dist $COMPOSER_ARGS
       - name: Lint
-        run: vendor/bin/parallel-lint -e php,phpt --exclude tests/temp src tests
+        run: vendor/bin/parallel-lint -e php,phpt src tests
       - name: Tests
         run: vendor/bin/tester -c tests/php.ini -s tests
       - name: PHPStan

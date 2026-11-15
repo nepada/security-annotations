@@ -3,3 +3,4 @@
 /phpstan*.neon
 /.phpcs.xml
 /.phpcs-cache
+/temp
